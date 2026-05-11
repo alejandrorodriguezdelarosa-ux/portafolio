@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alejandro Rodríguez de la Rosa — Marketing · Datos · IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@300;400;500&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ee;
+    --bg-alt: #ebe7df;
+    --ink: #1a1816;
+    --ink-soft: #4a4642;
+    --ink-mute: #8a8579;
+    --accent: #c2410c;
+    --line: rgba(26, 24, 22, 0.12);
+    --serif: 'Fraunces', serif;
+    --sans: 'Inter Tight', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 2.5rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(245, 243, 238, 0.7);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: -0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 0 4rem;
+    position: relative;
+  }
+  .hero-grid { display: grid; gap: 3rem; width: 100%; }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-mute);
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-meta .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.75rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.4s forwards;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .hero-description {
+    max-width: 580px;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.8s forwards;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    padding: 1rem 1.75rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--ink); color: var(--bg); }
+  .btn-ghost { border: none; padding: 1rem 0; }
+  .btn-ghost:hover { background: transparent; color: var(--accent); }
+  .btn-ghost .arrow { transition: transform 0.3s ease; }
+  .btn-ghost:hover .arrow { transform: translateX(6px); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-marker {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .section-marker .num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+  }
+  .section-marker .label {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink-soft);
+  }
+
+  .about { padding: 8rem 0; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .about h2 em { font-style: italic; color: var(--accent); }
+  .about-content p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+  }
+  .about-content p:first-of-type:first-letter {
+    font-family: var(--serif);
+    font-size: 3em;
+    float: left;
+    line-height: 0.85;
+    margin: 0.1em 0.1em 0 0;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .skills-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .skills-title {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-mute);
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+  }
+  .skills-title:first-child { margin-top: 0; }
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 0.4rem 0.875rem;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    color: var(--ink-soft);
+    transition: all 0.2s ease;
+  }
+  .skill-tag:hover {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .skill-tag.featured {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .skill-tag.featured:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .projects { padding: 4rem 0 8rem; }
+  .project {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    padding: 5rem 0;
+    border-top: 1px solid var(--line);
+    align-items: center;
+  }
+  .project:nth-child(even) { grid-template-columns: 1.2fr 1fr; }
+  .project:nth-child(even) .project-info { order: 2; }
+
+  .project-visual {
+    aspect-ratio: 4 / 3;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .project:hover .project-visual { transform: translateY(-6px); }
+
+  /* === Visualización 1: EDA películas === */
+  .visual-eda {
+    background: linear-gradient(180deg, #1a1816 0%, #2a2825 100%);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .visual-eda::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245, 243, 238, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .visual-eda .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: #ebe7df;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+  }
+  .visual-eda .header .accent { color: var(--accent); }
+  .visual-eda .chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 65%;
+    z-index: 2;
+    position: relative;
+  }
+  .visual-eda .bar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--accent) 0%, #7c2d12 100%);
+    transform-origin: bottom;
+    animation: barGrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+  .visual-eda .bar:nth-child(1) { height: 35%; animation-delay: 0.1s; }
+  .visual-eda .bar:nth-child(2) { height: 58%; animation-delay: 0.15s; }
+  .visual-eda .bar:nth-child(3) { height: 42%; animation-delay: 0.2s; }
+  .visual-eda .bar:nth-child(4) { height: 88%; animation-delay: 0.25s; background: linear-gradient(180deg, #f5f3ee 0%, #c2410c 100%); }
+  .visual-eda .bar:nth-child(5) { height: 71%; animation-delay: 0.3s; }
+  .visual-eda .bar:nth-child(6) { height: 52%; animation-delay: 0.35s; }
+  .visual-eda .bar:nth-child(7) { height: 64%; animation-delay: 0.4s; }
+  .visual-eda .bar:nth-child(8) { height: 38%; animation-delay: 0.45s; }
+  .visual-eda .bar:nth-child(9) { height: 78%; animation-delay: 0.5s; }
+  .visual-eda .bar:nth-child(10) { height: 45%; animation-delay: 0.55s; }
+  .visual-eda .bar:nth-child(11) { height: 60%; animation-delay: 0.6s; }
+  .visual-eda .bar:nth-child(12) { height: 33%; animation-delay: 0.65s; }
+  @keyframes barGrow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  .visual-eda .footer {
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-mute);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    z-index: 2;
+    position: relative;
+    border-top: 1px solid rgba(245, 243, 238, 0.1);
+    padding-top: 0.75rem;
+  }
+
+  /* === Visualización 2: Regresión === */
+  .visual-regression {
+    background: var(--bg-alt);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .visual-regression::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
+    background-size: 35px 35px;
+  }
+  .visual-regression .vr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+  }
+  .visual-regression .vr-header .formula {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--accent);
+  }
+  .visual-regression .vr-plot {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    margin: 1rem 0;
+  }
+  .visual-regression svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .visual-regression .dot {
+    fill: var(--ink-soft);
+    opacity: 0.55;
+  }
+  .visual-regression .line-iter {
+    fill: none;
+    stroke: var(--ink-mute);
+    stroke-width: 1;
+    opacity: 0.25;
+  }
+  .visual-regression .line-final {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: drawLine 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+  }
+  @keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+  }
+  .visual-regression .vr-footer {
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-mute);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    z-index: 2;
+    position: relative;
+    border-top: 1px solid var(--line);
+    padding-top: 0.75rem;
+  }
+  .visual-regression .vr-footer .metric { color: var(--ink-soft); }
+
+  /* === Visualización 3: Segmentación + ROC === */
+  .visual-segments {
+    background: linear-gradient(180deg, #1a1816 0%, #2a2825 100%);
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem 1.5rem;
+    color: #ebe7df;
+  }
+  .visual-segments::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245, 243, 238, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .visual-segments .vs-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+  }
+  .visual-segments .vs-header .accent { color: var(--accent); }
+  .visual-segments .vs-tiers {
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .visual-segments .tier {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+  }
+  .visual-segments .tier-bar {
+    height: 8px;
+    border-radius: 2px;
+    transform-origin: left;
+    animation: tierGrow 1s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+  .visual-segments .tier-fidelizacion .tier-bar { width: 27%; background: #84a98c; animation-delay: 0.3s; }
+  .visual-segments .tier-seguimiento .tier-bar { width: 31%; background: #e8c468; animation-delay: 0.45s; }
+  .visual-segments .tier-retencion .tier-bar { width: 42%; background: var(--accent); animation-delay: 0.6s; }
+  @keyframes tierGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  .visual-segments .tier-label { width: 90px; color: #ebe7df; flex-shrink: 0; }
+  .visual-segments .tier-pct { color: var(--ink-mute); margin-left: auto; flex-shrink: 0; }
+  .visual-segments .vs-roc {
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .visual-segments .vs-roc svg { width: 100%; max-width: 140px; height: auto; }
+  .visual-segments .roc-axis {
+    stroke: rgba(245, 243, 238, 0.3);
+    stroke-width: 1;
+    stroke-dasharray: 2 2;
+  }
+  .visual-segments .roc-curve {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: drawCurve 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+  }
+  .visual-segments .roc-fill {
+    fill: var(--accent);
+    opacity: 0;
+    animation: fadeIn 0.8s ease 1.6s forwards;
+  }
+  @keyframes drawCurve { to { stroke-dashoffset: 0; } }
+  @keyframes fadeIn { to { opacity: 0.15; } }
+  .visual-segments .vs-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-mute);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    z-index: 2;
+    position: relative;
+    border-top: 1px solid rgba(245, 243, 238, 0.1);
+    padding-top: 0.75rem;
+  }
+  .visual-segments .vs-footer .auc { color: var(--accent); font-weight: 500; }
+
+  /* === Visualización 4: NLP topics === */
+  .visual-nlp {
+    background: var(--bg-alt);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .visual-nlp::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .visual-nlp .nlp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .visual-nlp .nlp-header .pol {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--accent);
+  }
+  .visual-nlp .topics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    z-index: 2;
+    position: relative;
+    flex: 1;
+    justify-content: center;
+  }
+  .visual-nlp .topic-row {
+    display: grid;
+    grid-template-columns: 95px 1fr 38px;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+  }
+  .visual-nlp .topic-name { color: var(--ink-soft); text-align: right; }
+  .visual-nlp .topic-track {
+    height: 7px;
+    background: rgba(26, 24, 22, 0.08);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .visual-nlp .topic-bar {
+    height: 100%;
+    border-radius: 2px;
+    transform-origin: left;
+    animation: topicGrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+  .visual-nlp .topic-row.strength .topic-bar { background: #6b8e6e; }
+  .visual-nlp .topic-row.opportunity .topic-bar { background: #d4a23f; }
+  .visual-nlp .topic-row .topic-bar { animation-delay: var(--delay, 0s); }
+  @keyframes topicGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  .visual-nlp .topic-val { color: var(--ink-mute); font-size: 0.7rem; text-align: right; }
+  .visual-nlp .legend {
+    display: flex;
+    gap: 1.5rem;
+    z-index: 2;
+    position: relative;
+    border-top: 1px solid var(--line);
+    padding-top: 0.75rem;
+    margin-top: 1rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .visual-nlp .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .visual-nlp .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .visual-nlp .legend-dot.strength { background: #6b8e6e; }
+  .visual-nlp .legend-dot.opportunity { background: #d4a23f; }
+
+  /* === Visualización 5: Agente RAG === */
+  .visual-rag {
+    background: linear-gradient(180deg, #1a1816 0%, #2a2825 100%);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #ebe7df;
+  }
+  .visual-rag::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245, 243, 238, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .visual-rag .rag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .visual-rag .live-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent);
+  }
+  .visual-rag .live-dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulseLive 1.5s ease-in-out infinite;
+  }
+  @keyframes pulseLive {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(194, 65, 12, 0.6); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(194, 65, 12, 0); }
+  }
+  .visual-rag .graph {
+    z-index: 2;
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .visual-rag .graph svg { width: 100%; max-height: 180px; }
+  .visual-rag .node {
+    fill: rgba(245, 243, 238, 0.06);
+    stroke: rgba(245, 243, 238, 0.4);
+    stroke-width: 1;
+    opacity: 0;
+    animation: nodeAppear 0.6s ease forwards;
+  }
+  .visual-rag .node.accent {
+    fill: rgba(194, 65, 12, 0.15);
+    stroke: var(--accent);
+  }
+  .visual-rag .node-label {
+    fill: #ebe7df;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    opacity: 0;
+    animation: nodeAppear 0.6s ease forwards;
+  }
+  .visual-rag .node-label.accent { fill: var(--accent); }
+  .visual-rag .edge {
+    stroke: rgba(245, 243, 238, 0.3);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-dasharray: 4 3;
+    opacity: 0;
+    animation: edgeAppear 0.5s ease forwards;
+  }
+  .visual-rag .edge.flow {
+    stroke: var(--accent);
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    opacity: 1;
+    animation: drawFlow 2.5s ease-in-out infinite;
+  }
+  @keyframes drawFlow {
+    0% { stroke-dashoffset: 200; }
+    50% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -200; }
+  }
+  @keyframes nodeAppear { to { opacity: 1; } }
+  @keyframes edgeAppear { to { opacity: 1; } }
+  .visual-rag .rag-stack {
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(245, 243, 238, 0.1);
+  }
+  .visual-rag .stack-chip {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(245, 243, 238, 0.2);
+    border-radius: 100px;
+    color: rgba(245, 243, 238, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .visual-rag .stack-chip.featured {
+    background: var(--accent);
+    color: #f5f3ee;
+    border-color: var(--accent);
+  }
+
+  /* Botón demo en vivo */
+  .demo-live {
+    background: var(--accent) !important;
+    color: #f5f3ee !important;
+    border-color: var(--accent) !important;
+  }
+  .demo-live:hover {
+    background: var(--ink) !important;
+    color: var(--accent) !important;
+  }
+  .demo-live::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f5f3ee;
+    margin-right: 0.5rem;
+    animation: pulseLive 1.5s ease-in-out infinite;
+  }
+  .demo-live:hover::before { background: var(--accent); }
+
+  .project-info .project-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .project-info h3 {
+    font-family: var(--serif);
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .project-info h3 em { font-style: italic; color: var(--accent); }
+  .project-info p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 1.25rem;
+  }
+  .project-highlights {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: var(--bg-alt);
+    border-left: 2px solid var(--accent);
+  }
+  .project-highlights li {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    padding: 0.4rem 0;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .project-highlights li::before {
+    content: '→';
+    color: var(--accent);
+    font-family: var(--mono);
+    flex-shrink: 0;
+  }
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .project-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .project-link {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .project-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  .more-soon {
+    text-align: center;
+    padding: 5rem 0;
+    border-top: 1px solid var(--line);
+    margin-top: 2rem;
+  }
+  .more-soon .label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    margin-bottom: 1rem;
+  }
+  .more-soon h3 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    color: var(--ink-soft);
+  }
+
+  .contact {
+    padding: 10rem 0 6rem;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .contact-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    margin-bottom: 2rem;
+  }
+  .contact h2 {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 3rem;
+  }
+  .contact h2 em { font-style: italic; color: var(--accent); }
+  .contact-email {
+    font-family: var(--serif);
+    font-size: clamp(1.125rem, 2.2vw, 1.625rem);
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px;
+    transition: all 0.3s ease;
+    font-style: italic;
+    word-break: break-word;
+  }
+  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+  .contact-info {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+    flex-wrap: wrap;
+  }
+  .social {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .social a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .social a:hover { color: var(--accent); }
+
+  footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 1.5rem; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .nav-links a { font-size: 0.7rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .project, .project:nth-child(even) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .project:nth-child(even) .project-info { order: 0; }
+    .hero-cta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+    .contact-info { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="logo">alejandro r.</div>
+    <ul class="nav-links">
+      <li><a href="#about">Sobre mí</a></li>
+      <li><a href="#work">Proyectos</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-meta">
+        <span class="dot"></span>
+        <span>Disponible para proyectos · 2026</span>
+      </div>
+      <h1>
+        Marketing,<br>
+        datos e <em>inteligencia</em><br>
+        artificial.
+      </h1>
+      <p class="hero-description">
+        Soy Alejandro Rodríguez. Combino formación en marketing e investigación de mercados con un máster en Data Science e IA para construir automatizaciones, analizar datos y diseñar campañas que funcionan.
+      </p>
+      <div class="hero-cta">
+        <a href="#work" class="btn">Ver proyectos →</a>
+        <a href="#contact" class="btn btn-ghost">
+          O escríbeme directamente <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-marker">
+      <span class="num">[01]</span>
+      <span class="label">Sobre mí</span>
+    </div>
+    <div class="about-grid">
+      <h2>Resolver problemas <em>con curiosidad</em> y método.</h2>
+      <div class="about-content">
+        <p>
+          Me defino como una persona resiliente, que se esfuerza por aprender y mejorar en aquello a lo que se dedica. Mis puntos fuertes son la creatividad y la capacidad resolutiva, que me permiten resolver cualquier problema por difícil que parezca.
+        </p>
+        <p>
+          El trabajo en grupo nunca me ha supuesto un problema: se llega más rápido solo, pero más lejos acompañado. Soy licenciado en Marketing e Investigación de Mercados con especialización en Big Data, y completé mi formación con un Máster en Data Science e IA. Esa doble mirada —negocio y técnica— es lo que aporto a cada proyecto.
+        </p>
+
+        <div class="skills-section">
+          <div class="skills-title">Inteligencia Artificial</div>
+          <div class="skills">
+            <span class="skill-tag featured">N8n</span>
+            <span class="skill-tag featured">LangGraph</span>
+            <span class="skill-tag featured">LangChain</span>
+            <span class="skill-tag featured">Gemini</span>
+            <span class="skill-tag featured">Claude</span>
+            <span class="skill-tag">ChromaDB</span>
+            <span class="skill-tag">RAG</span>
+            <span class="skill-tag">IA generativa</span>
+            <span class="skill-tag">Automatizaciones</span>
+          </div>
+
+          <div class="skills-title">Análisis de datos</div>
+          <div class="skills">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Power BI</span>
+            <span class="skill-tag">scikit-learn</span>
+            <span class="skill-tag">Estadística</span>
+            <span class="skill-tag">Excel + IA</span>
+          </div>
+
+          <div class="skills-title">Marketing y diseño</div>
+          <div class="skills">
+            <span class="skill-tag">Investigación de mercados</span>
+            <span class="skill-tag">Gestión de RRSS</span>
+            <span class="skill-tag">Eventos</span>
+            <span class="skill-tag">Canva</span>
+            <span class="skill-tag">Photoshop</span>
+            <span class="skill-tag">CapCut</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="work">
+  <div class="container">
+    <div class="section-marker">
+      <span class="num">[02]</span>
+      <span class="label">Proyectos seleccionados</span>
+    </div>
+
+    <!-- PROYECTO 1: EDA Movies -->
+    <article class="project">
+      <div class="project-visual visual-eda">
+        <div class="header">
+          <span>movie_dataset.csv</span>
+          <span class="accent">● recaudación</span>
+        </div>
+        <div class="chart">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <div class="footer">
+          <span>género · país · clasificación</span>
+          <span>EDA · 2025</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">Proyecto 01 — Análisis de datos</div>
+        <h3>EDA del <em>dataset</em> de películas</h3>
+        <p>
+          Análisis exploratorio completo sobre un dataset de películas para estudiar cómo afectan a la recaudación tres factores clave: el país de origen, el género principal y la clasificación por edades. Incluye un pipeline de limpieza modular y una progresión de visualizaciones desde lo básico hasta lo avanzado.
+        </p>
+        <ul class="project-highlights">
+          <li>Pipeline de limpieza en Python con normalización de columnas, imputación razonada y generación de variables derivadas (<em>main_genre</em>, <em>movie_type</em>).</li>
+          <li>Tres tandas de visualizaciones —básicas, intermedias y avanzadas— que incluyen histogramas, boxplots, mapa de correlaciones, pairplots y violinplots.</li>
+          <li>Análisis cruzado país × género × clasificación para responder a la pregunta central del proyecto con evidencia visual.</li>
+        </ul>
+        <div class="project-tech">
+          <span>Python</span><span>Pandas</span><span>Seaborn</span><span>Matplotlib</span><span>Jupyter</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/eda-movie-dataset" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROYECTO 2: Estadística -->
+    <article class="project">
+      <div class="project-info">
+        <div class="project-num">Proyecto 02 — Estadística y modelado</div>
+        <h3>Estadística aplicada a la <em>predicción</em> de ratings</h3>
+        <p>
+          Práctica final del Máster en Data Science e IA. Análisis estadístico riguroso sobre un dataset de 10.000 animes, articulado en cuatro bloques: análisis descriptivo, inferencia y modelado, regresión lineal implementada desde cero con NumPy, y series temporales.
+        </p>
+        <ul class="project-highlights">
+          <li>Tratamiento metodológico completo: clasificación de variables por tipo, imputación razonada por categoría, análisis de asimetría/curtosis y validación de supuestos del modelo.</li>
+          <li>Comparativa <em>regresión lineal vs. logística</em> sobre el mismo dataset (R² = 0.44, RMSE = 0.47) con diagnóstico de residuos y discusión de la adecuación de cada enfoque.</li>
+          <li>Implementación <em>from scratch</em> de regresión lineal con descenso de gradiente en NumPy puro, validada contra la solución analítica OLS.</li>
+          <li>Descomposición de series temporales en tendencia, estacionalidad y ruido con medias móviles de distinto orden.</li>
+        </ul>
+        <div class="project-tech">
+          <span>Python</span><span>NumPy</span><span>scikit-learn</span><span>statsmodels</span><span>Pandas</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/estadistica-prediccion-anime-ratings" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/estadistica-prediccion-anime-ratings/blob/main/PracticaEstadistica__De_la_rosa_Rodr%C3%ADguez_Alejandro.pdf" class="project-link" target="_blank" rel="noopener">Informe (PDF) ↗</a>
+        </div>
+      </div>
+      <div class="project-visual visual-regression">
+        <div class="vr-header">
+          <span>regresión · scratch</span>
+          <span class="formula">ŷ = b + wx</span>
+        </div>
+        <div class="vr-plot">
+          <svg viewBox="0 0 400 240" preserveAspectRatio="none">
+            <line class="line-iter" x1="0" y1="220" x2="400" y2="180" />
+            <line class="line-iter" x1="0" y1="210" x2="400" y2="150" />
+            <line class="line-iter" x1="0" y1="200" x2="400" y2="120" />
+            <line class="line-iter" x1="0" y1="190" x2="400" y2="90" />
+            <line class="line-iter" x1="0" y1="180" x2="400" y2="60" />
+            <line class="line-iter" x1="0" y1="175" x2="400" y2="45" />
+            <circle class="dot" cx="20" cy="195" r="3" /><circle class="dot" cx="40" cy="178" r="3" />
+            <circle class="dot" cx="55" cy="200" r="3" /><circle class="dot" cx="75" cy="165" r="3" />
+            <circle class="dot" cx="90" cy="172" r="3" /><circle class="dot" cx="110" cy="148" r="3" />
+            <circle class="dot" cx="125" cy="155" r="3" /><circle class="dot" cx="145" cy="130" r="3" />
+            <circle class="dot" cx="160" cy="142" r="3" /><circle class="dot" cx="180" cy="118" r="3" />
+            <circle class="dot" cx="195" cy="125" r="3" /><circle class="dot" cx="215" cy="100" r="3" />
+            <circle class="dot" cx="230" cy="108" r="3" /><circle class="dot" cx="250" cy="85" r="3" />
+            <circle class="dot" cx="265" cy="92" r="3" /><circle class="dot" cx="285" cy="70" r="3" />
+            <circle class="dot" cx="300" cy="78" r="3" /><circle class="dot" cx="320" cy="55" r="3" />
+            <circle class="dot" cx="340" cy="62" r="3" /><circle class="dot" cx="360" cy="38" r="3" />
+            <circle class="dot" cx="380" cy="45" r="3" />
+            <line class="line-final" x1="0" y1="200" x2="400" y2="40" />
+          </svg>
+        </div>
+        <div class="vr-footer">
+          <span><span class="metric">b ≈ 4.11</span> · <span class="metric">w ≈ 2.86</span></span>
+          <span>R² = 0.77</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROYECTO 3: Fidelización -->
+    <article class="project">
+      <div class="project-visual visual-segments">
+        <div class="vs-header">
+          <span>5.196 clientes · UK retail</span>
+          <span class="accent">● scoring</span>
+        </div>
+        <div class="vs-tiers">
+          <div class="tier tier-fidelizacion">
+            <span class="tier-label">Fidelización</span>
+            <div class="tier-bar"></div>
+            <span class="tier-pct">27%</span>
+          </div>
+          <div class="tier tier-seguimiento">
+            <span class="tier-label">Seguimiento</span>
+            <div class="tier-bar"></div>
+            <span class="tier-pct">31%</span>
+          </div>
+          <div class="tier tier-retencion">
+            <span class="tier-label">Retención</span>
+            <div class="tier-bar"></div>
+            <span class="tier-pct">42%</span>
+          </div>
+        </div>
+        <div class="vs-roc">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <line class="roc-axis" x1="10" y1="90" x2="90" y2="90" />
+            <line class="roc-axis" x1="10" y1="10" x2="10" y2="90" />
+            <line class="roc-axis" x1="10" y1="90" x2="90" y2="10" />
+            <path class="roc-curve" d="M 10 90 Q 15 50, 35 30 T 90 10" />
+            <path class="roc-fill" d="M 10 90 Q 15 50, 35 30 T 90 10 L 90 90 Z" />
+          </svg>
+        </div>
+        <div class="vs-footer">
+          <span>Reg. Logística · 5 features</span>
+          <span class="auc">AUC-ROC = 0.79</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">Proyecto 03 — Machine Learning aplicado</div>
+        <h3>Modelo de <em>fidelización</em> y recompra en retail</h3>
+        <p>
+          Pipeline end-to-end de Data Science sobre el dataset público <em>Online Retail II</em> (UCI): más de un millón de transacciones reales del Reino Unido entre 2009 y 2011. El objetivo de negocio: predecir la probabilidad de recompra de cada cliente y entregar al equipo comercial una tabla accionable de campañas.
+        </p>
+        <ul class="project-highlights">
+          <li>Pipeline completo: EDA con foco de negocio, construcción razonada del target con fecha de corte, RFM y feature engineering por cliente.</li>
+          <li>Detección de anomalías con <em>Isolation Forest</em> para aislar mayoristas atípicos y segmentación <em>K-Means</em> validada por Silhouette Score (0.58).</li>
+          <li>Comparativa Regresión Logística vs. Random Forest con GridSearchCV. Gana la logística por interpretabilidad para negocio — AUC-ROC = 0.79.</li>
+          <li>Bonus: sistema de recomendación con tres enfoques complementarios (popularidad, content-based con TF-IDF y filtrado colaborativo con SVD).</li>
+        </ul>
+        <div class="project-tech">
+          <span>Python</span><span>scikit-learn</span><span>K-Means</span><span>Isolation Forest</span><span>TF-IDF</span><span>SVD</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/modelo-fidelizacion-recompra-retail" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/modelo-fidelizacion-recompra-retail/blob/main/presentacion-modelo-fidelizacion.pdf" class="project-link" target="_blank" rel="noopener">Presentación (PDF) ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROYECTO 4: NLP -->
+    <article class="project">
+      <div class="project-info">
+        <div class="project-num">Proyecto 04 — Natural Language Processing</div>
+        <h3>Análisis NLP de <em>reseñas</em>: sentimiento y benchmarking</h3>
+        <p>
+          Análisis del lenguaje natural sobre reseñas reales de Trustpilot del sector <em>Travel & Vacation</em>. Combina análisis de sentimiento, topic modeling y comparativa con la competencia para entregar recomendaciones de negocio accionables sobre <em>loveholidays.com</em> frente a TUI, Jet2 y Lastminute.
+        </p>
+        <ul class="project-highlights">
+          <li>Pipeline de limpieza de texto propio: normalización de caracteres, eliminación de ruido y filtrado por sector para asegurar comparabilidad competitiva.</li>
+          <li>Análisis de sentimiento con <em>TextBlob</em> y benchmarking competitivo: polaridad +0.177 y 63% de reseñas positivas frente a la media del sector.</li>
+          <li>Topic modeling con <em>NMF</em> sobre matriz <em>TF-IDF</em>: cinco temas latentes identificados (reserva online, alojamiento, experiencia, precio, atención al cliente).</li>
+          <li>Cruce sentimiento × topic con umbrales de decisión que separan fortalezas comunicables de áreas de mejora prioritarias.</li>
+        </ul>
+        <div class="project-tech">
+          <span>Python</span><span>NLP</span><span>TextBlob</span><span>TF-IDF</span><span>NMF</span><span>scikit-learn</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/analisis-nlp-resenas-loveholidays" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/analisis-nlp-resenas-loveholidays/blob/main/presentacion-analisis-loveholidays.pdf" class="project-link" target="_blank" rel="noopener">Presentación (PDF) ↗</a>
+        </div>
+      </div>
+      <div class="project-visual visual-nlp">
+        <div class="nlp-header">
+          <span>polaridad por topic</span>
+          <span class="pol">+0.177 media</span>
+        </div>
+        <div class="topics">
+          <div class="topic-row strength" style="--delay: 0.2s">
+            <span class="topic-name">Reserva online</span>
+            <div class="topic-track"><div class="topic-bar" style="width: 92%"></div></div>
+            <span class="topic-val">+0.184</span>
+          </div>
+          <div class="topic-row strength" style="--delay: 0.3s">
+            <span class="topic-name">Experiencia</span>
+            <div class="topic-track"><div class="topic-bar" style="width: 84%"></div></div>
+            <span class="topic-val">+0.169</span>
+          </div>
+          <div class="topic-row opportunity" style="--delay: 0.4s">
+            <span class="topic-name">Alojamiento</span>
+            <div class="topic-track"><div class="topic-bar" style="width: 51%"></div></div>
+            <span class="topic-val">+0.102</span>
+          </div>
+          <div class="topic-row opportunity" style="--delay: 0.5s">
+            <span class="topic-name">Precio / refunds</span>
+            <div class="topic-track"><div class="topic-bar" style="width: 42%"></div></div>
+            <span class="topic-val">+0.085</span>
+          </div>
+          <div class="topic-row opportunity" style="--delay: 0.6s">
+            <span class="topic-name">Atención cliente</span>
+            <div class="topic-track"><div class="topic-bar" style="width: 22%"></div></div>
+            <span class="topic-val">+0.045</span>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot strength"></span><span>Fortaleza</span></div>
+          <div class="legend-item"><span class="legend-dot opportunity"></span><span>Oportunidad</span></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROYECTO 5: AsistIA RAG -->
+    <article class="project">
+      <div class="project-visual visual-rag">
+        <div class="rag-header">
+          <span>arquitectura del agente</span>
+          <span class="live-dot">live demo</span>
+        </div>
+        <div class="graph">
+          <svg viewBox="0 0 360 180" preserveAspectRatio="xMidYMid meet">
+            <!-- Edges con animación de flujo -->
+            <path class="edge flow" d="M 50 90 L 130 90" style="animation-delay: 0s" />
+            <path class="edge flow" d="M 200 90 L 280 90" style="animation-delay: 0.8s" />
+
+            <!-- Conexión a vectorstore (recuperar -> base) -->
+            <path class="edge" d="M 165 110 Q 165 145, 200 145" style="animation-delay: 1.2s" />
+            <path class="edge" d="M 200 145 Q 235 145, 235 110" style="animation-delay: 1.4s" />
+
+            <!-- Nodos -->
+            <circle class="node" cx="25" cy="90" r="22" style="animation-delay: 0.2s" />
+            <text class="node-label" x="25" y="90" style="animation-delay: 0.2s">USER</text>
+
+            <rect class="node accent" x="130" y="68" width="70" height="44" rx="4" style="animation-delay: 0.5s" />
+            <text class="node-label accent" x="165" y="84" style="animation-delay: 0.5s">RAG</text>
+            <text class="node-label accent" x="165" y="96" style="animation-delay: 0.5s" style2="font-size:7px">retrieval</text>
+
+            <rect class="node accent" x="200" y="68" width="70" height="44" rx="4" style="animation-delay: 0.8s" />
+            <text class="node-label accent" x="235" y="84" style="animation-delay: 0.8s">LLM</text>
+            <text class="node-label accent" x="235" y="96" style="animation-delay: 0.8s">Gemini</text>
+
+            <rect class="node" x="280" y="68" width="60" height="44" rx="4" style="animation-delay: 1.1s" />
+            <text class="node-label" x="310" y="86" style="animation-delay: 1.1s">RESP.</text>
+            <text class="node-label" x="310" y="98" style="animation-delay: 1.1s">+memoria</text>
+
+            <!-- Vector store -->
+            <ellipse class="node" cx="200" cy="150" rx="35" ry="10" style="animation-delay: 1.4s" />
+            <text class="node-label" x="200" y="152" style="animation-delay: 1.4s">ChromaDB</text>
+          </svg>
+        </div>
+        <div class="rag-stack">
+          <span class="stack-chip featured">LangGraph</span>
+          <span class="stack-chip featured">Gemini 2.5</span>
+          <span class="stack-chip">ChromaDB</span>
+          <span class="stack-chip">RAG</span>
+          <span class="stack-chip">MemorySaver</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">Proyecto 05 — IA Generativa</div>
+        <h3>AsistIA: agente <em>RAG</em> conversacional sobre IA Generativa</h3>
+        <p>
+          Agente conversacional construido con Google Gemini, ChromaDB y LangGraph que responde preguntas sobre IA Generativa apoyándose en una base de conocimiento vectorial propia y manteniendo memoria entre turnos. Práctica final del módulo de IA Generativa del Máster, desplegada en Streamlit Cloud.
+        </p>
+        <ul class="project-highlights">
+          <li>Arquitectura de agente como <em>grafo de estado dirigido</em> con LangGraph: nodos de recuperación y generación, con memoria por <em>thread_id</em> que aísla conversaciones paralelas.</li>
+          <li>Pipeline RAG completo: indexación de PDFs con <em>RecursiveCharacterTextSplitter</em>, embeddings de Gemini, persistencia en ChromaDB y recuperación por similitud coseno (top-3).</li>
+          <li>System prompt cuidadosamente diseñado con siete reglas explícitas: priorización del contexto, fallback ante falta de información, idioma fijado y tono pedagógico.</li>
+          <li>Interfaz web en Streamlit con selección de modelo, panel de inspección del contexto recuperado y caché de recursos para no recompilar el agente en cada rerun.</li>
+        </ul>
+        <div class="project-tech">
+          <span>Python</span><span>LangGraph</span><span>LangChain</span><span>Gemini</span><span>ChromaDB</span><span>Streamlit</span>
+        </div>
+        <div class="project-links">
+          <a href="https://asistia-rag.streamlit.app/" class="project-link demo-live" target="_blank" rel="noopener">Probar la demo en vivo ↗</a>
+          <a href="https://github.com/alejandrorodriguezdelarosa-ux/asistia-rag-agente-conversacional" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-eyebrow">[03] · Contacto</div>
+    <h2>¿Trabajamos <em>juntos</em>?</h2>
+    <a href="mailto:alejandrorodriguezdelarosa@gmail.com" class="contact-email">alejandrorodriguezdelarosa@gmail.com</a>
+    <div class="contact-info">
+      <span>+34 643 626 001</span>
+      <span>·</span>
+      <span>Sevilla, España</span>
+    </div>
+    <div class="social">
+      <a href="https://www.linkedin.com/in/alejandro-rodríguez-de-la-rosa-015956301" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://github.com/alejandrorodriguezdelarosa-ux" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© 2026 — Alejandro Rodríguez de la Rosa</span>
+    <span>Hecho con cuidado en Sevilla</span>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.project').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(40px)';
+    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
