@@ -672,6 +672,64 @@
   .visual-nlp .legend-dot.strength { background: #6b8e6e; }
   .visual-nlp .legend-dot.opportunity { background: #d4a23f; }
 
+  /* === Visualización 0: Traiana (cervecera) === */
+  .visual-traiana {
+    background: #1a1816;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .visual-traiana .tr-embed {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #0a0908;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .visual-traiana .tr-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .visual-traiana .tr-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(26, 24, 22, 0) 60%, rgba(26, 24, 22, 0.95) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .visual-traiana .tr-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: rgba(245, 243, 238, 0.7);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .visual-traiana .tr-footer .label-accent {
+    color: var(--accent);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
   /* === Visualización 5: Agente RAG === */
   .visual-rag {
     background: linear-gradient(180deg, #1a1816 0%, #2a2825 100%);
@@ -1105,6 +1163,57 @@
       <span class="label">Proyectos seleccionados</span>
     </div>
 
+    <!-- PROYECTO 0: Traiana (experiencia profesional) -->
+    <article class="project">
+      <div class="project-info">
+        <div class="project-num">Proyecto 01 — Marca · Marketing · Comercial</div>
+        <h3>Traiana: <em>departamento de marketing</em> de una cervecera artesana</h3>
+        <p>
+          Cervecera artesana sevillana inspirada en el barrio de Triana, con una propuesta de marca construida sobre el <em>geolocalismo</em>: el orgullo de barrio como motor del relato. Proyecto independiente que vivió durante 2024.
+        </p>
+        <p>
+          Asumí en solitario el área completa de marketing y ventas: gestión de redes sociales, página web, publicidad, contacto con proveedores y clientes, prospección comercial a puerta fría en locales, diseño parcial de la identidad de marca y construcción del PVP para venta al por mayor.
+        </p>
+        <ul class="project-highlights">
+          <li>Branding desde la base: posicionamiento geolocalista (Triana como territorio simbólico), tono de marca y aplicación a piezas reales para redes, publicidad y producto.</li>
+          <li>Comercial a puerta fría en hostelería sevillana: presentación del producto en locales, gestión de objeciones y cierre de acuerdos con proveedores.</li>
+          <li>Construcción del PVP mayorista desde cero: análisis de costes, márgenes para el canal y estrategia de precios competitiva.</li>
+          <li>Gestión operativa simultánea de canales digitales (RRSS, web, publicidad) en un entorno sin equipo ni soporte de área.</li>
+        </ul>
+        <p>
+          <em>La marca cerró en julio de 2024 por falta de equipo y estructura suficiente para sostener su crecimiento.</em> La pieza audiovisual que muestro a la derecha es un anuncio que produje con los medios disponibles: la calidad técnica refleja las limitaciones del momento, pero el concepto y el mensaje sí condensan la propuesta de marca que defendí durante el proyecto.
+        </p>
+        <div class="project-tech">
+          <span>Branding</span>
+          <span>Social Media</span>
+          <span>Comercial B2B</span>
+          <span>Pricing</span>
+          <span>Diseño</span>
+          <span>Producción audiovisual</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.instagram.com/reel/DG5uevotRCs/" class="project-link" target="_blank" rel="noopener">Ver anuncio en Instagram ↗</a>
+        </div>
+      </div>
+      <div class="project-visual visual-traiana">
+        <div class="tr-embed">
+          <iframe
+            src="https://www.instagram.com/reel/DG5uevotRCs/embed"
+            allowtransparency="true"
+            allowfullscreen="true"
+            scrolling="no"
+            loading="lazy"
+            title="Anuncio Traiana — Cervecera artesana de Triana">
+          </iframe>
+          <div class="tr-overlay"></div>
+        </div>
+        <div class="tr-footer">
+          <span>Anuncio · 2024</span>
+          <span class="label-accent">Traiana</span>
+        </div>
+      </div>
+    </article>
+
     <!-- PROYECTO 1: EDA Movies -->
     <article class="project">
       <div class="project-visual visual-eda">
@@ -1124,7 +1233,7 @@
         </div>
       </div>
       <div class="project-info">
-        <div class="project-num">Proyecto 01 — Análisis de datos</div>
+        <div class="project-num">Proyecto 02 — Análisis de datos</div>
         <h3>EDA del <em>dataset</em> de películas</h3>
         <p>
           Análisis exploratorio completo sobre un dataset de películas para estudiar cómo afectan a la recaudación tres factores clave: el país de origen, el género principal y la clasificación por edades. Incluye un pipeline de limpieza modular y una progresión de visualizaciones desde lo básico hasta lo avanzado.
@@ -1146,7 +1255,7 @@
     <!-- PROYECTO 2: Estadística -->
     <article class="project">
       <div class="project-info">
-        <div class="project-num">Proyecto 02 — Estadística y modelado</div>
+        <div class="project-num">Proyecto 03 — Estadística y modelado</div>
         <h3>Estadística aplicada a la <em>predicción</em> de ratings</h3>
         <p>
           Práctica final del Máster en Data Science e IA. Análisis estadístico riguroso sobre un dataset de 10.000 animes, articulado en cuatro bloques: análisis descriptivo, inferencia y modelado, regresión lineal implementada desde cero con NumPy, y series temporales.
@@ -1238,7 +1347,7 @@
         </div>
       </div>
       <div class="project-info">
-        <div class="project-num">Proyecto 03 — Machine Learning aplicado</div>
+        <div class="project-num">Proyecto 04 — Machine Learning aplicado</div>
         <h3>Modelo de <em>fidelización</em> y recompra en retail</h3>
         <p>
           Pipeline end-to-end de Data Science sobre el dataset público <em>Online Retail II</em> (UCI): más de un millón de transacciones reales del Reino Unido entre 2009 y 2011. El objetivo de negocio: predecir la probabilidad de recompra de cada cliente y entregar al equipo comercial una tabla accionable de campañas.
@@ -1262,7 +1371,7 @@
     <!-- PROYECTO 4: NLP -->
     <article class="project">
       <div class="project-info">
-        <div class="project-num">Proyecto 04 — Natural Language Processing</div>
+        <div class="project-num">Proyecto 05 — Natural Language Processing</div>
         <h3>Análisis NLP de <em>reseñas</em>: sentimiento y benchmarking</h3>
         <p>
           Análisis del lenguaje natural sobre reseñas reales de Trustpilot del sector <em>Travel & Vacation</em>. Combina análisis de sentimiento, topic modeling y comparativa con la competencia para entregar recomendaciones de negocio accionables sobre <em>loveholidays.com</em> frente a TUI, Jet2 y Lastminute.
@@ -1367,7 +1476,7 @@
         </div>
       </div>
       <div class="project-info">
-        <div class="project-num">Proyecto 05 — IA Generativa</div>
+        <div class="project-num">Proyecto 06 — IA Generativa</div>
         <h3>AsistIA: agente <em>RAG</em> conversacional sobre IA Generativa</h3>
         <p>
           Agente conversacional construido con Google Gemini, ChromaDB y LangGraph que responde preguntas sobre IA Generativa apoyándose en una base de conocimiento vectorial propia y manteniendo memoria entre turnos. Práctica final del módulo de IA Generativa del Máster, desplegada en Streamlit Cloud.
