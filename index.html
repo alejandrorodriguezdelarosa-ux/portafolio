@@ -677,46 +677,58 @@
     background: #1a1816;
     padding: 0;
     display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .visual-traiana .tr-embed {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: #0a0908;
-    display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
   }
-  .visual-traiana .tr-embed iframe {
+  .visual-traiana::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--poster-bg);
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.4);
+    transform: scale(1.15);
+    z-index: 0;
+  }
+  .visual-traiana .tr-video-wrap {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    aspect-ratio: 9 / 16;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0908;
+  }
+  .visual-traiana video {
     width: 100%;
     height: 100%;
-    border: 0;
     display: block;
+    object-fit: cover;
   }
   .visual-traiana .tr-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(26, 24, 22, 0) 60%, rgba(26, 24, 22, 0.95) 100%);
+    background: linear-gradient(180deg, rgba(26, 24, 22, 0) 70%, rgba(26, 24, 22, 0.85) 100%);
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
   }
   .visual-traiana .tr-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 2;
-    padding: 1.25rem 1.5rem;
+    z-index: 3;
+    padding: 0.9rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    color: rgba(245, 243, 238, 0.7);
+    color: rgba(245, 243, 238, 0.85);
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     pointer-events: none;
@@ -725,7 +737,7 @@
     color: var(--accent);
     font-family: var(--serif);
     font-style: italic;
-    font-size: 1rem;
+    font-size: 0.95rem;
     text-transform: none;
     letter-spacing: 0;
   }
@@ -1192,21 +1204,24 @@
           <span>Producción audiovisual</span>
         </div>
         <div class="project-links">
-          <a href="https://www.instagram.com/reel/DG5uevotRCs/" class="project-link" target="_blank" rel="noopener">Ver anuncio en Instagram ↗</a>
+          <a href="traiana-anuncio.mp4" class="project-link" target="_blank" rel="noopener" download>Descargar anuncio (MP4) ↓</a>
         </div>
       </div>
-      <div class="project-visual visual-traiana">
-        <div class="tr-embed">
-          <iframe
-            src="https://www.instagram.com/reel/DG5uevotRCs/embed"
-            allowtransparency="true"
-            allowfullscreen="true"
-            scrolling="no"
-            loading="lazy"
-            title="Anuncio Traiana — Cervecera artesana de Triana">
-          </iframe>
-          <div class="tr-overlay"></div>
+      <div class="project-visual visual-traiana" style="--poster-bg: url('traiana-poster.jpg');">
+        <div class="tr-video-wrap">
+          <video
+            src="traiana-anuncio.mp4"
+            poster="traiana-poster.jpg"
+            controls
+            playsinline
+            preload="metadata"
+            muted
+            loop
+            aria-label="Anuncio de Traiana — cervecera artesana de Triana">
+            Tu navegador no soporta vídeo HTML5. <a href="traiana-anuncio.mp4">Descarga el vídeo aquí</a>.
+          </video>
         </div>
+        <div class="tr-overlay"></div>
         <div class="tr-footer">
           <span>Anuncio · 2024</span>
           <span class="label-accent">Traiana</span>
