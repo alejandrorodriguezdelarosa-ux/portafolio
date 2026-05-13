@@ -1,9 +1,16 @@
 FROM nginx:alpine
 
-# Copiar el sitio estático al directorio que Nginx sirve por defecto
-COPY index.html /usr/share/nginx/html/index.html
+# Copiar TODOS los archivos estáticos del repo al directorio raíz de Nginx
+# (index.html, vídeos, imágenes, etc.)
+COPY . /usr/share/nginx/html/
 
-# Configuración personalizada para servir bien el sitio (cache, gzip, etc.)
+# Limpiar archivos que no deben servirse (Dockerfile, .git, etc.)
+RUN rm -f /usr/share/nginx/html/Dockerfile \
+          /usr/share/nginx/html/nginx.conf \
+          /usr/share/nginx/html/README.md \
+          /usr/share/nginx/html/.gitignore
+
+# Configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
