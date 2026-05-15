@@ -1562,5 +1562,221 @@
   });
 </script>
 
+<!-- ============================================================
+     CHATBOT FLOTANTE — Asistente personal de Alejandro Rodríguez
+     ============================================================ -->
+
+<!-- Botón flotante -->
+<button id="chatbot-toggle" aria-label="Abrir asistente personal">
+  <svg id="chatbot-icon-open" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <svg id="chatbot-icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+  <span id="chatbot-toggle-label">Habla con mi asistente</span>
+</button>
+
+<!-- Panel del chat -->
+<div id="chatbot-panel" aria-hidden="true">
+  <div id="chatbot-header">
+    <div>
+      <div id="chatbot-title">Asistente de Alejandro</div>
+      <div id="chatbot-subtitle">Pregúntame sobre su perfil profesional</div>
+    </div>
+    <button id="chatbot-close-btn" aria-label="Cerrar asistente">×</button>
+  </div>
+  <iframe
+    id="chatbot-iframe"
+    title="Asistente personal de Alejandro Rodríguez"
+    loading="lazy"
+    allow="clipboard-write">
+  </iframe>
+</div>
+
+<style>
+  /* Botón flotante */
+  #chatbot-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px 14px 18px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    box-shadow: 0 8px 24px rgba(26, 24, 22, 0.22);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  #chatbot-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(26, 24, 22, 0.30);
+  }
+  #chatbot-toggle.is-open {
+    padding: 14px;
+  }
+  #chatbot-toggle.is-open #chatbot-toggle-label {
+    display: none;
+  }
+  #chatbot-toggle svg {
+    flex-shrink: 0;
+  }
+
+  /* Panel del chat */
+  #chatbot-panel {
+    position: fixed;
+    bottom: 96px;
+    right: 24px;
+    width: 420px;
+    height: 640px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 120px);
+    z-index: 9997;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(26, 24, 22, 0.28);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  #chatbot-panel.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  /* Header del panel */
+  #chatbot-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--line);
+  }
+  #chatbot-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  #chatbot-subtitle {
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    margin-top: 2px;
+  }
+  #chatbot-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+    transition: color 0.15s ease;
+  }
+  #chatbot-close-btn:hover {
+    color: var(--accent);
+  }
+
+  /* Iframe */
+  #chatbot-iframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: var(--bg);
+  }
+
+  /* Responsive móvil */
+  @media (max-width: 520px) {
+    #chatbot-panel {
+      bottom: 80px;
+      right: 12px;
+      left: 12px;
+      width: auto;
+      height: calc(100vh - 100px);
+    }
+    #chatbot-toggle {
+      bottom: 16px;
+      right: 16px;
+      padding: 14px;
+    }
+    #chatbot-toggle-label {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const URL_CHATBOT = 'https://asistente-alejandro-optimo.streamlit.app/?embed=true';
+
+    const toggle = document.getElementById('chatbot-toggle');
+    const panel = document.getElementById('chatbot-panel');
+    const closeBtn = document.getElementById('chatbot-close-btn');
+    const iframe = document.getElementById('chatbot-iframe');
+    const iconOpen = document.getElementById('chatbot-icon-open');
+    const iconClose = document.getElementById('chatbot-icon-close');
+
+    let iframeLoaded = false;
+
+    function openChat() {
+      // Carga diferida: el iframe no consume recursos hasta que se abre el chat
+      if (!iframeLoaded) {
+        iframe.src = URL_CHATBOT;
+        iframeLoaded = true;
+      }
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      toggle.classList.add('is-open');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = 'block';
+    }
+
+    function closeChat() {
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      toggle.classList.remove('is-open');
+      iconOpen.style.display = 'block';
+      iconClose.style.display = 'none';
+    }
+
+    toggle.addEventListener('click', () => {
+      if (panel.classList.contains('is-open')) {
+        closeChat();
+      } else {
+        openChat();
+      }
+    });
+
+    closeBtn.addEventListener('click', closeChat);
+
+    // Cerrar con la tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel.classList.contains('is-open')) {
+        closeChat();
+      }
+    });
+  })();
+</script>
+
+<!-- ============== FIN BLOQUE CHATBOT ============== -->
+
 </body>
 </html>
