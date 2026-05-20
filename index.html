@@ -6,19 +6,19 @@
 <title>Alejandro Rodríguez de la Rosa — Marketing · Datos · IA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@300;400;500&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f3ee;
-    --bg-alt: #ebe7df;
-    --ink: #1a1816;
-    --ink-soft: #4a4642;
-    --ink-mute: #8a8579;
-    --accent: #c2410c;
-    --line: rgba(26, 24, 22, 0.12);
-    --serif: 'Fraunces', serif;
+    --bg: #f1ece4;
+    --bg-alt: #e6e0d6;
+    --ink: #13294b;
+    --ink-soft: #3a4d6e;
+    --ink-mute: #6b7a92;
+    --accent: #1d3a6b;
+    --line: rgba(19, 41, 75, 0.14);
+    --serif: 'Inter Tight', sans-serif;
     --sans: 'Inter Tight', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
+    --mono: 'Geist Mono', monospace;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -359,7 +359,7 @@
   .visual-eda .bar:nth-child(1) { height: 35%; animation-delay: 0.1s; }
   .visual-eda .bar:nth-child(2) { height: 58%; animation-delay: 0.15s; }
   .visual-eda .bar:nth-child(3) { height: 42%; animation-delay: 0.2s; }
-  .visual-eda .bar:nth-child(4) { height: 88%; animation-delay: 0.25s; background: linear-gradient(180deg, #f5f3ee 0%, #c2410c 100%); }
+  .visual-eda .bar:nth-child(4) { height: 88%; animation-delay: 0.25s; background: linear-gradient(180deg, #f1ece4 0%, #1d3a6b 100%); }
   .visual-eda .bar:nth-child(5) { height: 71%; animation-delay: 0.3s; }
   .visual-eda .bar:nth-child(6) { height: 52%; animation-delay: 0.35s; }
   .visual-eda .bar:nth-child(7) { height: 64%; animation-delay: 0.4s; }
@@ -787,8 +787,8 @@
     animation: pulseLive 1.5s ease-in-out infinite;
   }
   @keyframes pulseLive {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(194, 65, 12, 0.6); }
-    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(194, 65, 12, 0); }
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(29, 58, 107, 0.6); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(29, 58, 107, 0); }
   }
   .visual-rag .graph {
     z-index: 2;
@@ -800,19 +800,19 @@
   }
   .visual-rag .graph svg { width: 100%; max-height: 180px; }
   .visual-rag .node {
-    fill: rgba(245, 243, 238, 0.06);
-    stroke: rgba(245, 243, 238, 0.4);
+    fill: rgba(241, 236, 228, 0.06);
+    stroke: rgba(241, 236, 228, 0.4);
     stroke-width: 1;
     opacity: 0;
     animation: nodeAppear 0.6s ease forwards;
   }
   .visual-rag .node.accent {
-    fill: rgba(194, 65, 12, 0.15);
+    fill: rgba(29, 58, 107, 0.18);
     stroke: var(--accent);
   }
   .visual-rag .node-label {
-    fill: #ebe7df;
-    font-family: 'JetBrains Mono', monospace;
+    fill: #e6e0d6;
+    font-family: 'Geist Mono', monospace;
     font-size: 9px;
     text-anchor: middle;
     dominant-baseline: middle;
@@ -1031,12 +1031,12 @@
   /* Botón demo en vivo */
   .demo-live {
     background: var(--accent) !important;
-    color: #f5f3ee !important;
+    color: #f1ece4 !important;
     border-color: var(--accent) !important;
   }
   .demo-live:hover {
     background: var(--ink) !important;
-    color: var(--accent) !important;
+    color: #f1ece4 !important;
   }
   .demo-live::before {
     content: '';
@@ -1044,7 +1044,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #f5f3ee;
+    background: #f1ece4;
     margin-right: 0.5rem;
     animation: pulseLive 1.5s ease-in-out infinite;
   }
@@ -1239,7 +1239,7 @@
 
 <nav id="nav">
   <div class="nav-inner">
-    <div class="logo">alejandro r.</div>
+    <div class="logo">Alejandro R.</div>
     <ul class="nav-links">
       <li><a href="#about">Sobre mí</a></li>
       <li><a href="#work">Proyectos</a></li>
