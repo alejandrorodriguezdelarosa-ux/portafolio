@@ -1613,33 +1613,34 @@
         </div>
         <div class="graph">
           <svg viewBox="0 0 360 180" preserveAspectRatio="xMidYMid meet">
-            <!-- Edges con animación de flujo -->
-            <path class="edge flow" d="M 50 90 L 130 90" style="animation-delay: 0s" />
-            <path class="edge flow" d="M 200 90 L 280 90" style="animation-delay: 0.8s" />
+            <!-- Edges con animación de flujo (de borde a borde, sin atravesar nodos) -->
+            <path class="edge flow" d="M 50 90 L 85 90" style="animation-delay: 0s" />
+            <path class="edge flow" d="M 155 90 L 190 90" style="animation-delay: 0.6s" />
+            <path class="edge flow" d="M 260 90 L 295 90" style="animation-delay: 1.2s" />
 
-            <!-- Conexión a vectorstore (recuperar -> base) -->
-            <path class="edge" d="M 165 110 Q 165 145, 200 145" style="animation-delay: 1.2s" />
-            <path class="edge" d="M 200 145 Q 235 145, 235 110" style="animation-delay: 1.4s" />
+            <!-- Conexión a vectorstore (RAG -> ChromaDB -> LLM) -->
+            <path class="edge" d="M 120 112 Q 120 150, 172 150" style="animation-delay: 1.4s" />
+            <path class="edge" d="M 207 150 Q 225 150, 225 112" style="animation-delay: 1.6s" />
 
             <!-- Nodos -->
-            <circle class="node" cx="25" cy="90" r="22" style="animation-delay: 0.2s" />
-            <text class="node-label" x="25" y="90" style="animation-delay: 0.2s">USER</text>
+            <circle class="node" cx="30" cy="90" r="20" style="animation-delay: 0.2s" />
+            <text class="node-label" x="30" y="90" style="animation-delay: 0.2s">USER</text>
 
-            <rect class="node accent" x="130" y="68" width="70" height="44" rx="4" style="animation-delay: 0.5s" />
-            <text class="node-label accent" x="165" y="84" style="animation-delay: 0.5s">RAG</text>
-            <text class="node-label accent" x="165" y="96" style="animation-delay: 0.5s" style2="font-size:7px">retrieval</text>
+            <rect class="node accent" x="85" y="68" width="70" height="44" rx="4" style="animation-delay: 0.5s" />
+            <text class="node-label accent" x="120" y="84" style="animation-delay: 0.5s">RAG</text>
+            <text class="node-label accent" x="120" y="96" style="animation-delay: 0.5s">retrieval</text>
 
-            <rect class="node accent" x="200" y="68" width="70" height="44" rx="4" style="animation-delay: 0.8s" />
-            <text class="node-label accent" x="235" y="84" style="animation-delay: 0.8s">LLM</text>
-            <text class="node-label accent" x="235" y="96" style="animation-delay: 0.8s">Gemini</text>
+            <rect class="node accent" x="190" y="68" width="70" height="44" rx="4" style="animation-delay: 0.8s" />
+            <text class="node-label accent" x="225" y="84" style="animation-delay: 0.8s">LLM</text>
+            <text class="node-label accent" x="225" y="96" style="animation-delay: 0.8s">Gemini</text>
 
-            <rect class="node" x="280" y="68" width="60" height="44" rx="4" style="animation-delay: 1.1s" />
-            <text class="node-label" x="310" y="86" style="animation-delay: 1.1s">RESP.</text>
-            <text class="node-label" x="310" y="98" style="animation-delay: 1.1s">+memoria</text>
+            <rect class="node" x="295" y="68" width="60" height="44" rx="4" style="animation-delay: 1.1s" />
+            <text class="node-label" x="325" y="86" style="animation-delay: 1.1s">RESP.</text>
+            <text class="node-label" x="325" y="98" style="animation-delay: 1.1s">+memoria</text>
 
             <!-- Vector store -->
-            <ellipse class="node" cx="200" cy="150" rx="35" ry="10" style="animation-delay: 1.4s" />
-            <text class="node-label" x="200" y="152" style="animation-delay: 1.4s">ChromaDB</text>
+            <ellipse class="node" cx="172" cy="150" rx="35" ry="10" style="animation-delay: 1.4s" />
+            <text class="node-label" x="172" y="152" style="animation-delay: 1.4s">ChromaDB</text>
           </svg>
         </div>
         <div class="rag-stack">
