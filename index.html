@@ -869,6 +869,21 @@
   }
 
   /* === Visualización 7: Bot WhatsApp peluquería (carrusel de capturas n8n) === */
+  /* Ficha con visual sticky y columnas alineadas al top, porque el texto es
+     más denso que el de las otras fichas y align-items:center deja huecos */
+  .project--bot {
+    align-items: start;
+  }
+  .project--bot .project-visual {
+    position: sticky;
+    top: 6rem;
+  }
+  @media (max-width: 768px) {
+    .project--bot .project-visual {
+      position: static;
+    }
+  }
+
   .visual-bot {
     background: #0e0e0e;
     padding: 0;
@@ -1658,7 +1673,7 @@
     </article>
 
     <!-- PROYECTO 6: Bot WhatsApp peluquería (doble agente + recordatorio) -->
-    <article class="project">
+    <article class="project project--bot">
       <div class="project-info">
         <div class="project-num">Proyecto 07 — Automatización · IA conversacional · WhatsApp</div>
         <h3>Bot conversacional de WhatsApp con <em>doble agente</em> y recordatorio mensual</h3>
@@ -1666,12 +1681,10 @@
           Sistema completo en producción para una peluquería real: dos agentes de IA conversacional sobre WhatsApp Business —uno para clientes y otro para el dueño, con permisos y tono distintos— más un workflow programado que el día 1 de cada mes envía a cada cliente el detalle de su consumo. Construido íntegramente en n8n sobre la Cloud API oficial de Meta.
         </p>
         <ul class="project-highlights">
-          <li>Arquitectura de <em>doble agente</em> sobre el mismo webhook: un router por número separa la conversación del cliente (tono cercano, identificación obligatoria por teléfono, escalado humano automático) de la del owner (tono directo, acceso total a datos, confirmaciones mínimas), cada uno con su propio system prompt y su propio set de tools.</li>
-          <li>Buffer en <em>Redis</em> con espera y deduplicación por <em>messageid</em>: cuando el usuario escribe varios mensajes seguidos se encolan, esperan, y solo el último dispara la ejecución completa para evitar respuestas fragmentadas.</li>
-          <li>Pipeline multimodal con switch <em>text / audio</em> y transcripción vía Whisper, todo unificado antes de llegar al agente para que la lógica conversacional sea idéntica venga de donde venga el mensaje.</li>
-          <li>Memoria conversacional persistente en <em>Postgres</em> por número de teléfono y system prompts industriales con reglas absolutas explícitas (anti-alucinación, lectura obligatoria antes de escritura, validación de <em>row_number</em> en cada ejecución para evitar race conditions sobre Google Sheets).</li>
-          <li>Classifier paralelo de <em>escalado humano</em>: cuando detecta una situación que requiere persona, envía un template oficial de WhatsApp al dueño y añade automáticamente un label <em>bot-off</em> en Chatwoot para silenciar al bot en esa conversación.</li>
-          <li>Workflow mensual independiente: cron día 1, lectura de suscriptores en Sheets, agente con <em>Output Parser</em> estructurado que valida el contrato <span class="code-inline">{enviar, var1, var2, var3}</span>, IF gate y envío de template oficial parametrizado al cliente con su detalle de servicios y total a pagar.</li>
+          <li>Arquitectura de <em>doble agente</em> sobre el mismo webhook con system prompts y tools diferenciados: una rama para el cliente (tono cercano, identificación por teléfono, escalado humano automático) y otra para el dueño (tono directo, acceso total, confirmaciones mínimas).</li>
+          <li>Buffer en Redis con espera y deduplicación por mensaje, pipeline multimodal con transcripción de audio vía Whisper, y memoria conversacional persistente en Postgres por número de teléfono.</li>
+          <li>System prompts industriales con reglas absolutas explícitas (anti-alucinación, lectura obligatoria antes de escritura, validación de row_number en cada ejecución) que evitan race conditions sobre Google Sheets cuando se actualizan filas en paralelo.</li>
+          <li>Classifier paralelo de escalado humano que notifica al dueño vía template oficial de WhatsApp y silencia al bot en Chatwoot, más un workflow mensual independiente que envía a cada cliente su detalle de consumo mediante Output Parser estructurado y template parametrizado.</li>
         </ul>
         <div class="project-tech">
           <span>n8n</span><span>WhatsApp Cloud API</span><span>Meta</span><span>Chatwoot</span><span>OpenAI GPT-4.1-mini</span><span>Whisper</span><span>LangChain Agent</span><span>Redis</span><span>PostgreSQL</span><span>Google Sheets</span>
@@ -1843,15 +1856,6 @@
   }
   #chatbot-toggle svg {
     flex-shrink: 0;
-  }
-
-  /* Estilo del code inline para project highlights */
-  .code-inline {
-    font-family: var(--mono);
-    font-size: 0.85em;
-    background: rgba(26, 24, 22, 0.06);
-    padding: 1px 5px;
-    border-radius: 3px;
   }
 
   /* Panel del chat */
