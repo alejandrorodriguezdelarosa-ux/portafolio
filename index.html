@@ -2245,6 +2245,9 @@
   }
   .esq-col p { margin: 0; font-family: var(--sans); font-size: 0.84rem; color: var(--ink); line-height: 1.4; }
   .esq-col .esq-metric { font-family: var(--mono); font-size: 0.95rem; color: var(--accent); }
+  .esq-col .esq-metric.esq-big {
+    font-size: 1.75rem; line-height: 1.1; letter-spacing: -0.01em; text-transform: lowercase;
+  }
   .esq-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .esq-tag {
     font-family: var(--mono); font-size: 0.68rem; color: var(--ink-soft);
@@ -2305,16 +2308,31 @@
     <article class="project">
       <div class="project-visual esq">
         <div class="esq-box">
-          <div class="esq-cap">Im&aacute;genes de producto: la decisi&oacute;n</div>
+          <div class="esq-cap">Mockups de una tanda de producto</div>
+          <div class="esq-split">
+            <div class="esq-col">
+              <h4>Antes &middot; a mano</h4>
+              <div class="esq-metric esq-big">horas</div>
+              <p>Montaje uno a uno en el editor de imagen, con el volumen que sacaba el equipo de marketing cada&nbsp;semana.</p>
+            </div>
+            <div class="esq-col win">
+              <h4>Ahora &middot; por lotes</h4>
+              <div class="esq-metric esq-big">minutos</div>
+              <p>Un bot&oacute;n compone toda la tanda pendiente y el equipo solo revisa el&nbsp;resultado.</p>
+            </div>
+          </div>
+        </div>
+        <div class="esq-box">
+          <div class="esq-cap">Por qu&eacute; no se gener&oacute; con IA</div>
           <div class="esq-split">
             <div class="esq-col">
               <h4>Generar con IA</h4>
-              <div class="esq-metric">~300 cr / producto</div>
-              <p>El modelo reinterpretaba el estampado: el dise&ntilde;o dejaba de ser el&nbsp;original.</p>
+              <div class="esq-metric">coste por producto</div>
+              <p>Y el modelo reinterpretaba el estampado: el dise&ntilde;o dejaba de ser el&nbsp;original.</p>
             </div>
             <div class="esq-col win">
               <h4>Componer en local</h4>
-              <div class="esq-metric">~0 cr / producto</div>
+              <div class="esq-metric">coste ~0</div>
               <p>Fidelidad del dise&ntilde;o al 100&nbsp;%, reproducible y sin l&iacute;mite de volumen.</p>
             </div>
           </div>
@@ -2328,13 +2346,14 @@
         <div class="esq-note">Esquema conceptual &middot; sin datos reales</div>
       </div>
       <div class="project-info">
-        <div class="project-num">Proyecto 10 &mdash; Datos &middot; Automatizaci&oacute;n &middot; Visi&oacute;n por computador</div>
-        <h3>Plataforma interna de <em>calidad de cat&aacute;logo</em> y generaci&oacute;n de imagen</h3>
+        <div class="project-num">Proyecto 10 &mdash; Eficiencia operativa &middot; Automatizaci&oacute;n &middot; Visi&oacute;n por computador</div>
+        <h3>De <em>horas a minutos</em>: generaci&oacute;n de mockups de producto por lotes</h3>
         <p>
-          Aplicaci&oacute;n web que centraliza el cat&aacute;logo de producto de una tienda online: galer&iacute;a con filtros, m&eacute;tricas por producto, panel de estad&iacute;sticas, un modo espec&iacute;fico de <em>errores de calidad de dato</em> y publicaci&oacute;n hacia la tienda. Sustituye el cruce manual de hojas de c&aacute;lculo por una &uacute;nica fuente consultable.
+          El equipo de marketing montaba a mano cada mockup de producto en el editor de imagen. Con el volumen que sacaban, preparar una tanda era cuesti&oacute;n de <em>horas</em>. Ahora se compone entera en <em>minutos</em> y la persona solo revisa el resultado. Alrededor de ese motor creci&oacute; una plataforma web que centraliza el cat&aacute;logo: galer&iacute;a con filtros, m&eacute;tricas por producto, panel de estad&iacute;sticas, un modo espec&iacute;fico de <em>errores de calidad de dato</em> y publicaci&oacute;n hacia la tienda.
         </p>
         <ul class="project-highlights">
-          <li>La decisi&oacute;n con m&aacute;s impacto fue de coste y de fidelidad, no de modelo: en vez de generar cada imagen de producto con IA &mdash;caro y, sobre todo, con el estampado reinterpretado&mdash; se <em>compone</em> el arte plano del dise&ntilde;o sobre plantillas de prenda lisa con tratamiento de imagen cl&aacute;sico: recorte del fondo, centrado autom&aacute;tico, <em>displacement</em>, luz y textura. Fidelidad total a coste pr&aacute;cticamente nulo.</li>
+          <li><strong>El cuello de botella era el tiempo, no la calidad.</strong> El mockup se montaba producto a producto en el editor de imagen, as&iacute; que el trabajo escalaba con el cat&aacute;logo: cuanto m&aacute;s sacaba marketing, m&aacute;s horas costaba. El motor compone la tanda completa de una pasada y convierte esas horas en minutos, dejando a la persona la parte que s&iacute; requiere criterio: revisar y descartar.</li>
+          <li>C&oacute;mo se resolvi&oacute;, y es la decisi&oacute;n de la que m&aacute;s aprend&iacute;: no con IA generativa, sino con tratamiento de imagen cl&aacute;sico. Se <em>compone</em> el arte plano del dise&ntilde;o sobre plantillas de prenda lisa &mdash;recorte del fondo, centrado autom&aacute;tico, <em>displacement</em>, luz y textura&mdash;. Generar con IA costaba dinero por producto y, lo determinante, reinterpretaba el estampado: el dise&ntilde;o dejaba de ser el original. Aqu&iacute; la fidelidad es del 100&nbsp;% y el coste, pr&aacute;cticamente nulo.</li>
           <li>Motor de generaci&oacute;n intercambiable por contrato: cola, plantillas de <em>prompt</em>, revisi&oacute;n, almacenamiento y publicaci&oacute;n son comunes, de forma que pasar de la composici&oacute;n local a una API externa es reemplazar un m&oacute;dulo.</li>
           <li>Modo de calidad de dato que detecta y agrupa las carencias del cat&aacute;logo &mdash;campos ausentes, im&aacute;genes que faltan, incoherencias&mdash; y las convierte en una lista de trabajo priorizable en lugar de un informe que nadie lee.</li>
           <li>Servidor <em>MCP</em> propio que expone las operaciones de la plataforma como herramientas, para poder trabajar sobre el cat&aacute;logo desde un asistente conversacional.</li>
