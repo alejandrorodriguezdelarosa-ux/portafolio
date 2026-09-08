@@ -2213,6 +2213,182 @@
       </div>
     </article>
 
+<style>
+  /* Esquemas de los proyectos confidenciales (09-11) */
+  .esq { display: flex; flex-direction: column; gap: 0.75rem; }
+  .esq-box {
+    border: 1px solid var(--line); border-radius: 10px; background: var(--bg-alt);
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .esq-cap {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-mute);
+  }
+  .esq-step {
+    display: flex; align-items: baseline; gap: 0.65rem;
+    font-family: var(--sans); font-size: 0.88rem; color: var(--ink); line-height: 1.4;
+  }
+  .esq-step b {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--accent);
+    border: 1px solid var(--line); border-radius: 3px; padding: 1px 5px; flex: 0 0 auto;
+  }
+  .esq-arrow { color: var(--ink-mute); font-size: 0.8rem; padding-left: 0.35rem; }
+  .esq-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .esq-col {
+    border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem;
+    display: flex; flex-direction: column; gap: 0.35rem; background: var(--bg);
+  }
+  .esq-col.win { border-color: var(--accent); }
+  .esq-col h4 {
+    margin: 0; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--ink-mute); font-weight: 500;
+  }
+  .esq-col p { margin: 0; font-family: var(--sans); font-size: 0.84rem; color: var(--ink); line-height: 1.4; }
+  .esq-col .esq-metric { font-family: var(--mono); font-size: 0.95rem; color: var(--accent); }
+  .esq-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .esq-tag {
+    font-family: var(--mono); font-size: 0.68rem; color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 3px; padding: 3px 7px; background: var(--bg);
+  }
+  .esq-note {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--ink-mute); text-align: right;
+  }
+  .aviso-privacidad {
+    display: block; font-family: var(--mono); font-size: 0.74rem; line-height: 1.5;
+    color: var(--ink-soft); padding: 0.75rem 0.95rem; border: 1px dashed var(--line);
+    border-radius: 4px; background: var(--bg-alt);
+  }
+  @media (max-width: 900px) { .esq-split { grid-template-columns: 1fr; } }
+</style>
+
+    <!-- PROYECTO 9: Set virtual 3D con render fotorrealista por IA -->
+    <article class="project">
+      <div class="project-visual esq">
+        <div class="esq-box">
+          <div class="esq-cap">Pipeline de captura</div>
+          <div class="esq-step"><b>01</b><span>Escena 3D con c&aacute;mara libre y personaje posable</span></div>
+          <div class="esq-arrow">&darr;</div>
+          <div class="esq-step"><b>02</b><span>Render del mapa de profundidad <em>lineal</em> normalizado, 1024&times;1024</span></div>
+          <div class="esq-arrow">&darr;</div>
+          <div class="esq-step"><b>03</b><span>Lectura de la &laquo;verdad de c&aacute;mara&raquo;: elevaci&oacute;n, tama&ntilde;o de plano y mirada</span></div>
+          <div class="esq-arrow">&darr;</div>
+          <div class="esq-step"><b>04</b><span>Difusi&oacute;n guiada por geometr&iacute;a &rarr; imagen fotorrealista</span></div>
+        </div>
+        <div class="esq-list">
+          <span class="esq-tag">cenital</span><span class="esq-tag">picado</span><span class="esq-tag">nivel</span><span class="esq-tag">contrapicado</span><span class="esq-tag">close-up</span><span class="esq-tag">plano medio</span><span class="esq-tag">cuerpo entero</span><span class="esq-tag">plano general</span>
+        </div>
+        <div class="esq-note">Etiquetas de plano derivadas de la c&aacute;mara, no escritas a mano</div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">Proyecto 09 &mdash; 3D &middot; IA generativa &middot; Producci&oacute;n visual</div>
+        <h3>Set virtual 3D con render <em>fotorrealista</em> por IA</h3>
+        <p>
+          Herramienta que sustituye la sesi&oacute;n de fotos por un plat&oacute; virtual: montas la escena en 3D, colocas y posas al personaje, mueves la c&aacute;mara con libertad y un modelo de difusi&oacute;n convierte ese bloqueo en una fotograf&iacute;a realista. Flujo h&iacute;brido <em>blockout &rarr; IA</em>, con la geometr&iacute;a de la escena como fuente de verdad.
+        </p>
+        <ul class="project-highlights">
+          <li>El punto cr&iacute;tico es <em>c&oacute;mo</em> se le describe la escena al modelo: en lugar del material de profundidad por defecto, que usa profundidad en perspectiva y deforma el espacio percibido, se renderiza un <em>mapa de profundidad lineal normalizado</em> con un shader propio, de modo que la IA recibe una representaci&oacute;n fiel de las distancias.</li>
+          <li>Sistema de &laquo;verdad de c&aacute;mara&raquo;: a partir de la posici&oacute;n relativa entre c&aacute;mara y sujeto se calculan la elevaci&oacute;n, el tama&ntilde;o de plano y la direcci&oacute;n de la mirada, y se traducen a lenguaje cinematogr&aacute;fico que alimenta el <em>prompt</em>. El encuadre deja de describirse a mano y pasa a deducirse de la escena.</li>
+          <li>L&iacute;nea de tiempo con grabaci&oacute;n y reproducci&oacute;n de movimientos de c&aacute;mara, m&aacute;s un modo foto para <em>stills</em> sueltos, refinado de pose, referencias de escena y escalado de la imagen final.</li>
+          <li>Arquitectura de motor intercambiable: la generaci&oacute;n est&aacute; aislada del resto, as&iacute; que cambiar de proveedor de imagen no obliga a rehacer la cola, el almacenamiento ni la interfaz.</li>
+          <li>Empaquetado para que una persona sin perfil t&eacute;cnico lo instale y lo use: accesos directos que comprueban las dependencias y guiado paso a paso en la primera ejecuci&oacute;n.</li>
+        </ul>
+        <div class="project-tech">
+          <span>React</span><span>TypeScript</span><span>Three.js</span><span>React Three Fiber</span><span>GLSL</span><span>Node</span><span>Express</span><span>ControlNet</span><span>Difusi&oacute;n</span>
+        </div>
+        <div class="project-links">
+          <span class="aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROYECTO 10: Plataforma de catalogo con motor de composicion -->
+    <article class="project">
+      <div class="project-visual esq">
+        <div class="esq-box">
+          <div class="esq-cap">Im&aacute;genes de producto: la decisi&oacute;n</div>
+          <div class="esq-split">
+            <div class="esq-col">
+              <h4>Generar con IA</h4>
+              <div class="esq-metric">~300 cr / producto</div>
+              <p>El modelo reinterpretaba el estampado: el dise&ntilde;o dejaba de ser el&nbsp;original.</p>
+            </div>
+            <div class="esq-col win">
+              <h4>Componer en local</h4>
+              <div class="esq-metric">~0 cr / producto</div>
+              <p>Fidelidad del dise&ntilde;o al 100&nbsp;%, reproducible y sin l&iacute;mite de volumen.</p>
+            </div>
+          </div>
+        </div>
+        <div class="esq-box">
+          <div class="esq-cap">Motor de composici&oacute;n</div>
+          <div class="esq-list">
+            <span class="esq-tag">keying del fondo</span><span class="esq-tag">centrado autom&aacute;tico</span><span class="esq-tag">displacement</span><span class="esq-tag">luz</span><span class="esq-tag">textura de tejido</span>
+          </div>
+        </div>
+        <div class="esq-note">Esquema conceptual &middot; sin datos reales</div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">Proyecto 10 &mdash; Datos &middot; Automatizaci&oacute;n &middot; Visi&oacute;n por computador</div>
+        <h3>Plataforma interna de <em>calidad de cat&aacute;logo</em> y generaci&oacute;n de imagen</h3>
+        <p>
+          Aplicaci&oacute;n web que centraliza el cat&aacute;logo de producto de una tienda online: galer&iacute;a con filtros, m&eacute;tricas por producto, panel de estad&iacute;sticas, un modo espec&iacute;fico de <em>errores de calidad de dato</em> y publicaci&oacute;n hacia la tienda. Sustituye el cruce manual de hojas de c&aacute;lculo por una &uacute;nica fuente consultable.
+        </p>
+        <ul class="project-highlights">
+          <li>La decisi&oacute;n con m&aacute;s impacto fue de coste y de fidelidad, no de modelo: en vez de generar cada imagen de producto con IA &mdash;caro y, sobre todo, con el estampado reinterpretado&mdash; se <em>compone</em> el arte plano del dise&ntilde;o sobre plantillas de prenda lisa con tratamiento de imagen cl&aacute;sico: recorte del fondo, centrado autom&aacute;tico, <em>displacement</em>, luz y textura. Fidelidad total a coste pr&aacute;cticamente nulo.</li>
+          <li>Motor de generaci&oacute;n intercambiable por contrato: cola, plantillas de <em>prompt</em>, revisi&oacute;n, almacenamiento y publicaci&oacute;n son comunes, de forma que pasar de la composici&oacute;n local a una API externa es reemplazar un m&oacute;dulo.</li>
+          <li>Modo de calidad de dato que detecta y agrupa las carencias del cat&aacute;logo &mdash;campos ausentes, im&aacute;genes que faltan, incoherencias&mdash; y las convierte en una lista de trabajo priorizable en lugar de un informe que nadie lee.</li>
+          <li>Servidor <em>MCP</em> propio que expone las operaciones de la plataforma como herramientas, para poder trabajar sobre el cat&aacute;logo desde un asistente conversacional.</li>
+          <li>Acceso a los sistemas de origen estrictamente de <em>solo lectura</em> y a trav&eacute;s de una capa intermedia, nunca por conexi&oacute;n directa: una herramienta de an&aacute;lisis no debe poder corromper el sistema que analiza.</li>
+        </ul>
+        <div class="project-tech">
+          <span>Node</span><span>Express</span><span>PostgreSQL</span><span>Python</span><span>Pillow</span><span>NumPy</span><span>SciPy</span><span>MCP</span><span>Docker</span>
+        </div>
+        <div class="project-links">
+          <span class="aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROYECTO 11: Panel ejecutivo con triaje de correo y actas -->
+    <article class="project">
+      <div class="project-visual esq">
+        <div class="esq-box">
+          <div class="esq-cap">Triaje de bandeja en dos niveles</div>
+          <div class="esq-step"><b>N1</b><span>Barrido de <em>toda</em> la bandeja sin abrir cuerpos: coste bajo, visi&oacute;n completa</span></div>
+          <div class="esq-arrow">&darr;</div>
+          <div class="esq-step"><b>N2</b><span>Lectura profunda por lotes, solo bajo demanda</span></div>
+          <div class="esq-arrow">&darr;</div>
+          <div class="esq-step"><b>N3</b><span>Borrador &uacute;nicamente si el correo espera respuesta</span></div>
+        </div>
+        <div class="esq-box">
+          <div class="esq-cap">Regla de honestidad</div>
+          <div class="esq-step"><span>Sin transcripci&oacute;n de la reuni&oacute;n &rarr; <em>avisa</em>. Nunca redacta un acta inventada.</span></div>
+        </div>
+        <div class="esq-note">Esquema conceptual &middot; sin datos reales</div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">Proyecto 11 &mdash; Automatizaci&oacute;n &middot; LLMs &middot; Herramientas internas</div>
+        <h3>Panel ejecutivo: triaje de correo y <em>actas</em> autom&aacute;ticas</h3>
+        <p>
+          Aplicaci&oacute;n de una sola pantalla pensada para un perfil directivo que necesita el pulso del negocio y su trabajo del d&iacute;a <em>sin</em> manejar un asistente de IA directamente. Agrega indicadores, tareas, correo, reuniones y documentos compartidos detr&aacute;s de unos pocos botones.
+        </p>
+        <ul class="project-highlights">
+          <li>Triaje de correo en dos niveles para que el coste no se dispare: primero un barrido de la bandeja completa sin abrir los cuerpos, y solo despu&eacute;s lectura profunda por lotes bajo demanda, con cach&eacute; incremental por conversaci&oacute;n. Los borradores se generan &uacute;nicamente cuando el correo espera respuesta.</li>
+          <li>Actas de reuni&oacute;n a partir de la transcripci&oacute;n: resumen, asistentes con su rol, temas, acuerdos, decisiones y tareas con responsable y fecha. Con una regla expl&iacute;cita e innegociable: si no hay transcripci&oacute;n, el sistema <em>avisa</em> en lugar de rellenar el hueco. Un acta inventada es peor que no tener acta.</li>
+          <li>Solo lectura por dise&ntilde;o: el panel no escribe en el gestor de tareas ni en el correo. La decisi&oacute;n de actuar se queda siempre en la persona.</li>
+          <li>Gr&aacute;ficos que se recalculan en el cliente sin volver a consultar los datos, con escala ajustable &mdash;incluida escala logar&iacute;tmica y una escala que arranca cerca del m&iacute;nimo&mdash; para que las variaciones peque&ntilde;as sigan siendo legibles.</li>
+          <li>Cada informe declara de d&oacute;nde sale cada cifra y cu&aacute;ndo se ley&oacute;, para que nadie tome una decisi&oacute;n sobre un dato viejo crey&eacute;ndolo fresco.</li>
+        </ul>
+        <div class="project-tech">
+          <span>Node</span><span>LLMs</span><span>Agentes</span><span>Skills</span><span>Integraci&oacute;n de APIs</span><span>Visualizaci&oacute;n de datos</span>
+        </div>
+        <div class="project-links">
+          <span class="aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
+        </div>
+      </div>
+    </article>
+
+
 
   </div>
 </section>
