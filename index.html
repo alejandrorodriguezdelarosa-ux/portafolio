@@ -2129,10 +2129,49 @@
 
 <style>
   /* Mockup estatico del asistente RAG (Proyecto 08) */
-  .visual-asistente { display: flex; flex-direction: column; gap: 0.75rem; }
+  .visual-asistente {
+    background: var(--bg-alt);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .visual-asistente::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .visual-asistente .esq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .visual-asistente .esq-header .esq-key {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--accent);
+    white-space: nowrap;
+  }
   .asis-window {
-    border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line); overflow: hidden;
     background: var(--bg); display: flex; flex-direction: column;
+    z-index: 2; position: relative; flex: 1;
   }
   .asis-header {
     display: flex; align-items: center; justify-content: space-between; gap: 1rem;
@@ -2140,22 +2179,17 @@
   }
   .asis-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 600; }
   .asis-subtitle { font-family: var(--sans); font-size: 0.78rem; opacity: 0.75; }
-  .asis-badge {
-    font-family: var(--mono); font-size: 0.64rem; text-transform: uppercase;
-    letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px;
-    border: 1px solid rgba(241, 236, 228, 0.45); white-space: nowrap;
-  }
   .asis-body {
     padding: 16px; display: flex; flex-direction: column; gap: 10px;
     font-family: var(--sans); font-size: 0.9rem; line-height: 1.5;
   }
   .asis-msg {
-    max-width: 88%; padding: 10px 14px; border-radius: 14px;
-    background: var(--bg-alt); color: var(--ink); border-bottom-left-radius: 4px;
+    max-width: 88%; padding: 10px 14px; border-radius: 3px;
+    background: var(--bg-alt); color: var(--ink);
   }
   .asis-chips { display: flex; flex-direction: column; gap: 6px; max-width: 88%; }
   .asis-chip {
-    border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px;
+    border: 1px solid var(--line); border-radius: 3px; padding: 8px 12px;
     font-size: 0.84rem; color: var(--ink-soft); background: var(--bg);
   }
   .asis-input {
@@ -2163,20 +2197,25 @@
     font-family: var(--sans); font-size: 0.86rem; color: var(--ink-mute);
   }
   .asis-note {
-    font-family: var(--mono); font-size: 0.7rem; color: var(--ink-mute); text-align: right;
+    z-index: 2; position: relative; margin-top: 1.25rem;
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink-mute);
   }
 </style>
 
     <!-- PROYECTO 8: Asistente RAG personal servido como API -->
     <article class="project">
       <div class="project-visual visual-asistente">
+        <div class="esq-header">
+          <span>asistente del portafolio</span>
+          <span class="esq-key">sin servicio</span>
+        </div>
         <div class="asis-window">
           <div class="asis-header">
             <div>
               <div class="asis-title">Asistente de Alejandro</div>
               <div class="asis-subtitle">Preg&uacute;ntame sobre su perfil profesional</div>
             </div>
-            <span class="asis-badge">sin servicio</span>
           </div>
           <div class="asis-body">
             <div class="asis-msg">&iexcl;Hola! Soy el asistente personal de Alejandro Rodr&iacute;guez. Puedo contarte sobre su formaci&oacute;n, experiencia, habilidades t&eacute;cnicas y disponibilidad. &iquest;Qu&eacute; te gustar&iacute;a saber?</div>
@@ -2214,73 +2253,173 @@
     </article>
 
 <style>
-  /* Esquemas de los proyectos confidenciales (09-11) */
-  .esq { display: flex; flex-direction: column; gap: 0.75rem; }
-  .esq-box {
-    border: 1px solid var(--line); border-radius: 10px; background: var(--bg-alt);
-    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem;
+  /* Visuales de los proyectos 09-11 — mismo idioma que .visual-nlp / .visual-rag */
+  .visual-esq {
+    background: var(--bg-alt);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .esq-cap {
-    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--ink-mute);
+  .visual-esq::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
+    background-size: 30px 30px;
   }
-  .esq-step {
-    display: flex; align-items: baseline; gap: 0.65rem;
-    font-family: var(--sans); font-size: 0.88rem; color: var(--ink); line-height: 1.4;
+  .visual-esq .esq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+    margin-bottom: 1.25rem;
   }
-  .esq-step b {
-    font-family: var(--mono); font-size: 0.7rem; color: var(--accent);
-    border: 1px solid var(--line); border-radius: 3px; padding: 1px 5px; flex: 0 0 auto;
+  .visual-esq .esq-header .esq-key {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--accent);
+    white-space: nowrap;
   }
-  .esq-arrow { color: var(--ink-mute); font-size: 0.8rem; padding-left: 0.35rem; }
-  .esq-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .esq-col {
-    border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem;
-    display: flex; flex-direction: column; gap: 0.35rem; background: var(--bg);
+  .visual-esq .esq-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    z-index: 2;
+    position: relative;
+    flex: 1;
+    justify-content: center;
   }
-  .esq-col.win { border-color: var(--accent); }
-  .esq-col h4 {
-    margin: 0; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--ink-mute); font-weight: 500;
+  /* Barras comparativas (idioma de .topic-row) */
+  .visual-esq .esq-row {
+    display: grid;
+    grid-template-columns: 95px 1fr 54px;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
   }
-  .esq-col p { margin: 0; font-family: var(--sans); font-size: 0.84rem; color: var(--ink); line-height: 1.4; }
-  .esq-col .esq-metric { font-family: var(--mono); font-size: 0.95rem; color: var(--accent); }
-  .esq-col .esq-metric.esq-big {
-    font-size: 1.75rem; line-height: 1.1; letter-spacing: -0.01em; text-transform: lowercase;
+  .visual-esq .esq-name { color: var(--ink-soft); text-align: right; }
+  .visual-esq .esq-track {
+    height: 7px;
+    background: rgba(26, 24, 22, 0.08);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
   }
-  .esq-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .esq-tag {
-    font-family: var(--mono); font-size: 0.68rem; color: var(--ink-soft);
-    border: 1px solid var(--line); border-radius: 3px; padding: 3px 7px; background: var(--bg);
+  .visual-esq .esq-bar {
+    height: 100%;
+    border-radius: 2px;
+    transform-origin: left;
+    animation: topicGrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+    animation-delay: var(--delay, 0s);
   }
-  .esq-note {
-    font-family: var(--mono); font-size: 0.7rem; color: var(--ink-mute); text-align: right;
+  .visual-esq .esq-row.antes .esq-bar { background: #d4a23f; }
+  .visual-esq .esq-row.ahora .esq-bar { background: #6b8e6e; }
+  .visual-esq .esq-val { color: var(--ink-mute); font-size: 0.7rem; text-align: right; }
+  /* Pasos numerados */
+  .visual-esq .esq-step {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink);
+    line-height: 1.5;
   }
-  .aviso-privacidad {
-    display: block; font-family: var(--mono); font-size: 0.74rem; line-height: 1.5;
-    color: var(--ink-soft); padding: 0.75rem 0.95rem; border: 1px dashed var(--line);
-    border-radius: 4px; background: var(--bg-alt);
+  .visual-esq .esq-step i {
+    font-style: normal;
+    color: var(--ink-mute);
+    font-size: 0.68rem;
   }
-  @media (max-width: 900px) { .esq-split { grid-template-columns: 1fr; } }
+  .visual-esq .esq-step em {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--accent);
+  }
+  .visual-esq .esq-rule {
+    height: 1px;
+    background: var(--line);
+    margin: 0.15rem 0 0.15rem 34px;
+  }
+  /* Pie */
+  .visual-esq .esq-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    z-index: 2;
+    position: relative;
+    margin-top: 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .visual-esq .esq-legend span::before {
+    content: '';
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 2px;
+    margin-right: 0.4rem;
+    background: var(--ink-mute);
+    vertical-align: baseline;
+  }
+  .visual-esq .esq-legend span.antes::before { background: #d4a23f; }
+  .visual-esq .esq-legend span.ahora::before { background: #6b8e6e; }
+  .visual-esq .esq-legend span.plain::before { display: none; }
+  /* En pantallas estrechas el marco 4:3 recortaria estos visuales de texto:
+     se libera la proporcion y se fija un minimo. Solo afecta a los mios. */
+  @media (max-width: 768px) {
+    .visual-esq,
+    .visual-asistente {
+      aspect-ratio: auto;
+      min-height: 300px;
+      padding: 1.5rem;
+    }
+  }
+  /* Aviso de codigo no publicado — hereda de .project-private */
+  .project-private.aviso-privacidad {
+    display: block;
+    max-width: 46ch;
+    line-height: 1.6;
+    text-align: left;
+  }
 </style>
 
     <!-- PROYECTO 9: Set virtual 3D con render fotorrealista por IA -->
     <article class="project">
-      <div class="project-visual esq">
-        <div class="esq-box">
-          <div class="esq-cap">Pipeline de captura</div>
-          <div class="esq-step"><b>01</b><span>Escena 3D con c&aacute;mara libre y personaje posable</span></div>
-          <div class="esq-arrow">&darr;</div>
-          <div class="esq-step"><b>02</b><span>Render del mapa de profundidad <em>lineal</em> normalizado, 1024&times;1024</span></div>
-          <div class="esq-arrow">&darr;</div>
-          <div class="esq-step"><b>03</b><span>Lectura de la &laquo;verdad de c&aacute;mara&raquo;: elevaci&oacute;n, tama&ntilde;o de plano y mirada</span></div>
-          <div class="esq-arrow">&darr;</div>
-          <div class="esq-step"><b>04</b><span>Difusi&oacute;n guiada por geometr&iacute;a &rarr; imagen fotorrealista</span></div>
+      <div class="project-visual visual-esq">
+        <div class="esq-header">
+          <span>pipeline de captura</span>
+          <span class="esq-key">geometr&iacute;a &rarr; foto</span>
         </div>
-        <div class="esq-list">
-          <span class="esq-tag">cenital</span><span class="esq-tag">picado</span><span class="esq-tag">nivel</span><span class="esq-tag">contrapicado</span><span class="esq-tag">close-up</span><span class="esq-tag">plano medio</span><span class="esq-tag">cuerpo entero</span><span class="esq-tag">plano general</span>
+        <div class="esq-body">
+          <div class="esq-step"><i>01</i><span>escena 3D, c&aacute;mara libre, personaje posable</span></div>
+          <div class="esq-rule"></div>
+          <div class="esq-step"><i>02</i><span>mapa de profundidad <em>lineal</em>, 1024&times;1024</span></div>
+          <div class="esq-rule"></div>
+          <div class="esq-step"><i>03</i><span>verdad de c&aacute;mara: elevaci&oacute;n, plano, mirada</span></div>
+          <div class="esq-rule"></div>
+          <div class="esq-step"><i>04</i><span>difusi&oacute;n guiada por geometr&iacute;a</span></div>
         </div>
-        <div class="esq-note">Etiquetas de plano derivadas de la c&aacute;mara, no escritas a mano</div>
+        <div class="esq-legend">
+          <span class="plain">cenital / picado / nivel / contrapicado</span>
+          <span class="plain">close-up / medio / entero / general</span>
+        </div>
       </div>
       <div class="project-info">
         <div class="project-num">Proyecto 09 &mdash; 3D &middot; IA generativa &middot; Producci&oacute;n visual</div>
@@ -2299,51 +2438,46 @@
           <span>React</span><span>TypeScript</span><span>Three.js</span><span>React Three Fiber</span><span>GLSL</span><span>Node</span><span>Express</span><span>ControlNet</span><span>Difusi&oacute;n</span>
         </div>
         <div class="project-links">
-          <span class="aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
+          <span class="project-private aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
         </div>
       </div>
     </article>
 
     <!-- PROYECTO 10: Plataforma de catalogo con motor de composicion -->
     <article class="project">
-      <div class="project-visual esq">
-        <div class="esq-box">
-          <div class="esq-cap">Mockups de una tanda de producto</div>
-          <div class="esq-split">
-            <div class="esq-col">
-              <h4>Antes &middot; a mano</h4>
-              <div class="esq-metric esq-big">horas</div>
-              <p>Montaje uno a uno en el editor de imagen, con el volumen que sacaba el equipo de marketing cada&nbsp;semana.</p>
-            </div>
-            <div class="esq-col win">
-              <h4>Ahora &middot; por lotes</h4>
-              <div class="esq-metric esq-big">minutos</div>
-              <p>Un bot&oacute;n compone toda la tanda pendiente y el equipo solo revisa el&nbsp;resultado.</p>
-            </div>
+      <div class="project-visual visual-esq">
+        <div class="esq-header">
+          <span>mockups por tanda</span>
+          <span class="esq-key">horas &rarr; minutos</span>
+        </div>
+        <div class="esq-body">
+          <div class="esq-row antes" style="--delay: 0.2s">
+            <span class="esq-name">a mano</span>
+            <div class="esq-track"><div class="esq-bar" style="width: 100%"></div></div>
+            <span class="esq-val">horas</span>
+          </div>
+          <div class="esq-row ahora" style="--delay: 0.45s">
+            <span class="esq-name">por lotes</span>
+            <div class="esq-track"><div class="esq-bar" style="width: 5%"></div></div>
+            <span class="esq-val">minutos</span>
+          </div>
+          <div class="esq-rule"></div>
+          <div class="esq-row antes" style="--delay: 0.7s">
+            <span class="esq-name">generar IA</span>
+            <div class="esq-track"><div class="esq-bar" style="width: 100%"></div></div>
+            <span class="esq-val">coste</span>
+          </div>
+          <div class="esq-row ahora" style="--delay: 0.95s">
+            <span class="esq-name">componer</span>
+            <div class="esq-track"><div class="esq-bar" style="width: 2%"></div></div>
+            <span class="esq-val">~0</span>
           </div>
         </div>
-        <div class="esq-box">
-          <div class="esq-cap">Por qu&eacute; no se gener&oacute; con IA</div>
-          <div class="esq-split">
-            <div class="esq-col">
-              <h4>Generar con IA</h4>
-              <div class="esq-metric">coste por producto</div>
-              <p>Y el modelo reinterpretaba el estampado: el dise&ntilde;o dejaba de ser el&nbsp;original.</p>
-            </div>
-            <div class="esq-col win">
-              <h4>Componer en local</h4>
-              <div class="esq-metric">coste ~0</div>
-              <p>Fidelidad del dise&ntilde;o al 100&nbsp;%, reproducible y sin l&iacute;mite de volumen.</p>
-            </div>
-          </div>
+        <div class="esq-legend">
+          <span class="antes">antes</span>
+          <span class="ahora">ahora</span>
+          <span class="plain">fidelidad del dise&ntilde;o 100&nbsp;%</span>
         </div>
-        <div class="esq-box">
-          <div class="esq-cap">Motor de composici&oacute;n</div>
-          <div class="esq-list">
-            <span class="esq-tag">keying del fondo</span><span class="esq-tag">centrado autom&aacute;tico</span><span class="esq-tag">displacement</span><span class="esq-tag">luz</span><span class="esq-tag">textura de tejido</span>
-          </div>
-        </div>
-        <div class="esq-note">Esquema conceptual &middot; sin datos reales</div>
       </div>
       <div class="project-info">
         <div class="project-num">Proyecto 10 &mdash; Eficiencia operativa &middot; Automatizaci&oacute;n &middot; Visi&oacute;n por computador</div>
@@ -2363,27 +2497,30 @@
           <span>Node</span><span>Express</span><span>PostgreSQL</span><span>Python</span><span>Pillow</span><span>NumPy</span><span>SciPy</span><span>MCP</span><span>Docker</span>
         </div>
         <div class="project-links">
-          <span class="aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
+          <span class="project-private aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
         </div>
       </div>
     </article>
 
     <!-- PROYECTO 11: Panel ejecutivo con triaje de correo y actas -->
     <article class="project">
-      <div class="project-visual esq">
-        <div class="esq-box">
-          <div class="esq-cap">Triaje de bandeja en dos niveles</div>
-          <div class="esq-step"><b>N1</b><span>Barrido de <em>toda</em> la bandeja sin abrir cuerpos: coste bajo, visi&oacute;n completa</span></div>
-          <div class="esq-arrow">&darr;</div>
-          <div class="esq-step"><b>N2</b><span>Lectura profunda por lotes, solo bajo demanda</span></div>
-          <div class="esq-arrow">&darr;</div>
-          <div class="esq-step"><b>N3</b><span>Borrador &uacute;nicamente si el correo espera respuesta</span></div>
+      <div class="project-visual visual-esq">
+        <div class="esq-header">
+          <span>triaje de bandeja</span>
+          <span class="esq-key">dos niveles</span>
         </div>
-        <div class="esq-box">
-          <div class="esq-cap">Regla de honestidad</div>
-          <div class="esq-step"><span>Sin transcripci&oacute;n de la reuni&oacute;n &rarr; <em>avisa</em>. Nunca redacta un acta inventada.</span></div>
+        <div class="esq-body">
+          <div class="esq-step"><i>n1</i><span>barrido de <em>toda</em> la bandeja, sin abrir cuerpos</span></div>
+          <div class="esq-rule"></div>
+          <div class="esq-step"><i>n2</i><span>lectura profunda por lotes, bajo demanda</span></div>
+          <div class="esq-rule"></div>
+          <div class="esq-step"><i>n3</i><span>borrador solo si espera respuesta</span></div>
+          <div class="esq-rule"></div>
+          <div class="esq-step"><i>&mdash;</i><span>sin transcripci&oacute;n, <em>avisa</em>: nunca inventa el acta</span></div>
         </div>
-        <div class="esq-note">Esquema conceptual &middot; sin datos reales</div>
+        <div class="esq-legend">
+          <span class="plain">solo lectura: no escribe en correo ni en tareas</span>
+        </div>
       </div>
       <div class="project-info">
         <div class="project-num">Proyecto 11 &mdash; Automatizaci&oacute;n &middot; LLMs &middot; Herramientas internas</div>
@@ -2402,7 +2539,7 @@
           <span>Node</span><span>LLMs</span><span>Agentes</span><span>Skills</span><span>Integraci&oacute;n de APIs</span><span>Visualizaci&oacute;n de datos</span>
         </div>
         <div class="project-links">
-          <span class="aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
+          <span class="project-private aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
         </div>
       </div>
     </article>
