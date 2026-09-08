@@ -250,6 +250,14 @@
     padding-top: 2rem;
     border-top: 1px solid var(--line);
   }
+  .about-side { position: sticky; top: 6rem; }
+  .about-visual {
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
   .criterio { margin-top: 2.25rem; }
   .criterio-item {
     padding: 0.9rem 0;
@@ -1715,7 +1723,25 @@
       <span class="label">Sobre mí</span>
     </div>
     <div class="about-grid">
-      <h2>Trabajar con IA es, sobre todo, <em>saber cuándo no fiarse</em>.</h2>
+      <div class="about-side">
+        <h2>Trabajar con IA es, sobre todo, <em>saber cuándo no fiarse</em>.</h2>
+        <div class="about-visual visual-esq">
+          <div class="esq-header">
+            <span>ciclo de supervisi&oacute;n</span>
+            <span class="esq-key">entender &rarr; cuestionar &rarr; decidir</span>
+          </div>
+          <div class="esq-body">
+            <div class="esq-step"><i>01</i><span>c&oacute;mo decide el sistema, antes de dejarle decidir</span></div>
+            <div class="esq-rule"></div>
+            <div class="esq-step"><i>02</i><span>leer la salida buscando el fallo, no la confirmaci&oacute;n</span></div>
+            <div class="esq-rule"></div>
+            <div class="esq-step"><i>03</i><span>aceptar, corregir o <em>descartar</em></span></div>
+          </div>
+          <div class="esq-legend">
+            <span class="plain">el modelo propone &middot; la decisi&oacute;n es m&iacute;a</span>
+          </div>
+        </div>
+      </div>
       <div class="about-content">
         <p>
           Un modelo generativo no falla como falla una hoja de c&aacute;lculo: no lanza un error, devuelve algo que <em>parece</em> correcto. Por eso el trabajo no est&aacute; en pedirle cosas a una IA, sino en decidir si lo que ha devuelto sirve. Leer la salida con desconfianza deliberada, buscar el punto exacto donde se ha inventado un dato, ha entrado en bucle o ha resuelto un problema parecido pero distinto del que se le plante&oacute;, y tirarlo a la basura cuando toca. Ese juicio lo hago yo, no otro modelo.
@@ -2431,11 +2457,13 @@
      se libera la proporcion y se fija un minimo. Solo afecta a los mios. */
   @media (max-width: 768px) {
     .visual-esq,
-    .visual-asistente {
+    .visual-asistente,
+    .about-visual {
       aspect-ratio: auto;
       min-height: 300px;
       padding: 1.5rem;
     }
+    .about-side { position: static; }
   }
   /* Aviso de codigo no publicado — hereda de .project-private */
   .project-private.aviso-privacidad {
