@@ -250,6 +250,27 @@
     padding-top: 2rem;
     border-top: 1px solid var(--line);
   }
+  .criterio { margin-top: 2.25rem; }
+  .criterio-item {
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .criterio-item:last-child { border-bottom: 1px solid var(--line); }
+  .criterio-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  .about-content .criterio-item p {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 0;
+  }
   .skills-title {
     font-family: var(--mono);
     font-size: 0.75rem;
@@ -1675,7 +1696,7 @@
         artificial.
       </h1>
       <p class="hero-description">
-        Soy Alejandro Rodríguez. Combino formación en marketing e investigación de mercados con un máster en Data Science e IA para construir automatizaciones, analizar datos y diseñar campañas que funcionan.
+        Soy Alejandro Rodríguez. Combino formación en marketing e investigación de mercados con un máster en Data Science e IA para construir automatizaciones, analizar datos y diseñar campañas que funcionan. Y, sobre todo, para decidir cuándo lo que devuelve un modelo sirve y cuándo hay que descartarlo.
       </p>
       <div class="hero-cta">
         <a href="#work" class="btn">Ver proyectos →</a>
@@ -1694,14 +1715,39 @@
       <span class="label">Sobre mí</span>
     </div>
     <div class="about-grid">
-      <h2>Resolver problemas <em>con curiosidad</em> y método.</h2>
+      <h2>Trabajar con IA es, sobre todo, <em>saber cuándo no fiarse</em>.</h2>
       <div class="about-content">
+        <p>
+          Un modelo generativo no falla como falla una hoja de c&aacute;lculo: no lanza un error, devuelve algo que <em>parece</em> correcto. Por eso el trabajo no est&aacute; en pedirle cosas a una IA, sino en decidir si lo que ha devuelto sirve. Leer la salida con desconfianza deliberada, buscar el punto exacto donde se ha inventado un dato, ha entrado en bucle o ha resuelto un problema parecido pero distinto del que se le plante&oacute;, y tirarlo a la basura cuando toca. Ese juicio lo hago yo, no otro modelo.
+        </p>
+        <p>
+          Para poder juzgar hay que entender el mecanismo. Saber que un sistema de recuperaci&oacute;n responde con lo que encuentra &mdash;y que, si no encuentra nada, su tendencia natural es rellenar el hueco&mdash;, o que un modelo de imagen reinterpreta lo que se le da en lugar de copiarlo, cambia por completo las preguntas que le haces, los l&iacute;mites que le pones y d&oacute;nde colocas la revisi&oacute;n humana. Sin ese modelo mental solo queda confiar, y confiar no es un m&eacute;todo.
+        </p>
+        <p>
+          Eso est&aacute; detr&aacute;s de casi todo lo que hay en esta p&aacute;gina: el asistente que prefiere callarse a improvisar cuando no tiene contexto, el panel que avisa de que falta la transcripci&oacute;n en vez de redactar un acta plausible, las reglas anti-alucinaci&oacute;n de un bot que opera sobre datos reales, o el motor de mockups que termin&oacute; <em>no</em> usando IA generativa porque reinterpretaba el dise&ntilde;o. Decidir que el modelo no es la respuesta tambi&eacute;n forma parte del criterio.
+        </p>
         <p>
           Me defino como una persona resiliente, que se esfuerza por aprender y mejorar en aquello a lo que se dedica. Mis puntos fuertes son la creatividad y la capacidad resolutiva, que me permiten resolver cualquier problema por difícil que parezca.
         </p>
         <p>
           El trabajo en grupo nunca me ha supuesto un problema: se llega más rápido solo, pero más lejos acompañado. Soy licenciado en Marketing e Investigación de Mercados con especialización en Big Data, y completé mi formación con un Máster en Data Science e IA. Esa doble mirada —negocio y técnica— es lo que aporto a cada proyecto.
         </p>
+
+        <div class="criterio">
+          <div class="skills-title">Criterio sobre la IA</div>
+          <div class="criterio-item">
+            <span class="criterio-label">Entender el mecanismo</span>
+            <p>Saber c&oacute;mo decide un sistema antes de dejarle decidir. Qu&eacute; recupera, qu&eacute; ignora y en qu&eacute; condiciones se le va la mano.</p>
+          </div>
+          <div class="criterio-item">
+            <span class="criterio-label">Cuestionar la salida</span>
+            <p>Revisar el resultado buscando el fallo, no la confirmaci&oacute;n. Un texto correcto y un texto cierto no son lo mismo.</p>
+          </div>
+          <div class="criterio-item">
+            <span class="criterio-label">Saber decir que no</span>
+            <p>Descartar la respuesta, o el modelo entero, cuando el coste de equivocarse supera lo que ahorra.</p>
+          </div>
+        </div>
 
         <div class="skills-section">
           <div class="skills-title">Inteligencia Artificial</div>
