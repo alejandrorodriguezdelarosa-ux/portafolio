@@ -2199,352 +2199,7 @@
       </div>
     </article>
 
-<style>
-  /* Mockup estatico del asistente RAG (Proyecto 08) */
-  .visual-asistente {
-    background: var(--bg-alt);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .visual-asistente::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .visual-asistente .esq-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    color: var(--ink-soft);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-    margin-bottom: 1.25rem;
-  }
-  .visual-asistente .esq-header .esq-key {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 1.1rem;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .asis-window {
-    border: 1px solid var(--line); overflow: hidden;
-    background: var(--bg); display: flex; flex-direction: column;
-    z-index: 2; position: relative; flex: 1;
-  }
-  .asis-header {
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    padding: 12px 14px; background: var(--accent); color: #f1ece4;
-  }
-  .asis-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 600; }
-  .asis-subtitle { font-family: var(--sans); font-size: 0.78rem; opacity: 0.75; }
-  .asis-body {
-    padding: 16px; display: flex; flex-direction: column; gap: 10px;
-    font-family: var(--sans); font-size: 0.9rem; line-height: 1.5;
-  }
-  .asis-msg {
-    max-width: 88%; padding: 10px 14px; border-radius: 3px;
-    background: var(--bg-alt); color: var(--ink);
-  }
-  .asis-chips { display: flex; flex-direction: column; gap: 6px; max-width: 88%; }
-  .asis-chip {
-    border: 1px solid var(--line); border-radius: 3px; padding: 8px 12px;
-    font-size: 0.84rem; color: var(--ink-soft); background: var(--bg);
-  }
-  .asis-input {
-    border-top: 1px solid var(--line); padding: 12px 14px;
-    font-family: var(--sans); font-size: 0.86rem; color: var(--ink-mute);
-  }
-  .asis-note {
-    z-index: 2; position: relative; margin-top: 1.25rem;
-    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--ink-mute);
-  }
-</style>
-
-    <!-- PROYECTO 8: Asistente RAG personal servido como API -->
-    <article class="project">
-      <div class="project-visual visual-asistente">
-        <div class="esq-header">
-          <span>asistente del portafolio</span>
-          <span class="esq-key">sin servicio</span>
-        </div>
-        <div class="asis-window">
-          <div class="asis-header">
-            <div>
-              <div class="asis-title">Asistente de Alejandro</div>
-              <div class="asis-subtitle">Preg&uacute;ntame sobre su perfil profesional</div>
-            </div>
-          </div>
-          <div class="asis-body">
-            <div class="asis-msg">&iexcl;Hola! Soy el asistente personal de Alejandro Rodr&iacute;guez. Puedo contarte sobre su formaci&oacute;n, experiencia, habilidades t&eacute;cnicas y disponibilidad. &iquest;Qu&eacute; te gustar&iacute;a saber?</div>
-            <div class="asis-chips">
-              <span class="asis-chip">&iquest;Qu&eacute; experiencia tiene con IA?</span>
-              <span class="asis-chip">&iquest;Cu&aacute;l es su disponibilidad geogr&aacute;fica?</span>
-              <span class="asis-chip">&iquest;Por qu&eacute; deber&iacute;amos contratarle?</span>
-            </div>
-          </div>
-          <div class="asis-input">Escribe tu pregunta&hellip;</div>
-        </div>
-        <div class="asis-note">Interfaz tal y como se serv&iacute;a en este portafolio</div>
-      </div>
-      <div class="project-info">
-        <div class="project-num">Proyecto 08 &mdash; IA Generativa &middot; RAG &middot; API</div>
-        <h3>Asistente <em>RAG</em> personal servido como API</h3>
-        <p>
-          Chatbot que responde preguntas de reclutadores sobre mi perfil profesional apoy&aacute;ndose en una base de conocimiento propia. Naci&oacute; como aplicaci&oacute;n Streamlit y se reescribi&oacute; como API HTTP con FastAPI para integrarlo directamente en este portafolio y servirlo <em>always-on</em>.
-        </p>
-        <ul class="project-highlights">
-          <li>API en FastAPI con tres endpoints (<em>/chat</em>, <em>/chat/reset</em>, <em>/health</em>), contenedorizada con Docker y con CORS restringido al dominio del portafolio para evitar abuso desde terceros.</li>
-          <li>Agente construido como <em>grafo de estado</em> con LangGraph y <em>checkpointer</em> en memoria, de modo que cada visitante mantiene su propio hilo de conversaci&oacute;n aislado mediante <em>thread_id</em>.</li>
-          <li><em>Chunking</em> propio por bloques identificados sobre una base de conocimiento en Markdown, en lugar de troceado ciego por caracteres: cada bloque conserva su unidad sem&aacute;ntica antes de vectorizarse.</li>
-          <li>Recuperaci&oacute;n top-5 sobre ChromaDB con <em>embeddings</em> de OpenAI y generaci&oacute;n a temperatura baja, m&aacute;s un <em>system prompt</em> con reglas anti-alucinaci&oacute;n que obliga a responder solo desde el contexto recuperado.</li>
-          <li>Registro opcional de las preguntas recibidas en Supabase, para detectar qu&eacute; busca realmente quien visita el portafolio.</li>
-        </ul>
-        <div class="project-tech">
-          <span>Python</span><span>FastAPI</span><span>LangGraph</span><span>LangChain</span><span>OpenAI</span><span>ChromaDB</span><span>Docker</span><span>Supabase</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/asistente-alejandro-api" class="project-link" target="_blank" rel="noopener">Ver en GitHub &#8599;</a>
-          <span class="project-private">Servicio detenido &middot; sin demo en vivo por ahora</span>
-        </div>
-      </div>
-    </article>
-
-<style>
-  /* Composicion del mockup (Proyecto 10) */
-  .visual-mockup .esq-body { min-height: 0; gap: 1rem; justify-content: center; }
-  .mockup-svg { width: 100%; display: block; flex: 0 1 auto; min-height: 0; }
-  .mk-barras { display: flex; flex-direction: column; gap: 0.55rem; }
-  .mockup-svg .lamina {
-    fill: #fbf8f2; stroke: var(--line); stroke-width: 1;
-  }
-  .mockup-svg .marca-plana use { fill: var(--accent); }
-  .mockup-svg .prenda-lisa {
-    fill: #ece6dc; stroke: var(--ink-mute); stroke-width: 1; stroke-linejoin: round;
-  }
-  .mockup-svg .prenda-render { fill: url(#tejido); }
-  .mockup-svg .prenda-pliegue { fill: url(#pliegue); }
-  .mockup-svg .prenda-borde {
-    fill: none; stroke: var(--ink-soft); stroke-width: 1; stroke-linejoin: round; opacity: 0.55;
-  }
-  .mockup-svg .marca-puesta use { fill: var(--accent); opacity: 0.92; }
-  .mockup-svg .prenda-fantasma {
-    fill: none; stroke: var(--ink-mute); stroke-width: 1; opacity: 0.35; stroke-linejoin: round;
-  }
-  .mockup-svg .op path {
-    fill: none; stroke: var(--ink-mute); stroke-width: 1.4; stroke-linecap: round;
-  }
-  .mockup-svg .mk-cap {
-    font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.1em;
-    text-transform: uppercase; fill: var(--ink-mute);
-  }
-  /* Comparativa blockout / render (Proyecto 09) */
-  .visual-toma .esq-body { justify-content: center; min-height: 0; }
-  .toma-svg { width: 100%; height: 100%; display: block; }
-  .toma-svg .rejilla path {
-    fill: none; stroke: var(--ink-mute); stroke-width: 0.6; opacity: 0.5;
-  }
-  .toma-svg .camara rect { fill: none; stroke: var(--ink-mute); stroke-width: 1; }
-  .toma-svg .camara path { fill: none; stroke: var(--ink-mute); stroke-width: 1; }
-  .toma-svg .fig-wire {
-    --linea: 1.4;
-    --extremidad: 7.5;
-    --cuello: 9;
-    fill: rgba(107, 122, 146, 0.10);
-    stroke: var(--ink-soft);
-  }
-  .toma-svg .fig-seccion {
-    fill: none; stroke: var(--ink-mute); stroke-width: 0.7; stroke-dasharray: 2.5 2.5;
-  }
-  .toma-svg .fig-junta { fill: var(--bg-alt); stroke: var(--ink-soft); stroke-width: 1; }
-  .toma-svg .fig-halo {
-    --linea: 3.5;
-    --extremidad: 12;
-    --cuello: 13.5;
-    fill: rgba(19, 41, 75, 0.14);
-    stroke: rgba(19, 41, 75, 0.14);
-  }
-  .toma-svg .fig-render {
-    --linea: 1;
-    --extremidad: 9.5;
-    --cuello: 11;
-    fill: url(#cuerpoRender);
-    stroke: url(#cuerpoRender);
-  }
-  .toma-svg .sombra { fill: rgba(19, 41, 75, 0.22); }
-  .toma-svg .marco-render { fill: none; stroke: var(--line); stroke-width: 1; }
-  .toma-svg .toma-sep path {
-    fill: none; stroke: var(--line); stroke-width: 1;
-  }
-  .toma-svg .toma-sep .flecha { stroke: var(--accent); stroke-width: 1.2; }
-  .toma-svg .toma-cap {
-    font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
-    text-transform: uppercase; fill: var(--ink-mute);
-  }
-  /* Visuales de los proyectos 09-11 — mismo idioma que .visual-nlp / .visual-rag */
-  .visual-esq {
-    background: var(--bg-alt);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .visual-esq::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .visual-esq .esq-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    color: var(--ink-soft);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-    margin-bottom: 1.25rem;
-  }
-  .visual-esq .esq-header .esq-key {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 1.1rem;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .visual-esq .esq-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    z-index: 2;
-    position: relative;
-    flex: 1;
-    justify-content: center;
-  }
-  /* Barras comparativas (idioma de .topic-row) */
-  .visual-esq .esq-row {
-    display: grid;
-    grid-template-columns: 95px 1fr 54px;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-  }
-  .visual-esq .esq-name { color: var(--ink-soft); text-align: right; }
-  .visual-esq .esq-track {
-    height: 7px;
-    background: rgba(26, 24, 22, 0.08);
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-  }
-  .visual-esq .esq-bar {
-    height: 100%;
-    border-radius: 2px;
-    transform-origin: left;
-    animation: topicGrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-    animation-delay: var(--delay, 0s);
-  }
-  .visual-esq .esq-row.antes .esq-bar { background: #d4a23f; }
-  .visual-esq .esq-row.ahora .esq-bar { background: #6b8e6e; }
-  .visual-esq .esq-val { color: var(--ink-mute); font-size: 0.7rem; text-align: right; }
-  /* Pasos numerados */
-  .visual-esq .esq-step {
-    display: grid;
-    grid-template-columns: 26px 1fr;
-    align-items: baseline;
-    gap: 0.75rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--ink);
-    line-height: 1.5;
-  }
-  .visual-esq .esq-step i {
-    font-style: normal;
-    color: var(--ink-mute);
-    font-size: 0.68rem;
-  }
-  .visual-esq .esq-step em {
-    font-family: var(--serif);
-    font-style: italic;
-    color: var(--accent);
-  }
-  .visual-esq .esq-rule {
-    height: 1px;
-    background: var(--line);
-    margin: 0.15rem 0 0.15rem 34px;
-  }
-  /* Pie */
-  .visual-esq .esq-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
-    z-index: 2;
-    position: relative;
-    margin-top: 1.25rem;
-    font-family: var(--mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  .visual-esq .esq-legend span::before {
-    content: '';
-    display: inline-block;
-    width: 7px; height: 7px;
-    border-radius: 2px;
-    margin-right: 0.4rem;
-    background: var(--ink-mute);
-    vertical-align: baseline;
-  }
-  .visual-esq .esq-legend span.antes::before { background: #d4a23f; }
-  .visual-esq .esq-legend span.ahora::before { background: #6b8e6e; }
-  .visual-esq .esq-legend span.plain::before { display: none; }
-  /* En pantallas estrechas el marco 4:3 recortaria estos visuales de texto:
-     se libera la proporcion y se fija un minimo. Solo afecta a los mios. */
-  @media (max-width: 768px) {
-    .visual-esq,
-    .visual-asistente,
-    .about-visual {
-      aspect-ratio: auto;
-      min-height: 300px;
-      padding: 1.5rem;
-    }
-    .about-side { position: static; }
-  }
-  /* Aviso de codigo no publicado — hereda de .project-private */
-  .project-private.aviso-privacidad {
-    display: block;
-    max-width: 46ch;
-    line-height: 1.6;
-    text-align: left;
-  }
-</style>
-
-    <!-- PROYECTO 9: Set virtual 3D con render fotorrealista por IA -->
+    <!-- PROYECTO 8: Set virtual 3D con render fotorrealista por IA -->
     <article class="project">
       <div class="project-visual visual-esq visual-toma">
         <div class="esq-header">
@@ -2646,7 +2301,7 @@
         </div>
       </div>
       <div class="project-info">
-        <div class="project-num">Proyecto 09 &mdash; 3D &middot; IA generativa &middot; Producci&oacute;n visual</div>
+        <div class="project-num">Proyecto 08 &mdash; 3D &middot; IA generativa &middot; Producci&oacute;n visual</div>
         <h3>Set virtual 3D con render <em>fotorrealista</em> por IA</h3>
         <p>
           Herramienta que sustituye la sesi&oacute;n de fotos por un plat&oacute; virtual: montas la escena en 3D, colocas y posas al personaje, mueves la c&aacute;mara con libertad y un modelo de difusi&oacute;n convierte ese bloqueo en una fotograf&iacute;a realista. Flujo h&iacute;brido <em>blockout &rarr; IA</em>, con la geometr&iacute;a de la escena como fuente de verdad.
@@ -2667,7 +2322,7 @@
       </div>
     </article>
 
-    <!-- PROYECTO 10: Plataforma de catalogo con motor de composicion -->
+    <!-- PROYECTO 9: Plataforma de catalogo con motor de composicion -->
     <article class="project">
       <div class="project-visual visual-esq visual-mockup">
         <div class="esq-header">
@@ -2759,7 +2414,7 @@
         </div>
       </div>
       <div class="project-info">
-        <div class="project-num">Proyecto 10 &mdash; Eficiencia operativa &middot; Automatizaci&oacute;n &middot; Visi&oacute;n por computador</div>
+        <div class="project-num">Proyecto 09 &mdash; Eficiencia operativa &middot; Automatizaci&oacute;n &middot; Visi&oacute;n por computador</div>
         <h3>De <em>horas a minutos</em>: generaci&oacute;n de mockups de producto por lotes</h3>
         <p>
           El equipo de marketing montaba a mano cada mockup de producto en el editor de imagen. Con el volumen que sacaban, preparar una tanda era cuesti&oacute;n de <em>horas</em>. Ahora se compone entera en <em>minutos</em> y la persona solo revisa el resultado. Alrededor de ese motor creci&oacute; una plataforma web que centraliza el cat&aacute;logo: galer&iacute;a con filtros, m&eacute;tricas por producto, panel de estad&iacute;sticas, un modo espec&iacute;fico de <em>errores de calidad de dato</em> y publicaci&oacute;n hacia la tienda.
@@ -2781,7 +2436,7 @@
       </div>
     </article>
 
-    <!-- PROYECTO 11: Panel ejecutivo con triaje de correo y actas -->
+    <!-- PROYECTO 10: Panel ejecutivo con triaje de correo y actas -->
     <article class="project">
       <div class="project-visual visual-esq">
         <div class="esq-header">
@@ -2802,7 +2457,7 @@
         </div>
       </div>
       <div class="project-info">
-        <div class="project-num">Proyecto 11 &mdash; Automatizaci&oacute;n &middot; LLMs &middot; Herramientas internas</div>
+        <div class="project-num">Proyecto 10 &mdash; Automatizaci&oacute;n &middot; LLMs &middot; Herramientas internas</div>
         <h3>Panel ejecutivo: triaje de correo y <em>actas</em> autom&aacute;ticas</h3>
         <p>
           Aplicaci&oacute;n de una sola pantalla pensada para un perfil directivo que necesita el pulso del negocio y su trabajo del d&iacute;a <em>sin</em> manejar un asistente de IA directamente. Agrega indicadores, tareas, correo, reuniones y documentos compartidos detr&aacute;s de unos pocos botones.
