@@ -2908,7 +2908,9 @@
     .project-visual,
     .project--bot .project-visual {
       order: -1;
-      position: static;
+      /* relative, no static: los paneles tienen hijos absolutos (overlays,
+         cabeceras, pies) que necesitan este contexto */
+      position: relative;
       width: 100%;
       max-width: 1000px;
       margin-inline: auto;
@@ -2926,19 +2928,16 @@
 
     /* El texto a dos columnas, con el titular y la entradilla cruzando
        ambas para que la ficha se lea de arriba abajo */
-    .project-info {
+    /* Las columnas van en la lista de puntos, no en el contenedor: si se
+       ponen arriba y todo lo demas cruza ambas, lo unico repartible es la
+       lista, cae entera en la izquierda y la derecha queda vacia. */
+    .project-info h3 { max-width: 26ch; }
+    .project-info > p:first-of-type { max-width: 80ch; }
+    .project-highlights {
       column-count: 2;
       column-gap: 3.5rem;
     }
-    .project-info .project-num,
-    .project-info h3,
-    .project-info > p:first-of-type {
-      column-span: all;
-    }
-    .project-info h3 { max-width: 24ch; }
-    .project-info > p:first-of-type { max-width: 78ch; }
-    .project-highlights { break-inside: avoid-column; }
-    .project-tech, .project-links { column-span: all; }
+    .project-highlights li { break-inside: avoid; }
 
     /* Sobre mi: mismo problema, mismo remedio */
     .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -2950,7 +2949,7 @@
     }
     .about-visual { margin-top: 0; aspect-ratio: 16 / 9; }
     .about-content { column-count: 2; column-gap: 3.5rem; }
-    .about-content > p { break-inside: avoid-column; }
+    .about-content > p, .criterio-item { break-inside: avoid; }
     .criterio, .skills-section { break-inside: avoid-column; }
 
     /* El hero no necesita una pantalla entera */
