@@ -2909,8 +2909,11 @@
     .project--bot .project-visual {
       order: -1;
       /* relative, no static: los paneles tienen hijos absolutos (overlays,
-         cabeceras, pies) que necesitan este contexto */
+         cabeceras, pies) que necesitan este contexto. Y top a auto, porque
+         la ficha del bot conserva el top: 6rem de su sticky y con relative
+         eso desplazaba el panel encima del texto. */
       position: relative;
+      top: auto;
       width: 100%;
       max-width: 1000px;
       margin-inline: auto;
