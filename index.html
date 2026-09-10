@@ -1855,7 +1855,7 @@
           <li>Gestión operativa simultánea de canales digitales (RRSS, web, publicidad) en un entorno sin equipo ni soporte de área.</li>
         </ul>
         <p>
-          <em>La marca cerró en julio de 2024 por falta de equipo y estructura suficiente para sostener su crecimiento.</em> La pieza audiovisual que muestro a la derecha es un anuncio que produje con los medios disponibles: la calidad técnica refleja las limitaciones del momento, pero el concepto y el mensaje sí condensan la propuesta de marca que defendí durante el proyecto.
+          <em>La marca cerró en julio de 2024 por falta de equipo y estructura suficiente para sostener su crecimiento.</em> La pieza audiovisual que muestro arriba es un anuncio que produje con los medios disponibles: la calidad técnica refleja las limitaciones del momento, pero el concepto y el mensaje sí condensan la propuesta de marca que defendí durante el proyecto.
         </p>
         <div class="project-tech">
           <span>Branding</span>
@@ -2988,15 +2988,18 @@
   @media (max-width: 899px) {
     .ficha-detalle > summary { display: block; }
 
-    /* Imagen a sangre: se escapa del contenedor a lo ancho de la pantalla */
+    /* Imagen a sangre: se escapa del contenedor a lo ancho de la pantalla.
+       El order fuerza que abra la ficha: la mitad del HTML trae el texto
+       primero y en movil se leian dos paneles seguidos con un hueco. */
     .project-visual {
+      order: -1;
       width: 100vw;
       max-width: 100vw;
       margin-inline: calc(50% - 50vw);
       border-radius: 0;
     }
     /* Mas presencia: las que no tienen alto propio pasan a 4:5 */
-    .project-visual:not(.visual-traiana):not(.visual-eda):not(.visual-regression):not(.visual-segments):not(.visual-nlp):not(.visual-rag) {
+    .project-visual:not(.visual-traiana):not(.visual-eda):not(.visual-regression):not(.visual-segments):not(.visual-nlp):not(.visual-rag):not(.visual-toma) {
       aspect-ratio: 4 / 5;
     }
     /* El panel de Sobre mi, igual que los de proyecto */
@@ -3005,7 +3008,9 @@
       max-width: 100vw;
       margin-inline: calc(50% - 50vw);
       border-radius: 0;
-      aspect-ratio: 4 / 5;
+      /* Sin proporcion fija: son tres lineas, un 4:5 dejaba 240 px de aire */
+      aspect-ratio: auto;
+      min-height: 300px;
     }
     .about-side { display: block; }
     .about h2 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
@@ -3033,6 +3038,9 @@
     }
     /* El de Traiana lleva video vertical y cabecera: necesita mas */
     .visual-traiana { min-height: 720px; }
+    /* Las barras de EDA se miden en % de su panel: con height auto el
+       calculo resuelve a 0 y el grafico desaparece. Alto definido. */
+    .visual-eda { height: 420px; min-height: 0; }
   }
 
   @media (max-width: 768px) {
@@ -3070,9 +3078,9 @@
       var cont = document.querySelector('.about-content');
       if (!cont) return;
       var parrafos = cont.querySelectorAll(':scope > p');
-      if (parrafos.length < 3) return;
+      if (parrafos.length < 2) return;
       var resto = [];
-      for (var i = 2; i < parrafos.length; i++) resto.push(parrafos[i]);
+      for (var i = 1; i < parrafos.length; i++) resto.push(parrafos[i]);
       var crit = cont.querySelector('.criterio');
       var skl = cont.querySelector('.skills-section');
       if (crit) resto.push(crit);
