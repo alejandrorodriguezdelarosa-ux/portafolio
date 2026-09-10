@@ -1,37 +1,107 @@
 name: Mantener despierta la demo de AsistIA
 
-# Streamlit Community Cloud duerme las apps gratuitas tras unos 7 dias sin
-# trafico. Visitarla cada dos dias evita que llegue a dormirse, de modo que
-# quien pinche "Probar la demo en vivo" desde el portafolio la encuentre lista
-# en lugar de una pantalla de "Zzzz" con 40 segundos de arranque.
+# Streamlit Community Cloud duerme las apps gratuitas tras unos dias sin
+# actividad, y la mide por sesiones reales, no por peticiones sueltas: un curl
+# a la raiz devuelve 303 hacia su pantalla de login y no llega a tocar la app.
+# Por eso aqui se abre con un navegador de verdad, que establece el websocket
+# igual que una visita humana.
+#
+# Ademas, si la encuentra dormida pulsa el boton de despertar: el workflow no
+# solo previene el sueno, tambien lo revierte.
+#
+# Detalle que costo un intento: la app se renderiza dentro de un iframe
+# (/~/+/), asi que el body del marco principal esta vacio y comprobarlo ahi da
+# un falso negativo. Se verifica el titulo y el contenido del iframe.
 
 on:
   schedule:
-    # 06:17 UTC en dias alternos. Minuto no redondo a proposito: GitHub
-    # retrasa los crons que caen en horas punta.
-    - cron: "17 6 */2 * *"
+    # A diario. Minuto no redondo a proposito: GitHub retrasa los crons que
+    # caen en horas punta.
+    - cron: "23 5 * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: mantener-demo
+  cancel-in-progress: false
+
 jobs:
-  ping:
+  visitar:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
-      - name: Visitar la demo
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar Playwright
         run: |
-          URL="https://asistia-rag.streamlit.app/"
-          echo "Visitando $URL"
-          codigo=$(curl -sS -o respuesta.html -w "%{http_code}" -L --max-time 60 "$URL")
-          echo "HTTP $codigo"
-          if [ "$codigo" != "200" ]; then
-            echo "::warning::La demo respondio $codigo en lugar de 200"
-            exit 0
-          fi
-          if grep -qi "has gone to sleep" respuesta.html; then
-            echo "::warning::La demo estaba dormida pese al ping. Revisar la frecuencia."
-          else
-            echo "La demo esta despierta."
-          fi
+          pip install --quiet playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Abrir la demo como una visita real
+        run: |
+          cat > visita.py <<'PY'
+          import sys
+          from playwright.sync_api import sync_playwright
+
+          URL = "https://asistia-rag.streamlit.app/"
+          DORMIDA = "has gone to sleep"
+          BOTON = "Yes, get this app back up!"
+          MARCA = "AsistIA"
+
+          with sync_playwright() as p:
+              nav = p.chromium.launch()
+              pag = nav.new_page()
+              pag.goto(URL, wait_until="domcontentloaded", timeout=60000)
+
+              if DORMIDA in pag.content():
+                  print("Estaba dormida. Pulsando el boton de despertar.")
+                  pag.get_by_role("button", name=BOTON).click()
+              else:
+                  print("No estaba dormida.")
+
+              try:
+                  # 1) el documento pasa a ser el de la app
+                  pag.wait_for_function(
+                      "() => document.title.includes('%s')" % MARCA,
+                      timeout=240000,
+                  )
+                  # 2) y el iframe donde vive realmente la interfaz tiene contenido
+                  marco = None
+                  for _ in range(60):
+                      cand = [f for f in pag.frames if f.url.rstrip("/").endswith("/~/+")]
+                      if cand:
+                          marco = cand[0]
+                          break
+                      pag.wait_for_timeout(2000)
+                  if marco is None:
+                      raise RuntimeError("no aparecio el iframe de la app")
+                  marco.wait_for_selector("text=%s" % MARCA, timeout=120000)
+                  texto = marco.inner_text("body")
+                  if len(texto) < 50:
+                      raise RuntimeError("el iframe cargo pero sin contenido util")
+              except Exception as e:
+                  print("::error::La demo no llego a cargar: %s" % e)
+                  pag.screenshot(path="fallo.png", full_page=True)
+                  nav.close()
+                  sys.exit(1)
+
+              # Mantener la sesion abierta un poco, para que cuente como visita
+              pag.wait_for_timeout(20000)
+              print("Demo operativa. Titulo:", pag.title())
+              print("Caracteres renderizados en la app:", len(texto))
+              nav.close()
+          PY
+          python visita.py
+
+      - name: Guardar captura si ha fallado
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: captura-del-fallo
+          path: fallo.png
+          if-no-files-found: ignore
