@@ -1,0 +1,37 @@
+name: Mantener despierta la demo de AsistIA
+
+# Streamlit Community Cloud duerme las apps gratuitas tras unos 7 dias sin
+# trafico. Visitarla cada dos dias evita que llegue a dormirse, de modo que
+# quien pinche "Probar la demo en vivo" desde el portafolio la encuentre lista
+# en lugar de una pantalla de "Zzzz" con 40 segundos de arranque.
+
+on:
+  schedule:
+    # 06:17 UTC en dias alternos. Minuto no redondo a proposito: GitHub
+    # retrasa los crons que caen en horas punta.
+    - cron: "17 6 */2 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Visitar la demo
+        run: |
+          URL="https://asistia-rag.streamlit.app/"
+          echo "Visitando $URL"
+          codigo=$(curl -sS -o respuesta.html -w "%{http_code}" -L --max-time 60 "$URL")
+          echo "HTTP $codigo"
+          if [ "$codigo" != "200" ]; then
+            echo "::warning::La demo respondio $codigo en lugar de 200"
+            exit 0
+          fi
+          if grep -qi "has gone to sleep" respuesta.html; then
+            echo "::warning::La demo estaba dormida pese al ping. Revisar la frecuencia."
+          else
+            echo "La demo esta despierta."
+          fi
