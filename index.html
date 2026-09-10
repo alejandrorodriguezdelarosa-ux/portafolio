@@ -2892,6 +2892,86 @@
   .visual-esq .esq-header .esq-key,
   .about-visual .esq-header .esq-key { font-style: normal; color: var(--accent); }
 
+
+  /* ── Reparto del espacio ─────────────────────────────────────────
+     Dos columnas con panel de proporcion fija junto a texto largo dejan
+     el panel flotando en medio de un hueco. Se apila: media ancha
+     arriba, texto debajo repartido en dos columnas. */
+  @media (min-width: 900px) {
+    .project,
+    .project:nth-child(even) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 4.5rem 0;
+      align-items: stretch;
+    }
+    .project-visual,
+    .project--bot .project-visual {
+      order: -1;
+      position: static;
+      width: 100%;
+      max-width: 1000px;
+      margin-inline: auto;
+      aspect-ratio: 16 / 9;
+    }
+    /* Estos dos apilan mucho contenido en vertical y no caben en 16/9:
+       se les deja crecer en vez de recortarlos */
+    .visual-regression,
+    .visual-segments {
+      aspect-ratio: auto;
+      height: auto;
+      min-height: 560px;
+    }
+    .project:nth-child(even) .project-info { order: 0; }
+
+    /* El texto a dos columnas, con el titular y la entradilla cruzando
+       ambas para que la ficha se lea de arriba abajo */
+    .project-info {
+      column-count: 2;
+      column-gap: 3.5rem;
+    }
+    .project-info .project-num,
+    .project-info h3,
+    .project-info > p:first-of-type {
+      column-span: all;
+    }
+    .project-info h3 { max-width: 24ch; }
+    .project-info > p:first-of-type { max-width: 78ch; }
+    .project-highlights { break-inside: avoid-column; }
+    .project-tech, .project-links { column-span: all; }
+
+    /* Sobre mi: mismo problema, mismo remedio */
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-side {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .about-visual { margin-top: 0; aspect-ratio: 16 / 9; }
+    .about-content { column-count: 2; column-gap: 3.5rem; }
+    .about-content > p { break-inside: avoid-column; }
+    .criterio, .skills-section { break-inside: avoid-column; }
+
+    /* El hero no necesita una pantalla entera */
+    .hero { min-height: auto; padding: 11rem 0 6rem; }
+    .contact { padding: 7rem 0 5rem; }
+    .about { padding: 6rem 0; }
+  }
+
+  /* En estrecho los paneles densos tampoco caben en 4:3: se les deja
+     crecer en vez de recortarles el contenido */
+  @media (max-width: 899px) {
+    .visual-eda, .visual-regression, .visual-segments,
+    .visual-nlp, .visual-rag, .visual-traiana {
+      aspect-ratio: auto;
+      height: auto;
+      min-height: 270px;
+    }
+    /* El de Traiana lleva video vertical y cabecera: necesita mas */
+    .visual-traiana { min-height: 720px; }
+  }
+
   @media (max-width: 768px) {
     nav { padding: 0.75rem 1.5rem; }
     .about { padding: 4.5rem 0; }
