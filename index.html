@@ -2963,12 +2963,63 @@
 
   /* En estrecho los paneles densos tampoco caben en 4:3: se les deja
      crecer en vez de recortarles el contenido */
+
+  /* ── Movil al estilo Apple ───────────────────────────────────────
+     Imagen a sangre, copy corto y detalle plegado. En escritorio el
+     desplegable va siempre abierto y su titulo no se muestra. */
+  .ficha-detalle > summary {
+    display: none;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1rem;
+    color: var(--accent);
+    padding: 0.9rem 0;
+  }
+  .ficha-detalle > summary::-webkit-details-marker { display: none; }
+  .ficha-detalle > summary::after {
+    content: '\203A';
+    display: inline-block;
+    margin-left: 0.4rem;
+    transform: rotate(90deg);
+    transition: transform 0.2s ease;
+  }
+  .ficha-detalle[open] > summary::after { transform: rotate(-90deg); }
+
+  @media (max-width: 899px) {
+    .ficha-detalle > summary { display: block; }
+
+    /* Imagen a sangre: se escapa del contenedor a lo ancho de la pantalla */
+    .project-visual {
+      width: 100vw;
+      max-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+      border-radius: 0;
+    }
+    /* Mas presencia: las que no tienen alto propio pasan a 4:5 */
+    .project-visual:not(.visual-traiana):not(.visual-eda):not(.visual-regression):not(.visual-segments):not(.visual-nlp):not(.visual-rag) {
+      aspect-ratio: 4 / 5;
+    }
+    .project { padding: 3rem 0; gap: 1.5rem; }
+    .project-info h3 {
+      font-size: clamp(1.75rem, 8vw, 2.4rem);
+      letter-spacing: -0.03em;
+    }
+    .project-info > p:first-of-type { font-size: 1.0625rem; }
+    /* El aviso y los enlaces siguen fuera del plegado */
+    .project-links { margin-top: 1.25rem; }
+
+    .hero { padding: 7rem 0 3.5rem; }
+    .hero h1 { font-size: clamp(2.4rem, 11vw, 3.5rem); }
+    .about { padding: 3.5rem 0; }
+    .contact { padding: 4.5rem 0 3.5rem; }
+  }
+
   @media (max-width: 899px) {
     .visual-eda, .visual-regression, .visual-segments,
     .visual-nlp, .visual-rag, .visual-traiana {
       aspect-ratio: auto;
       height: auto;
-      min-height: 270px;
+      min-height: 380px;
     }
     /* El de Traiana lleva video vertical y cabecera: necesita mas */
     .visual-traiana { min-height: 720px; }
@@ -2981,6 +3032,44 @@
   }
 
 </style>
+
+
+<script>
+  /* Pliega el detalle tecnico de cada ficha en pantallas estrechas, como
+     hace Apple con las especificaciones. Sin JS todo queda visible, que es
+     el comportamiento anterior. */
+  (function () {
+    var CORTE = 900;
+    document.querySelectorAll('.project-info').forEach(function (info) {
+      var lista = info.querySelector('.project-highlights');
+      if (!lista) return;
+      var stack = info.querySelector('.project-tech');
+      var det = document.createElement('details');
+      det.className = 'ficha-detalle';
+      det.open = true;
+      var sum = document.createElement('summary');
+      sum.textContent = 'M\u00e1s detalles';
+      det.appendChild(sum);
+      lista.parentNode.insertBefore(det, lista);
+      det.appendChild(lista);
+      if (stack) det.appendChild(stack);
+    });
+    /* matchMedia en vez de resize: el evento resize no siempre llega y
+       dejaba el detalle cerrado en escritorio, ocultando los puntos y el
+       stack. Ademas se crean abiertos, asi que si algo falla el contenido
+       queda visible en vez de desaparecer. */
+    var estrecho = window.matchMedia('(max-width: ' + (CORTE - 1) + 'px)');
+    function ajustar() {
+      var plegar = estrecho.matches;
+      document.querySelectorAll('details.ficha-detalle').forEach(function (d) {
+        d.open = !plegar;
+      });
+    }
+    ajustar();
+    if (estrecho.addEventListener) estrecho.addEventListener('change', ajustar);
+    else estrecho.addListener(ajustar);
+  })();
+</script>
 
 </body>
 </html>
