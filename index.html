@@ -2999,6 +2999,16 @@
     .project-visual:not(.visual-traiana):not(.visual-eda):not(.visual-regression):not(.visual-segments):not(.visual-nlp):not(.visual-rag) {
       aspect-ratio: 4 / 5;
     }
+    /* El panel de Sobre mi, igual que los de proyecto */
+    .about-visual {
+      width: 100vw;
+      max-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+      border-radius: 0;
+      aspect-ratio: 4 / 5;
+    }
+    .about-side { display: block; }
+    .about h2 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
     .project { padding: 3rem 0; gap: 1.5rem; }
     .project-info h3 {
       font-size: clamp(1.75rem, 8vw, 2.4rem);
@@ -3054,6 +3064,30 @@
       det.appendChild(lista);
       if (stack) det.appendChild(stack);
     });
+    /* Sobre mi tiene cinco parrafos seguidos: se dejan los dos que
+       sostienen el argumento y el resto se pliega igual que en las fichas. */
+    (function () {
+      var cont = document.querySelector('.about-content');
+      if (!cont) return;
+      var parrafos = cont.querySelectorAll(':scope > p');
+      if (parrafos.length < 3) return;
+      var resto = [];
+      for (var i = 2; i < parrafos.length; i++) resto.push(parrafos[i]);
+      var crit = cont.querySelector('.criterio');
+      var skl = cont.querySelector('.skills-section');
+      if (crit) resto.push(crit);
+      if (skl) resto.push(skl);
+      if (!resto.length) return;
+      var det = document.createElement('details');
+      det.className = 'ficha-detalle';
+      det.open = true;
+      var sum = document.createElement('summary');
+      sum.textContent = 'M\u00e1s sobre m\u00ed';
+      det.appendChild(sum);
+      resto[0].parentNode.insertBefore(det, resto[0]);
+      resto.forEach(function (el) { det.appendChild(el); });
+    })();
+
     /* matchMedia en vez de resize: el evento resize no siempre llega y
        dejaba el detalle cerrado en escritorio, ocultando los puntos y el
        stack. Ademas se crean abiertos, asi que si algo falla el contenido
