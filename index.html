@@ -9,16 +9,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f1ece4;
-    --bg-alt: #e6e0d6;
-    --ink: #13294b;
-    --ink-soft: #3a4d6e;
-    --ink-mute: #6b7a92;
-    --accent: #1d3a6b;
-    --line: rgba(19, 41, 75, 0.14);
-    --serif: 'Inter Tight', sans-serif;
-    --sans: 'Inter Tight', sans-serif;
-    --mono: 'Geist Mono', monospace;
+    --bg: #ffffff;
+    --bg-alt: #f5f5f7;
+    --ink: #1d1d1f;
+    --ink-soft: #424245;
+    --ink-mute: #86868b;
+    --accent: #0071e3;
+    --line: rgba(0, 0, 0, 0.08);
+    /* Una sola familia, como Apple. SF Pro no se puede servir por licencia:
+       se usa la del sistema, que en Mac ya es San Francisco, con Inter de
+       respaldo en el resto. */
+    --sf: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+          'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --serif: var(--sf);
+    --sans: var(--sf);
+    --mono: var(--sf);
+    --radio: 18px;
+    --radio-g: 28px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1270,6 +1277,7 @@
     .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
     .contact-info { flex-direction: column; gap: 0.5rem; }
   }
+
 </style>
 </head>
 <body>
@@ -2700,6 +2708,197 @@
     });
   })();
 </script>
+
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     CAPA APPLE
+     Ajusta lo que los tokens no alcanzan: escala tipografica, radios,
+     supresion de filetes y texturas, botones en pildora y secciones
+     alternando blanco / gris. Quitando este bloque se vuelve al diseno
+     anterior.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* El grano de papel no pinta nada sobre blanco */
+  body::before { display: none; }
+  /* La capitular es recurso editorial, no del lenguaje Apple */
+  .about-content > p:first-of-type:first-letter {
+    font-family: inherit; font-size: inherit; float: none;
+    line-height: inherit; margin: 0; font-weight: inherit;
+  }
+  body { letter-spacing: -0.01em; }
+
+  /* — Navegacion — */
+  nav {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    padding: 0.9rem 2.5rem;
+  }
+  nav.scrolled { border-bottom: 1px solid var(--line); }
+  .logo { font-style: normal; font-weight: 600; letter-spacing: -0.02em; }
+  .nav-links a {
+    font-family: var(--sf);
+    font-size: 0.85rem;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .nav-links a::after { display: none; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* — Titulares — */
+  .hero h1 {
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-description {
+    font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+    line-height: 1.45;
+    color: var(--ink-mute);
+    letter-spacing: -0.01em;
+  }
+  .hero-meta {
+    font-family: var(--sf);
+    text-transform: none;
+    letter-spacing: -0.01em;
+    color: var(--ink-mute);
+  }
+  .about h2, .contact h2 {
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+  }
+  .about h2 em, .contact h2 em { font-style: normal; color: var(--accent); }
+  .project-info h3 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+  }
+  .project-info h3 em { font-style: normal; color: var(--accent); }
+
+  /* — Botones en pildora — */
+  .btn {
+    font-family: var(--sf);
+    font-size: 0.95rem;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    padding: 0.75rem 1.5rem;
+    border-radius: 980px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn:hover { background: #0077ed; color: #fff; transform: none; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--accent);
+    border: none;
+    padding: 0.75rem 0.25rem;
+  }
+  .btn-ghost:hover { background: transparent; color: #0077ed; }
+
+  /* — Fuera filetes y rotulos de imprenta — */
+  .section-marker { border-top: none; padding-top: 0; margin-bottom: 2.5rem; }
+  .section-marker .num { display: none; }
+  .section-marker .label {
+    font-family: var(--sf);
+    font-style: normal;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    color: var(--ink-mute);
+  }
+  .contact { border-top: none; }
+  .project { border-top: none; padding: 6rem 0; }
+  .criterio-item { border: none; padding: 0 0 1.25rem; }
+  .criterio-item:last-child { border-bottom: none; }
+  .criterio-label {
+    font-family: var(--sf);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .skills-title, .contact-eyebrow, .project-info .project-num {
+    font-family: var(--sf);
+    text-transform: none;
+    letter-spacing: -0.005em;
+    font-size: 0.85rem;
+    color: var(--ink-mute);
+  }
+
+  /* — Secciones alternando blanco y gris — */
+  .about { background: var(--bg-alt); padding: 7rem 0; }
+  .projects { background: #fff; }
+  .contact { background: var(--ink); color: #fff; }
+  .contact h2 { color: #fff; }
+  .contact-email { color: #fff; }
+  .contact-email:hover { color: var(--accent); }
+  .contact-info, .contact .social a { color: rgba(255,255,255,0.66); }
+  .contact .social a:hover { color: #fff; }
+
+  /* — Tarjetas y paneles — */
+  /* Sin tocar el fondo: cinco paneles son oscuros a proposito y sus
+     rotulos son de color claro. Solo se redondean y se quita el filete. */
+  .project-visual { border: none; border-radius: var(--radio-g); }
+  .visual-eda::before, .visual-regression::before, .visual-segments::before,
+  .visual-nlp::before, .visual-rag::before, .visual-esq::before,
+  .about-visual::before { display: none; }
+  .about-visual { border: none; border-radius: var(--radio-g); background: var(--bg); }
+  .visual-esq, .about-visual { background: #fff; }
+  .toma-fig img { border: none; border-radius: 12px; }
+
+  /* — Etiquetas en pildora — */
+  .skill-tag, .project-tech span, .visual-rag .stack-chip, .esq-tag {
+    border-radius: 980px;
+    font-family: var(--sf);
+    text-transform: none;
+    letter-spacing: -0.005em;
+    border-color: var(--line);
+  }
+  .skill-tag.featured, .visual-rag .stack-chip.featured {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .project-private, .aviso-privacidad, .demo-nota {
+    font-family: var(--sf);
+    border: none;
+    border-radius: 14px;
+    background: var(--bg-alt);
+    text-transform: none;
+    letter-spacing: -0.005em;
+    padding: 0.9rem 1.1rem;
+  }
+  .project-link {
+    font-family: var(--sf);
+    border-radius: 980px;
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+  .demo-live { border-radius: 980px; }
+
+  /* — Rotulos internos de los paneles — */
+  .visual-esq .esq-header, .about-visual .esq-header,
+  .toma-fig figcaption, .visual-esq .esq-legend, .mockup-svg .mk-cap {
+    font-family: var(--sf);
+    text-transform: none;
+    letter-spacing: -0.005em;
+  }
+  .visual-esq .esq-header .esq-key,
+  .about-visual .esq-header .esq-key { font-style: normal; color: var(--accent); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0.75rem 1.5rem; }
+    .about { padding: 4.5rem 0; }
+    .project { padding: 3.5rem 0; }
+  }
+
+</style>
 
 </body>
 </html>
