@@ -2237,47 +2237,42 @@
     text-transform: uppercase; fill: var(--ink-mute);
   }
   /* Comparativa blockout / render (Proyecto 08) */
-  .visual-toma .esq-body { justify-content: center; min-height: 0; }
-  .toma-svg { width: 100%; height: 100%; display: block; }
-  .toma-svg .rejilla path {
-    fill: none; stroke: var(--ink-mute); stroke-width: 0.6; opacity: 0.5;
+  .visual-toma .esq-body { min-height: 0; }
+  .visual-toma .esq-body.toma-par {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.9rem;
   }
-  .toma-svg .camara rect { fill: none; stroke: var(--ink-mute); stroke-width: 1; }
-  .toma-svg .camara path { fill: none; stroke: var(--ink-mute); stroke-width: 1; }
-  .toma-svg .fig-wire {
-    --linea: 1.4;
-    --extremidad: 7.5;
-    --cuello: 9;
-    fill: rgba(107, 122, 146, 0.10);
-    stroke: var(--ink-soft);
+  .toma-fig { margin: 0; min-width: 0; }
+  .toma-fig img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 822 / 447;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    background: var(--bg);
   }
-  .toma-svg .fig-seccion {
-    fill: none; stroke: var(--ink-mute); stroke-width: 0.7; stroke-dasharray: 2.5 2.5;
+  .toma-fig figcaption {
+    margin-top: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
   }
-  .toma-svg .fig-junta { fill: var(--bg-alt); stroke: var(--ink-soft); stroke-width: 1; }
-  .toma-svg .fig-halo {
-    --linea: 3.5;
-    --extremidad: 12;
-    --cuello: 13.5;
-    fill: rgba(19, 41, 75, 0.14);
-    stroke: rgba(19, 41, 75, 0.14);
+  /* En estrecho, una sobre otra: en dos columnas no se aprecia nada */
+  @media (max-width: 768px) {
+    .visual-toma .esq-body.toma-par { grid-template-columns: 1fr; gap: 0.6rem; }
+    .toma-flecha { transform: rotate(90deg); padding: 0; justify-self: center; }
   }
-  .toma-svg .fig-render {
-    --linea: 1;
-    --extremidad: 9.5;
-    --cuello: 11;
-    fill: url(#cuerpoRender);
-    stroke: url(#cuerpoRender);
-  }
-  .toma-svg .sombra { fill: rgba(19, 41, 75, 0.22); }
-  .toma-svg .marco-render { fill: none; stroke: var(--line); stroke-width: 1; }
-  .toma-svg .toma-sep path {
-    fill: none; stroke: var(--line); stroke-width: 1;
-  }
-  .toma-svg .toma-sep .flecha { stroke: var(--accent); stroke-width: 1.2; }
-  .toma-svg .toma-cap {
-    font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
-    text-transform: uppercase; fill: var(--ink-mute);
+  .toma-flecha {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--accent);
+    align-self: center;
+    padding-bottom: 1.4rem;
   }
   /* Visuales de los proyectos 08-10 — mismo idioma que .visual-nlp / .visual-rag */
   .visual-esq {
@@ -2433,98 +2428,21 @@
           <span>la misma toma, dos pasos</span>
           <span class="esq-key">blockout &rarr; render</span>
         </div>
-        <div class="esq-body">
-          <svg class="toma-svg" viewBox="0 0 400 240" role="img" aria-label="Comparativa: a la izquierda el bloqueo de la escena en 3D con el maniqu&iacute; y la rejilla de suelo; a la derecha la misma toma convertida en imagen realista.">
-            <defs>
-              <!-- figura compartida: garantiza que sea LA MISMA toma -->
-              <g id="figura" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="30" cy="17" r="11.5" stroke-width="var(--linea, 1.4)"/>
-                <path d="M30 30 L30 37" stroke-width="var(--cuello, 11)"/>
-                <path d="M11 42 Q30 33 49 42 L44 84 Q30 89 16 84 Z" stroke-width="var(--linea, 1.4)"/>
-                <path d="M13 46 L6 87" stroke-width="var(--extremidad, 9)"/>
-                <path d="M47 46 L54 87" stroke-width="var(--extremidad, 9)"/>
-                <path d="M22 86 L19 145" stroke-width="var(--extremidad, 9)"/>
-                <path d="M38 86 L42 145" stroke-width="var(--extremidad, 9)"/>
-              </g>
-              <linearGradient id="cieloRender" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#f4efe6"/>
-                <stop offset="55%" stop-color="#e2dacb"/>
-                <stop offset="100%" stop-color="#c6bcaa"/>
-              </linearGradient>
-              <linearGradient id="cuerpoRender" gradientUnits="userSpaceOnUse" x1="2" y1="0" x2="58" y2="30">
-                <stop offset="0%" stop-color="#f6f1e8"/>
-                <stop offset="30%" stop-color="#ddd2bf"/>
-                <stop offset="68%" stop-color="#a6997f"/>
-                <stop offset="100%" stop-color="#6f6553"/>
-              </linearGradient>
-              <radialGradient id="luz" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0%" stop-color="#fffaf0" stop-opacity="0.75"/>
-                <stop offset="100%" stop-color="#fffaf0" stop-opacity="0"/>
-              </radialGradient>
-              <clipPath id="recorteDcha">
-                <rect x="208" y="0" width="192" height="240"/>
-              </clipPath>
-            </defs>
-
-            <!-- ══ IZQUIERDA · BLOCKOUT ══ -->
-            <g class="toma-blockout">
-              <!-- suelo en perspectiva -->
-              <g class="rejilla">
-                <path d="M6 214 L186 214"/>
-                <path d="M22 199 L170 199"/>
-                <path d="M34 188 L158 188"/>
-                <path d="M43 180 L149 180"/>
-                <path d="M50 174 L142 174"/>
-                <path d="M6 214 L50 174"/>
-                <path d="M50 214 L69 174"/>
-                <path d="M96 214 L96 174"/>
-                <path d="M142 214 L123 174"/>
-                <path d="M186 214 L142 174"/>
-              </g>
-              <!-- tronco de camara -->
-              <g class="camara">
-                <rect x="8" y="46" width="15" height="10" rx="1.5"/>
-                <path d="M23 48 L37 42 L37 60 L23 58 Z"/>
-                <path d="M37 51 L74 62" stroke-dasharray="3 3"/>
-                <path d="M37 51 L74 168" stroke-dasharray="3 3"/>
-              </g>
-              <!-- maniqui -->
-              <g transform="translate(66,58)">
-                <use href="#figura" class="fig-wire"/>
-                <!-- secciones que delatan el volumen -->
-                <ellipse cx="30" cy="42" rx="19" ry="4.5" class="fig-seccion"/>
-                <ellipse cx="30" cy="86" rx="14" ry="3.5" class="fig-seccion"/>
-                <circle cx="13" cy="45" r="2.4" class="fig-junta"/>
-                <circle cx="47" cy="45" r="2.4" class="fig-junta"/>
-                <circle cx="21" cy="86" r="2.4" class="fig-junta"/>
-                <circle cx="39" cy="86" r="2.4" class="fig-junta"/>
-              </g>
-              <text x="6" y="232" class="toma-cap">blockout 3D</text>
-            </g>
-
-            <!-- ══ separador ══ -->
-            <g class="toma-sep">
-              <path d="M200 34 L200 206"/>
-              <path d="M193 120 L207 120 M203 116 L207 120 L203 124" class="flecha"/>
-            </g>
-
-            <!-- ══ DERECHA · RENDER ══ -->
-            <g clip-path="url(#recorteDcha)">
-              <rect x="208" y="30" width="184" height="184" fill="url(#cieloRender)"/>
-              <ellipse cx="290" cy="200" rx="120" ry="60" fill="url(#luz)"/>
-              <!-- sombra proyectada -->
-              <ellipse cx="304" cy="205" rx="46" ry="7" class="sombra"/>
-              <g transform="translate(274,58)">
-                <use href="#figura" class="fig-halo"/>
-                <use href="#figura" class="fig-render"/>
-              </g>
-              <rect x="208" y="30" width="184" height="184" class="marco-render"/>
-              <text x="214" y="232" class="toma-cap">render</text>
-            </g>
-          </svg>
+        <div class="esq-body toma-par">
+          <figure class="toma-fig">
+            <img src="toma4-blockout.jpg" width="822" height="447"
+                 alt="Bloqueo de la escena en 3D: el maniqu&iacute; posado sentado y girado sobre la rejilla de suelo del visor.">
+            <figcaption>blockout 3D</figcaption>
+          </figure>
+          <span class="toma-flecha" aria-hidden="true">&rarr;</span>
+          <figure class="toma-fig">
+            <img src="toma4-render.jpg" width="1200" height="652"
+                 alt="La misma toma convertida en fotograf&iacute;a realista: la persona sentada de espaldas en un chiringuito, con la prenda puesta.">
+            <figcaption>render</figcaption>
+          </figure>
         </div>
         <div class="esq-legend">
-          <span class="plain">ilustraci&oacute;n esquem&aacute;tica &middot; no es una salida real del sistema</span>
+          <span class="plain">misma c&aacute;mara y misma pose &middot; salida real de la herramienta</span>
         </div>
       </div>
       <div class="project-info">
@@ -2544,7 +2462,7 @@
           <span>React</span><span>TypeScript</span><span>Three.js</span><span>React Three Fiber</span><span>GLSL</span><span>Node</span><span>Express</span><span>ControlNet</span><span>Difusi&oacute;n</span>
         </div>
         <div class="project-links">
-          <span class="project-private aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
+          <span class="project-private aviso-privacidad">Sin repositorio: por privacidad y seguridad no se publica el c&oacute;digo fuente. Se muestra una salida propia de la herramienta, generada en pruebas, y el resto son decisiones de dise&ntilde;o y arquitectura.</span>
         </div>
       </div>
     </article>
