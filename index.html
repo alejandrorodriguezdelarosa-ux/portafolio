@@ -1,1287 +1,1159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alejandro Rodríguez de la Rosa — Marketing · Datos · IA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #ffffff;
-    --bg-alt: #f5f5f7;
-    --ink: #1d1d1f;
-    --ink-soft: #424245;
-    --ink-mute: #86868b;
-    --accent: #0071e3;
-    --line: rgba(0, 0, 0, 0.08);
-    /* Una sola familia, como Apple. SF Pro no se puede servir por licencia:
-       se usa la del sistema, que en Mac ya es San Francisco, con Inter de
-       respaldo en el resto. */
-    --sf: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
-          'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    --serif: var(--sf);
-    --sans: var(--sf);
-    --mono: var(--sf);
-    --radio: 18px;
-    --radio-g: 28px;
-  }
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Alejandro Rodríguez — Marketing, datos e inteligencia artificial</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--azul: #1F3DFF;
+			--azul-claro: #E6EBFF;
+			--hielo: #F3F5FF;
+			--tinta: #0B0D1F;
+			--gris: #6B7090;
+			--blanco: #FFFFFF;
+		}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-weight: 400;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    position: relative;
-  }
+		html {
+			scroll-behavior: smooth;
+		}
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
-    opacity: 0.06;
-    pointer-events: none;
-    z-index: 1;
-    mix-blend-mode: multiply;
-  }
+		body {
+			font-family: 'Bricolage Grotesque', sans-serif;
+			color: var(--tinta);
+			background: var(--blanco);
+			transition: background-color 0.5s ease;
+			overflow-x: hidden;
+		}
 
-  .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 2.5rem;
-    position: relative;
-    z-index: 2;
-  }
+		body.bg-crema {
+			background: var(--hielo);
+		}
 
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 1.5rem 2.5rem;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(245, 243, 238, 0.7);
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s ease;
-  }
-  nav.scrolled { border-bottom-color: var(--line); }
-  .nav-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .logo {
-    font-family: var(--serif);
-    font-size: 1.25rem;
-    font-weight: 500;
-    font-style: italic;
-    letter-spacing: -0.02em;
-  }
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .nav-links a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    position: relative;
-  }
-  .nav-links a:hover { color: var(--accent); }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0;
-    width: 0; height: 1px;
-    background: var(--accent);
-    transition: width 0.3s ease;
-  }
-  .nav-links a:hover::after { width: 100%; }
+		body.bg-azul {
+			background: var(--azul);
+			color: var(--blanco);
+		}
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 0 4rem;
-    position: relative;
-  }
-  .hero-grid { display: grid; gap: 3rem; width: 100%; }
-  .hero-meta {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--ink-mute);
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-  .hero-meta .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-  }
-  .hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(2.75rem, 8vw, 7rem);
-    font-weight: 300;
-    line-height: 0.98;
-    letter-spacing: -0.04em;
-    color: var(--ink);
-    opacity: 0;
-    animation: fadeUp 1s ease 0.4s forwards;
-  }
-  .hero h1 em {
-    font-style: italic;
-    font-weight: 400;
-    color: var(--accent);
-  }
-  .hero-description {
-    max-width: 580px;
-    font-size: 1.125rem;
-    line-height: 1.65;
-    color: var(--ink-soft);
-    opacity: 0;
-    animation: fadeUp 1s ease 0.6s forwards;
-  }
-  .hero-cta {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    margin-top: 1rem;
-    opacity: 0;
-    animation: fadeUp 1s ease 0.8s forwards;
-    flex-wrap: wrap;
-  }
-  .btn {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    padding: 1rem 1.75rem;
-    border: 1px solid var(--ink);
-    color: var(--ink);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    cursor: pointer;
-  }
-  .btn:hover { background: var(--ink); color: var(--bg); }
-  .btn-ghost { border: none; padding: 1rem 0; }
-  .btn-ghost:hover { background: transparent; color: var(--accent); }
-  .btn-ghost .arrow { transition: transform 0.3s ease; }
-  .btn-ghost:hover .arrow { transform: translateX(6px); }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+		em {
+			font-family: 'Instrument Serif', serif;
+			font-style: italic;
+			font-weight: 400;
+		}
 
-  .section-marker {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    margin-bottom: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line);
-  }
-  .section-marker .num {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--ink-mute);
-    letter-spacing: 0.1em;
-  }
-  .section-marker .label {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--ink-soft);
-  }
+		/* CABECERA FIJA */
+		header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 64px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 clamp(1.5rem, 5vw, 3rem);
+			background: transparent;
+			z-index: 1000;
+			transition: color 0.5s ease;
+		}
 
-  .about { padding: 8rem 0; }
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 5rem;
-    align-items: start;
-  }
-  .about h2 {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 300;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-  }
-  .about h2 em { font-style: italic; color: var(--accent); }
-  .about-content p {
-    font-size: 1.0625rem;
-    line-height: 1.75;
-    color: var(--ink-soft);
-    margin-bottom: 1.5rem;
-  }
-  .about-content > p:first-of-type:first-letter {
-    font-family: var(--serif);
-    font-size: 3em;
-    float: left;
-    line-height: 0.85;
-    margin: 0.1em 0.1em 0 0;
-    color: var(--ink);
-    font-weight: 400;
-  }
-  .skills-section {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line);
-  }
-  .about-visual {
-    aspect-ratio: 4 / 3;
-    border: 1px solid var(--line);
-    position: relative;
-    overflow: hidden;
-    margin-top: 2.5rem;
-  }
-  .criterio { margin-top: 2.25rem; }
-  .criterio-item {
-    padding: 0.9rem 0;
-    border-top: 1px solid var(--line);
-  }
-  .criterio-item:last-child { border-bottom: 1px solid var(--line); }
-  .criterio-label {
-    display: block;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 0.4rem;
-  }
-  .about-content .criterio-item p {
-    font-size: 0.95rem;
-    line-height: 1.65;
-    color: var(--ink-soft);
-    margin-bottom: 0;
-  }
-  .skills-title {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--ink-mute);
-    margin-bottom: 1rem;
-    margin-top: 1.5rem;
-  }
-  .skills-title:first-child { margin-top: 0; }
-  .skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .skill-tag {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    padding: 0.4rem 0.875rem;
-    border: 1px solid var(--line);
-    border-radius: 100px;
-    color: var(--ink-soft);
-    transition: all 0.2s ease;
-  }
-  .skill-tag:hover {
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
-  }
-  .skill-tag.featured {
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
-  }
-  .skill-tag.featured:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
+		body.bg-azul header {
+			color: var(--blanco);
+		}
 
-  .projects { padding: 4rem 0 8rem; }
-  .project {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 4rem;
-    padding: 5rem 0;
-    border-top: 1px solid var(--line);
-    align-items: center;
-  }
-  .project:nth-child(even) { grid-template-columns: 1.2fr 1fr; }
-  .project:nth-child(even) .project-info { order: 2; }
+		.logo {
+			font-size: 1.1rem;
+			font-weight: 700;
+			letter-spacing: -0.04em;
+		}
 
-  .project-visual {
-    aspect-ratio: 4 / 3;
-    background: var(--bg-alt);
-    border: 1px solid var(--line);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .project:hover .project-visual { transform: translateY(-6px); }
+		.header-nav {
+			display: flex;
+			align-items: center;
+			gap: clamp(1.5rem, 3vw, 2.5rem);
+		}
 
-  /* === Visualización 1: EDA películas === */
-  .visual-eda {
-    background: linear-gradient(180deg, #1a1816 0%, #2a2825 100%);
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .visual-eda::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(245, 243, 238, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-  .visual-eda .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    color: #ebe7df;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-  }
-  .visual-eda .header .accent { color: var(--accent); }
-  .visual-eda .chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    height: 65%;
-    z-index: 2;
-    position: relative;
-  }
-  .visual-eda .bar {
-    flex: 1;
-    background: linear-gradient(180deg, var(--accent) 0%, #7c2d12 100%);
-    transform-origin: bottom;
-    animation: barGrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-  }
-  .visual-eda .bar:nth-child(1) { height: 35%; animation-delay: 0.1s; }
-  .visual-eda .bar:nth-child(2) { height: 58%; animation-delay: 0.15s; }
-  .visual-eda .bar:nth-child(3) { height: 42%; animation-delay: 0.2s; }
-  .visual-eda .bar:nth-child(4) { height: 88%; animation-delay: 0.25s; background: linear-gradient(180deg, #f1ece4 0%, #1d3a6b 100%); }
-  .visual-eda .bar:nth-child(5) { height: 71%; animation-delay: 0.3s; }
-  .visual-eda .bar:nth-child(6) { height: 52%; animation-delay: 0.35s; }
-  .visual-eda .bar:nth-child(7) { height: 64%; animation-delay: 0.4s; }
-  .visual-eda .bar:nth-child(8) { height: 38%; animation-delay: 0.45s; }
-  .visual-eda .bar:nth-child(9) { height: 78%; animation-delay: 0.5s; }
-  .visual-eda .bar:nth-child(10) { height: 45%; animation-delay: 0.55s; }
-  .visual-eda .bar:nth-child(11) { height: 60%; animation-delay: 0.6s; }
-  .visual-eda .bar:nth-child(12) { height: 33%; animation-delay: 0.65s; }
-  @keyframes barGrow {
-    from { transform: scaleY(0); }
-    to { transform: scaleY(1); }
-  }
-  .visual-eda .footer {
-    display: flex;
-    justify-content: space-between;
-    color: var(--ink-mute);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.05em;
-    z-index: 2;
-    position: relative;
-    border-top: 1px solid rgba(245, 243, 238, 0.1);
-    padding-top: 0.75rem;
-  }
+		@media (max-width: 899px) {
+			.header-nav {
+				display: none;
+			}
+		}
 
-  /* === Visualización 2: Regresión === */
-  .visual-regression {
-    background: var(--bg-alt);
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .visual-regression::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
-    background-size: 35px 35px;
-  }
-  .visual-regression .vr-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    color: var(--ink-soft);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-  }
-  .visual-regression .vr-header .formula {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 0.95rem;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--accent);
-  }
-  .visual-regression .vr-plot {
-    flex: 1;
-    position: relative;
-    z-index: 2;
-    margin: 1rem 0;
-  }
-  .visual-regression svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  .visual-regression .dot {
-    fill: var(--ink-soft);
-    opacity: 0.55;
-  }
-  .visual-regression .line-iter {
-    fill: none;
-    stroke: var(--ink-mute);
-    stroke-width: 1;
-    opacity: 0.25;
-  }
-  .visual-regression .line-final {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    animation: drawLine 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
-  }
-  @keyframes drawLine {
-    to { stroke-dashoffset: 0; }
-  }
-  .visual-regression .vr-footer {
-    display: flex;
-    justify-content: space-between;
-    color: var(--ink-mute);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.05em;
-    z-index: 2;
-    position: relative;
-    border-top: 1px solid var(--line);
-    padding-top: 0.75rem;
-  }
-  .visual-regression .vr-footer .metric { color: var(--ink-soft); }
+		.header-nav a {
+			font-size: 0.9rem;
+			font-weight: 500;
+			text-decoration: none;
+			color: inherit;
+			transition: opacity 0.3s;
+		}
 
-  /* === Visualización 3: Segmentación + ROC === */
-  .visual-segments {
-    background: linear-gradient(180deg, #1a1816 0%, #2a2825 100%);
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    gap: 1rem 1.5rem;
-    color: #ebe7df;
-  }
-  .visual-segments::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(245, 243, 238, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .visual-segments .vs-header {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-  }
-  .visual-segments .vs-header .accent { color: var(--accent); }
-  .visual-segments .vs-tiers {
-    z-index: 2;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.75rem;
-  }
-  .visual-segments .tier {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-  }
-  .visual-segments .tier-bar {
-    height: 8px;
-    border-radius: 2px;
-    transform-origin: left;
-    animation: tierGrow 1s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-  }
-  .visual-segments .tier-fidelizacion .tier-bar { width: 27%; background: #84a98c; animation-delay: 0.3s; }
-  .visual-segments .tier-seguimiento .tier-bar { width: 31%; background: #e8c468; animation-delay: 0.45s; }
-  .visual-segments .tier-retencion .tier-bar { width: 42%; background: var(--accent); animation-delay: 0.6s; }
-  @keyframes tierGrow {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-  }
-  .visual-segments .tier-label { width: 90px; color: #ebe7df; flex-shrink: 0; }
-  .visual-segments .tier-pct { color: var(--ink-mute); margin-left: auto; flex-shrink: 0; }
-  .visual-segments .vs-roc {
-    z-index: 2;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .visual-segments .vs-roc svg { width: 100%; max-width: 140px; height: auto; }
-  .visual-segments .roc-axis {
-    stroke: rgba(245, 243, 238, 0.3);
-    stroke-width: 1;
-    stroke-dasharray: 2 2;
-  }
-  .visual-segments .roc-curve {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-dasharray: 200;
-    stroke-dashoffset: 200;
-    animation: drawCurve 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
-  }
-  .visual-segments .roc-fill {
-    fill: var(--accent);
-    opacity: 0;
-    animation: fadeIn 0.8s ease 1.6s forwards;
-  }
-  @keyframes drawCurve { to { stroke-dashoffset: 0; } }
-  @keyframes fadeIn { to { opacity: 0.15; } }
-  .visual-segments .vs-footer {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
-    color: var(--ink-mute);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.05em;
-    z-index: 2;
-    position: relative;
-    border-top: 1px solid rgba(245, 243, 238, 0.1);
-    padding-top: 0.75rem;
-  }
-  .visual-segments .vs-footer .auc { color: var(--accent); font-weight: 500; }
+		.header-nav a:hover {
+			opacity: 0.7;
+		}
 
-  /* === Visualización 4: NLP topics === */
-  .visual-nlp {
-    background: var(--bg-alt);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .visual-nlp::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .visual-nlp .nlp-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    color: var(--ink-soft);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-    margin-bottom: 1.25rem;
-  }
-  .visual-nlp .nlp-header .pol {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 1.1rem;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--accent);
-  }
-  .visual-nlp .topics {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    z-index: 2;
-    position: relative;
-    flex: 1;
-    justify-content: center;
-  }
-  .visual-nlp .topic-row {
-    display: grid;
-    grid-template-columns: 95px 1fr 38px;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-  }
-  .visual-nlp .topic-name { color: var(--ink-soft); text-align: right; }
-  .visual-nlp .topic-track {
-    height: 7px;
-    background: rgba(26, 24, 22, 0.08);
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-  }
-  .visual-nlp .topic-bar {
-    height: 100%;
-    border-radius: 2px;
-    transform-origin: left;
-    animation: topicGrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-  }
-  .visual-nlp .topic-row.strength .topic-bar { background: #6b8e6e; }
-  .visual-nlp .topic-row.opportunity .topic-bar { background: #d4a23f; }
-  .visual-nlp .topic-row .topic-bar { animation-delay: var(--delay, 0s); }
-  @keyframes topicGrow {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-  }
-  .visual-nlp .topic-val { color: var(--ink-mute); font-size: 0.7rem; text-align: right; }
-  .visual-nlp .legend {
-    display: flex;
-    gap: 1.5rem;
-    z-index: 2;
-    position: relative;
-    border-top: 1px solid var(--line);
-    padding-top: 0.75rem;
-    margin-top: 1rem;
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .visual-nlp .legend-item { display: flex; align-items: center; gap: 0.4rem; }
-  .visual-nlp .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .visual-nlp .legend-dot.strength { background: #6b8e6e; }
-  .visual-nlp .legend-dot.opportunity { background: #d4a23f; }
+		.header-pill {
+			background: var(--tinta);
+			color: var(--blanco);
+			padding: 0.5rem 1rem;
+			border-radius: 20px;
+			font-size: 0.85rem;
+			font-weight: 600;
+			text-decoration: none;
+			transition: opacity 0.3s;
+		}
 
-  /* === Visualización 0: Traiana (cervecera) === */
-  .visual-traiana {
-    background: #1a1816;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .visual-traiana::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: var(--poster-bg);
-    background-size: cover;
-    background-position: center;
-    filter: blur(40px) brightness(0.4);
-    transform: scale(1.15);
-    z-index: 0;
-  }
-  .visual-traiana .tr-video-wrap {
-    position: relative;
-    z-index: 1;
-    height: 100%;
-    aspect-ratio: 9 / 16;
-    max-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #0a0908;
-  }
-  .visual-traiana video {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-  }
-  .visual-traiana .tr-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(26, 24, 22, 0) 70%, rgba(26, 24, 22, 0.85) 100%);
-    pointer-events: none;
-    z-index: 2;
-  }
-  .visual-traiana .tr-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    padding: 0.9rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    color: rgba(245, 243, 238, 0.85);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-  .visual-traiana .tr-footer .label-accent {
-    color: var(--accent);
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 0.95rem;
-    text-transform: none;
-    letter-spacing: 0;
-  }
+		body.bg-azul .header-pill {
+			background: var(--blanco);
+			color: var(--azul);
+		}
 
-  /* === Visualización 5: Agente RAG === */
-  .visual-rag {
-    background: linear-gradient(180deg, #1a1816 0%, #2a2825 100%);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: #ebe7df;
-  }
-  .visual-rag::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(245, 243, 238, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .visual-rag .rag-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-    margin-bottom: 1rem;
-  }
-  .visual-rag .live-dot {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--accent);
-  }
-  .visual-rag .live-dot::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulseLive 1.5s ease-in-out infinite;
-  }
-  @keyframes pulseLive {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(29, 58, 107, 0.6); }
-    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(29, 58, 107, 0); }
-  }
-  .visual-rag .graph {
-    z-index: 2;
-    position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .visual-rag .graph svg { width: 100%; max-height: 180px; }
-  .visual-rag .node {
-    fill: rgba(241, 236, 228, 0.06);
-    stroke: rgba(241, 236, 228, 0.4);
-    stroke-width: 1;
-    opacity: 0;
-    animation: nodeAppear 0.6s ease forwards;
-  }
-  .visual-rag .node.accent {
-    fill: rgba(29, 58, 107, 0.18);
-    stroke: var(--accent);
-  }
-  .visual-rag .node-label {
-    fill: #e6e0d6;
-    font-family: 'Geist Mono', monospace;
-    font-size: 9px;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    opacity: 0;
-    animation: nodeAppear 0.6s ease forwards;
-  }
-  .visual-rag .node-label.accent { fill: var(--accent); }
-  .visual-rag .edge {
-    stroke: rgba(245, 243, 238, 0.3);
-    stroke-width: 1.5;
-    fill: none;
-    stroke-dasharray: 4 3;
-    opacity: 0;
-    animation: edgeAppear 0.5s ease forwards;
-  }
-  .visual-rag .edge.flow {
-    stroke: var(--accent);
-    stroke-dasharray: 200;
-    stroke-dashoffset: 200;
-    opacity: 1;
-    animation: drawFlow 2.5s ease-in-out infinite;
-  }
-  @keyframes drawFlow {
-    0% { stroke-dashoffset: 200; }
-    50% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: -200; }
-  }
-  @keyframes nodeAppear { to { opacity: 1; } }
-  @keyframes edgeAppear { to { opacity: 1; } }
-  .visual-rag .rag-stack {
-    z-index: 2;
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(245, 243, 238, 0.1);
-  }
-  .visual-rag .stack-chip {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    padding: 0.25rem 0.6rem;
-    border: 1px solid rgba(245, 243, 238, 0.2);
-    border-radius: 100px;
-    color: rgba(245, 243, 238, 0.7);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .visual-rag .stack-chip.featured {
-    background: var(--accent);
-    color: #f5f3ee;
-    border-color: var(--accent);
-  }
+		/* La regla de los enlaces del menu (color: inherit) pisaba el color del boton */
+		.header-nav a.header-pill { color: var(--blanco); opacity: 1; }
+		body.bg-azul .header-nav a.header-pill { color: var(--tinta); }
+		.header-nav a.header-pill:hover { opacity: .8; }
 
-  /* === Visualización 7: Bot WhatsApp peluquería (carrusel de capturas n8n) === */
-  /* Ficha con visual sticky y columnas alineadas al top, porque el texto es
-     más denso que el de las otras fichas y align-items:center deja huecos */
-  .project--bot {
-    align-items: start;
-  }
-  .project--bot .project-visual {
-    position: sticky;
-    top: 6rem;
-  }
-  @media (max-width: 768px) {
-    .project--bot .project-visual {
-      position: static;
-    }
-  }
+		.header-pill:hover {
+			opacity: 0.8;
+		}
 
-  .visual-bot {
-    background: #0e0e0e;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .visual-bot::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(245, 243, 238, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-    z-index: 0;
-  }
-  .visual-bot .bot-track {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .visual-bot .bot-slide {
-    flex: 0 0 100%;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.25rem;
-  }
-  .visual-bot .bot-slide img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    display: block;
-    filter: drop-shadow(0 10px 24px rgba(0,0,0,0.45));
-  }
-  .visual-bot .bot-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    padding: 0.9rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: rgba(245, 243, 238, 0.85);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-  .visual-bot .bot-header .live {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--accent);
-  }
-  .visual-bot .bot-header .live::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulseLive 1.5s ease-in-out infinite;
-  }
-  .visual-bot .bot-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    padding: 0.9rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: rgba(245, 243, 238, 0.6);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .visual-bot .bot-nav {
-    display: flex;
-    gap: 0.5rem;
-    pointer-events: auto;
-  }
-  .visual-bot .bot-dot {
-    background: transparent;
-    border: 1px solid rgba(245, 243, 238, 0.3);
-    color: rgba(245, 243, 238, 0.6);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    padding: 0.35rem 0.7rem;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    letter-spacing: 0.05em;
-  }
-  .visual-bot .bot-dot:hover {
-    border-color: rgba(245, 243, 238, 0.7);
-    color: rgba(245, 243, 238, 0.9);
-  }
-  .visual-bot .bot-dot.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #f5f3ee;
-  }
-  .visual-bot .bot-caption {
-    color: rgba(245, 243, 238, 0.55);
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.05em;
-    text-transform: none;
-  }
+		/* PORTADA */
+		#inicio {
+			min-height: 100svh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			overflow: hidden;
+			padding: 96px 16px 48px;
+			box-sizing: border-box;
+		}
 
-  /* Badge de proyecto privado, sustituye a los links cuando no hay repo */
-  .project-private {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--ink-mute);
-    padding: 0.5rem 0.875rem;
-    border: 1px dashed var(--line);
-    border-radius: 4px;
-    background: var(--bg-alt);
-  }
-  .project-private::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--ink-mute);
-    flex-shrink: 0;
-  }
+		.ia-grid {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: grid;
+			grid-template-columns: repeat(12, 1fr);
+			grid-template-rows: repeat(7, 1fr);
+			gap: 2%;
+			padding: 3%;
+			z-index: 1;
+		}
 
-  /* Botón demo en vivo */
-  .demo-live {
-    background: var(--accent) !important;
-    color: #f1ece4 !important;
-    border-color: var(--accent) !important;
-  }
-  .demo-live:hover {
-    background: var(--ink) !important;
-    color: #f1ece4 !important;
-  }
-  .demo-live::before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #f1ece4;
-    margin-right: 0.5rem;
-    animation: pulseLive 1.5s ease-in-out infinite;
-  }
-  .demo-live:hover::before { background: var(--accent); }
-  .demo-nota {
-    display: block;
-    width: 100%;
-    margin-top: 0.5rem;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    line-height: 1.5;
-    color: var(--ink-mute);
-  }
+		@media (max-width: 899px) {
+			.ia-grid {
+				grid-template-columns: repeat(4, 1fr);
+				grid-template-rows: repeat(9, 1fr);
+				gap: 1.5%;
+				padding: 2%;
+			}
+		}
 
-  .project-info .project-num {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--ink-mute);
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-  }
-  .project-info h3 {
-    font-family: var(--serif);
-    font-size: clamp(1.75rem, 3vw, 2.75rem);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-  .project-info h3 em { font-style: italic; color: var(--accent); }
-  .project-info p {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--ink-soft);
-    margin-bottom: 1.25rem;
-  }
-  .project-highlights {
-    list-style: none;
-    margin: 1.5rem 0;
-    padding: 1.5rem;
-    background: var(--bg-alt);
-    border-left: 2px solid var(--accent);
-  }
-  .project-highlights li {
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--ink-soft);
-    padding: 0.4rem 0 0.4rem 1.5rem;
-    position: relative;
-  }
-  .project-highlights li::before {
-    content: '→';
-    color: var(--accent);
-    font-family: var(--mono);
-    position: absolute;
-    left: 0;
-    top: 0.4rem;
-  }
-  .project-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .project-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-  .project-link {
-    font-family: var(--mono);
-    font-size: 0.8125rem;
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--ink);
-    padding-bottom: 2px;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .project-link:hover { color: var(--accent); border-color: var(--accent); }
+		.ia {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-size: clamp(3rem, 7vw, 7vw);
+			font-weight: 800;
+			color: var(--azul);
+			letter-spacing: -0.04em;
+			line-height: 0.95;
+			user-select: none;
+			will-change: transform;
+		}
 
-  .more-soon {
-    text-align: center;
-    padding: 5rem 0;
-    border-top: 1px solid var(--line);
-    margin-top: 2rem;
-  }
-  .more-soon .label {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--ink-mute);
-    margin-bottom: 1rem;
-  }
-  .more-soon h3 {
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 300;
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    color: var(--ink-soft);
-  }
+		@media (max-width: 899px) {
+			.ia {
+				font-size: clamp(1.5rem, 4vw, 3rem);
+			}
+		}
 
-  .contact {
-    padding: 10rem 0 6rem;
-    text-align: center;
-    border-top: 1px solid var(--line);
-  }
-  .contact-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--ink-mute);
-    margin-bottom: 2rem;
-  }
-  .contact h2 {
-    font-family: var(--serif);
-    font-size: clamp(2.5rem, 7vw, 6rem);
-    font-weight: 300;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    margin-bottom: 3rem;
-  }
-  .contact h2 em { font-style: italic; color: var(--accent); }
-  .contact-email {
-    font-family: var(--serif);
-    font-size: clamp(1.125rem, 2.2vw, 1.625rem);
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--ink);
-    padding-bottom: 4px;
-    transition: all 0.3s ease;
-    font-style: italic;
-    word-break: break-word;
-  }
-  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
-  .contact-info {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    margin-top: 2rem;
-    font-family: var(--mono);
-    font-size: 0.8125rem;
-    color: var(--ink-mute);
-    flex-wrap: wrap;
-  }
-  .social {
-    display: flex;
-    gap: 2.5rem;
-    justify-content: center;
-    margin-top: 3rem;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .social a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-  .social a:hover { color: var(--accent); }
+		.portada-card {
+			position: relative;
+			z-index: 10;
+			background: var(--blanco);
+			border-radius: 32px;
+			padding: clamp(2rem, 5vw, 3.5rem);
+			max-width: 520px;
+			box-shadow: 0 20px 60px rgba(11, 13, 31, 0.15);
+			text-align: center;
+		}
 
-  footer {
-    padding: 2rem 0;
-    border-top: 1px solid var(--line);
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .footer-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+		.portada-card h1 {
+			font-size: clamp(2.4rem, 5vw, 5rem);
+			font-weight: 800;
+			letter-spacing: -0.04em;
+			line-height: 0.95;
+			margin-bottom: 1.5rem;
+			color: var(--tinta);
+		}
 
-  @media (max-width: 768px) {
-    .container { padding: 0 1.5rem; }
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
-    .nav-links a { font-size: 0.7rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .project, .project:nth-child(even) {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    .project:nth-child(even) .project-info { order: 0; }
-    .hero-cta { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
-    .contact-info { flex-direction: column; gap: 0.5rem; }
-  }
+		.portada-card p {
+			font-size: clamp(0.95rem, 2vw, 1.05rem);
+			line-height: 1.6;
+			color: var(--tinta);
+			margin-bottom: 2rem;
+			font-weight: 400;
+		}
 
+		.portada-buttons {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.btn {
+			padding: 0.75rem 1.5rem;
+			border-radius: 20px;
+			font-size: 0.95rem;
+			font-weight: 600;
+			text-decoration: none;
+			border: 2px solid;
+			cursor: pointer;
+			transition: all 0.3s;
+			letter-spacing: -0.02em;
+		}
+
+		.btn-azul {
+			background: var(--tinta);
+			color: var(--blanco);
+			border-color: var(--tinta);
+		}
+
+		.btn-azul:hover {
+			opacity: 0.9;
+		}
+
+		.btn-outline {
+			background: transparent;
+			color: var(--azul);
+			border-color: var(--azul);
+		}
+
+		.btn-outline:hover {
+			background: var(--azul-claro);
+		}
+
+		/* PEGATINAS */
+		.pegatinas-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 5;
+			pointer-events: none;
+		}
+
+		.pegatina {
+			position: absolute;
+			width: 130px;
+			height: 130px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.9rem;
+			font-weight: 700;
+			text-align: center;
+			padding: 1rem;
+			cursor: grab;
+			user-select: none;
+			pointer-events: auto;
+			touch-action: none;
+			line-height: 1.3;
+			transition: box-shadow 0.2s;
+		}
+
+		.pegatina:active {
+			cursor: grabbing;
+		}
+
+		.pegatina-1 {
+			top: 10%;
+			right: 8%;
+			background: var(--azul);
+			color: var(--blanco);
+			transform: rotate(-8deg);
+		}
+
+		.pegatina-2 {
+			bottom: 12%;
+			left: 5%;
+			background: var(--blanco);
+			color: var(--tinta);
+			border: 2px solid var(--azul);
+			transform: rotate(6deg);
+		}
+
+		.pegatina-3 {
+			top: 45%;
+			left: 4%;
+			background: var(--azul);
+			color: var(--blanco);
+			transform: rotate(-4deg);
+		}
+
+		@media (max-width: 899px) {
+			.pegatina {
+				width: 90px;
+				height: 90px;
+				font-size: 0.75rem;
+			}
+
+			.pegatina-1 {
+				top: 15%;
+				right: 5%;
+			}
+
+			.pegatina-2 {
+				bottom: 8%;
+				left: 3%;
+			}
+
+			.pegatina-3 {
+				top: 50%;
+				left: 3%;
+			}
+		}
+
+		/* MANIFIESTO */
+		#about {
+			background: var(--hielo);
+			min-height: 100vh;
+			padding: clamp(2rem, 5vw, 4rem);
+			padding-top: clamp(8rem, 12vw, 12rem);
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+		}
+
+		.section-label {
+			font-size: 0.85rem;
+			font-weight: 600;
+			color: var(--azul);
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			margin-bottom: 2rem;
+		}
+
+		#about h2 {
+			font-size: clamp(3.5rem, 10vw, 8rem);
+			font-weight: 800;
+			letter-spacing: -0.04em;
+			line-height: 0.95;
+			margin-bottom: 2rem;
+			color: var(--tinta);
+		}
+
+		.about-texto {
+			font-size: 1.05rem;
+			line-height: 1.6;
+			color: var(--tinta);
+			max-width: 700px;
+		}
+
+		.about-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 2rem;
+			margin-top: 3rem;
+		}
+
+		@media (min-width: 900px) {
+			.about-grid {
+				grid-template-columns: 1fr 1fr;
+				gap: 3rem;
+			}
+		}
+
+		.about-parrafos {
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+
+		.about-parrafos p {
+			font-size: 1rem;
+			line-height: 1.7;
+			color: var(--tinta);
+		}
+
+		.criterio-items {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+
+		@media (min-width: 900px) {
+			.criterio-items {
+				grid-template-columns: repeat(3, 1fr);
+			}
+		}
+
+		.criterio-item {
+			background: var(--blanco);
+			padding: 1.5rem;
+			border-radius: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+		}
+
+		.criterio-item strong {
+			font-weight: 700;
+			color: var(--tinta);
+			font-size: 1rem;
+		}
+
+		.criterio-item p {
+			font-size: 0.95rem;
+			line-height: 1.6;
+			color: var(--tinta);
+			margin: 0;
+		}
+
+		.conocimientos {
+			margin-top: 2rem;
+		}
+
+		.conocimientos-titulo {
+			font-size: 0.9rem;
+			font-weight: 600;
+			color: var(--azul);
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			margin-bottom: 1rem;
+		}
+
+		.skills-group {
+			margin-bottom: 1.5rem;
+		}
+
+		.skills-label {
+			font-size: 0.85rem;
+			font-weight: 600;
+			color: var(--gris);
+			margin-bottom: 0.75rem;
+			display: block;
+		}
+
+		.skills-pills {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.skill-pill {
+			display: inline-block;
+			padding: 0.4rem 0.85rem;
+			border: 1.5px solid var(--azul);
+			border-radius: 20px;
+			font-size: 0.85rem;
+			font-weight: 500;
+			color: var(--tinta);
+		}
+
+		/* PROYECTOS */
+		#proyectos {
+			background: var(--blanco);
+			min-height: 100vh;
+			padding: clamp(2rem, 5vw, 4rem);
+			padding-top: clamp(8rem, 12vw, 12rem);
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+		}
+
+		#proyectos h2 {
+			font-size: clamp(3.5rem, 10vw, 8rem);
+			font-weight: 800;
+			letter-spacing: -0.04em;
+			line-height: 0.95;
+			color: var(--tinta);
+		}
+
+		.proyectos-stack {
+			max-width: 1400px;
+			margin: 0 auto;
+			width: 100%;
+		}
+
+		.tarjeta {
+			position: sticky;
+			width: 100%;
+			height: 80vh;
+			border-radius: 36px;
+			padding: clamp(2rem, 5vw, 4rem);
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: clamp(2rem, 5vw, 4rem);
+			align-items: center;
+			cursor: pointer;
+			transition: all 0.3s;
+			margin-bottom: 6vh;
+			overflow: hidden;
+		}
+
+		.tarjeta:nth-child(odd) {
+			background: var(--azul);
+			color: var(--blanco);
+		}
+
+		.tarjeta:nth-child(even) {
+			background: var(--hielo);
+			color: var(--tinta);
+		}
+
+		.tarjeta:nth-child(odd) .tarjeta-numero,
+		.tarjeta:nth-child(odd) .tarjeta-titulo {
+			color: var(--blanco);
+		}
+
+		.tarjeta-numero {
+			font-size: clamp(2.5rem, 6vw, 5rem);
+			font-weight: 800;
+			margin-bottom: 0.5rem;
+		}
+
+		.tarjeta-categorias {
+			font-size: 0.85rem;
+			font-weight: 600;
+			margin-bottom: 1rem;
+			opacity: 0.9;
+		}
+
+		.tarjeta-titulo {
+			font-size: clamp(1.5rem, 3vw, 2.2rem);
+			font-weight: 700;
+			letter-spacing: -0.02em;
+			margin-bottom: 1.5rem;
+			line-height: 1.2;
+		}
+
+		.tarjeta-frase {
+			font-size: 1rem;
+			line-height: 1.6;
+			margin-bottom: 1.5rem;
+			opacity: 0.95;
+		}
+
+		.tarjeta-tags {
+			display: flex;
+			gap: 0.5rem;
+			flex-wrap: wrap;
+			margin-bottom: 1rem;
+		}
+
+		.tag {
+			display: inline-block;
+			padding: 0.35rem 0.75rem;
+			border-radius: 16px;
+			font-size: 0.8rem;
+			font-weight: 600;
+		}
+
+		.tarjeta:nth-child(odd) .tag {
+			background: rgba(11, 13, 31, 0.12);
+			color: var(--tinta);
+		}
+
+		.tarjeta:nth-child(even) .tag {
+			background: rgba(31, 61, 255, 0.2);
+			color: var(--tinta);
+		}
+
+		.tarjeta-ver {
+			font-size: 0.95rem;
+			font-weight: 600;
+			opacity: 0.9;
+		}
+
+		.tarjeta-imagen {
+			width: 100%;
+			height: 100%;
+			border-radius: 24px;
+			overflow: hidden;
+			background: var(--blanco);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.tarjeta-imagen img,
+		.tarjeta-imagen svg {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		@media (max-width: 899px) {
+			.tarjeta {
+				grid-template-columns: 1fr;
+				height: auto;
+				padding: clamp(1.5rem, 4vw, 2rem);
+				gap: clamp(1.5rem, 3vw, 2rem);
+				margin-bottom: 4vh;
+			}
+
+			.tarjeta-imagen {
+				aspect-ratio: 4 / 3;
+			}
+
+			.tarjeta-numero {
+				font-size: 1.5rem;
+			}
+		}
+
+		/* CONTACTO */
+		#contacto {
+			background: var(--azul);
+			color: var(--blanco);
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: clamp(2rem, 5vw, 4rem);
+			text-align: center;
+		}
+
+		#contacto h2 {
+			font-size: clamp(3.5rem, 10vw, 8rem);
+			font-weight: 800;
+			letter-spacing: -0.04em;
+			line-height: 0.95;
+			margin-bottom: 2rem;
+			color: var(--blanco);
+		}
+
+		.contacto-pill {
+			background: var(--tinta);
+			color: var(--blanco);
+			padding: 0.75rem 1.5rem;
+			border-radius: 30px;
+			font-size: 1.1rem;
+			font-weight: 600;
+			margin-bottom: 2rem;
+			display: inline-block;
+			text-decoration: none;
+		}
+
+		.contacto-info {
+			font-size: 1rem;
+			font-weight: 600;
+			margin-bottom: 1rem;
+			color: var(--blanco);
+			line-height: 1.8;
+		}
+
+		.contacto-redes {
+			display: flex;
+			justify-content: center;
+			gap: 2rem;
+			margin-top: 2rem;
+			font-size: 1rem;
+			font-weight: 600;
+			flex-wrap: wrap;
+		}
+
+		.contacto-redes a {
+			color: var(--blanco);
+			text-decoration: none;
+			transition: opacity 0.3s;
+		}
+
+		.contacto-redes a:hover {
+			opacity: 0.7;
+		}
+
+		.pie {
+			font-size: 0.85rem;
+			color: var(--blanco);
+			opacity: 0.8;
+			margin-top: 3rem;
+			border-top: 1px solid rgba(255, 255, 255, 0.2);
+			padding-top: 1.5rem;
+		}
+
+		/* FICHA MODAL */
+		.ficha-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(11, 13, 31, 0.5);
+			z-index: 1500;
+			visibility: hidden;
+			opacity: 0;
+			transition: opacity 0.3s, visibility 0.3s;
+			pointer-events: none;
+		}
+
+		.ficha-overlay.visible {
+			visibility: visible;
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.ficha {
+			position: fixed;
+			right: 0;
+			top: 0;
+			width: 600px;
+			max-width: 100%;
+			height: 100vh;
+			background: var(--blanco);
+			z-index: 1600;
+			overflow-y: auto;
+			padding: 2rem;
+			visibility: hidden;
+			pointer-events: none;
+			transform: translateX(100%);
+			transition: transform 0.3s;
+		}
+
+		.ficha.visible {
+			visibility: visible;
+			pointer-events: auto;
+			transform: translateX(0);
+		}
+
+		@media (max-width: 899px) {
+			.ficha {
+				width: 100%;
+				height: auto;
+				bottom: 0;
+				right: auto;
+				top: auto;
+				left: 0;
+				transform: translateY(100%);
+				max-height: 90vh;
+			}
+
+			.ficha.visible {
+				transform: translateY(0);
+			}
+		}
+
+		.ficha-cerrar {
+			background: none;
+			border: none;
+			font-size: 1.5rem;
+			cursor: pointer;
+			margin-bottom: 1rem;
+			color: var(--tinta);
+			font-weight: 700;
+			padding: 0;
+		}
+
+		.ficha-numero {
+			font-size: 0.85rem;
+			font-weight: 600;
+			color: var(--azul);
+			margin-bottom: 0.5rem;
+		}
+
+		.ficha h3 {
+			font-size: 1.6rem;
+			font-weight: 700;
+			color: var(--tinta);
+			margin-bottom: 1rem;
+			letter-spacing: -0.02em;
+		}
+
+		.ficha-categorias {
+			margin-bottom: 1.5rem;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.ficha-etiqueta {
+			font-size: 0.75rem;
+			font-weight: 600;
+			color: var(--tinta);
+			padding: 0.4rem 0.8rem;
+			background: var(--azul-claro);
+			border-radius: 12px;
+			display: inline-block;
+		}
+
+		.ficha p,
+		.ficha li {
+			font-size: 1rem;
+			line-height: 1.6;
+			color: var(--tinta);
+			margin-bottom: 1rem;
+		}
+
+		.ficha ul {
+			margin-left: 1.5rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.ficha-tecnologias {
+			margin: 2rem 0;
+			padding: 1.5rem;
+			background: var(--hielo);
+			border-radius: 16px;
+		}
+
+		.ficha-tecnologias-titulo {
+			font-size: 0.85rem;
+			font-weight: 600;
+			color: var(--azul);
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			margin-bottom: 1rem;
+		}
+
+		.ficha-tech-pills {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.ficha-tech-pill {
+			display: inline-block;
+			padding: 0.35rem 0.75rem;
+			background: var(--blanco);
+			border: 1px solid var(--azul);
+			border-radius: 16px;
+			font-size: 0.8rem;
+			font-weight: 600;
+			color: var(--tinta);
+		}
+
+		.ficha-enlaces {
+			margin: 1.5rem 0;
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+		}
+
+		.ficha-enlace {
+			display: inline-block;
+			padding: 0.6rem 1.2rem;
+			background: var(--tinta);
+			color: var(--blanco);
+			border-radius: 20px;
+			text-decoration: none;
+			font-size: 0.9rem;
+			font-weight: 600;
+			transition: opacity 0.3s;
+			text-align: center;
+		}
+
+		.ficha-enlace:hover {
+			opacity: 0.8;
+		}
+
+		.ficha-privacidad,
+		.ficha-notas {
+			margin-top: 1.5rem;
+			padding: 1rem;
+			background: var(--azul-claro);
+			border-radius: 12px;
+			font-size: 0.9rem;
+			line-height: 1.5;
+			color: var(--tinta);
+		}
+
+		.ficha-medios {
+			margin: 1.5rem 0;
+		}
+
+		.ficha-medios img,
+		.ficha-medios video {
+			width: 100%;
+			height: auto;
+			border-radius: 16px;
+			margin-bottom: 0.75rem;
+		}
+
+		.ficha-media-caption {
+			font-size: 0.85rem;
+			color: var(--gris);
+			margin-bottom: 1rem;
+		}
+
+		/* COMPARADOR */
+		.comp-contenedor {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			border-radius: 24px;
+			overflow: hidden;
+		}
+
+		.comp-imagen {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.comp-imagen img {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.comp-antes {
+			clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0);
+		}
+
+		.comp-linea {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: var(--pos, 50%);
+			width: 2px;
+			margin-left: -1px;
+			background: #fff;
+			box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+			pointer-events: none;
+			z-index: 3;
+		}
+
+		.comp-tirador {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 44px;
+			height: 44px;
+			margin: -22px 0 0 -22px;
+			border-radius: 50%;
+			background: #fff;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--tinta);
+			font-size: 1.1rem;
+		}
+
+		.comp-tirador::before {
+			content: '\2039\00a0\203A';
+		}
+
+		.comp-rango {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			opacity: 0;
+			cursor: ew-resize;
+			z-index: 4;
+			touch-action: pan-y;
+			-webkit-appearance: none;
+			appearance: none;
+		}
+
+		.comp-etiqueta {
+			position: absolute;
+			top: 16px;
+			z-index: 2;
+			padding: 0.3rem 0.7rem;
+			border-radius: 980px;
+			background: rgba(11, 13, 31, 0.78);
+			color: #fff;
+			font-size: 0.8rem;
+			letter-spacing: -0.005em;
+			pointer-events: none;
+		}
+
+		.comp-etiqueta--antes {
+			left: 16px;
+		}
+
+		.comp-etiqueta--despues {
+			right: 16px;
+		}
+
+		.comp-ayuda {
+			position: absolute;
+			left: 50%;
+			bottom: 16px;
+			transform: translateX(-50%);
+			z-index: 2;
+			padding: 0.35rem 0.85rem;
+			border-radius: 980px;
+			background: rgba(255, 255, 255, 0.92);
+			color: var(--tinta);
+			font-size: 0.8rem;
+			pointer-events: none;
+			transition: opacity 0.3s ease;
+		}
+
+		/* AVISO DE BIENVENIDA */
+
+		@media (prefers-reduced-motion: reduce) {
+			* {
+				animation: none !important;
+				transition: none !important;
+			}
+		}
+	
+		/* Sobre mi: cabecera con el ciclo de supervision (contenido del portafolio anterior) */
+		.sobre-mi { margin-top: 4rem; }
+		.sobre-mi-cabecera { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 3rem; align-items: center; margin-bottom: 3rem; }
+		.sobre-mi-titulo { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 3.6vw, 3rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--tinta); }
+		.sobre-mi-titulo em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--azul); }
+		.ciclo { background: #fff; border-radius: 24px; padding: 1.5rem 1.6rem; border: 1px solid rgba(11, 13, 31,.08); }
+		.ciclo-cabecera { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: .85rem; color: var(--gris); margin-bottom: 1rem; }
+		.ciclo-clave { color: var(--azul); font-weight: 600; }
+		.ciclo-pasos { list-style: none; margin: 0; padding: 0; }
+		.ciclo-pasos li { display: flex; gap: .9rem; align-items: baseline; padding: .7rem 0; border-top: 1px solid rgba(11, 13, 31,.08); font-size: 1rem; color: var(--tinta); }
+		.ciclo-pasos i { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--azul); min-width: 1.6rem; }
+		.ciclo-pasos em { font-style: normal; color: var(--azul); font-weight: 600; }
+		.ciclo-pie { margin-top: .8rem; font-size: .85rem; color: var(--gris); }
+		.about-parrafos p + p { margin-top: 1rem; }
+		@media (max-width: 899px) { .sobre-mi-cabecera { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+		/* Revision: el comparador de Wituka necesita alto propio y el "antes" por encima */
+		.ficha-medios .comp-contenedor { height: auto; aspect-ratio: 16 / 9; margin-bottom: 1.5rem; --pos: 50%; }
+		.ficha-medios .comp-despues { z-index: 1; }
+		.ficha-medios .comp-antes { z-index: 2; }
+		.ficha-medios .comp-linea { z-index: 3; }
+		.ficha-medios .comp-etiqueta, .ficha-medios .comp-ayuda { z-index: 4; }
+		.ficha-medios .comp-rango { z-index: 5; }
+		.ficha-medios .comp-imagen img { margin: 0; border-radius: 0; }
+		@media (max-width: 899px) {
+			.ficha-medios .comp-contenedor { aspect-ratio: 600 / 1262; width: min(70%, 280px); margin: 0 auto 1.5rem; }
+		}
+		.ficha-notas + .ficha-privacidad { margin-top: .75rem; }
 </style>
+	<link rel="stylesheet" href="movimiento.css">
+	<link rel="stylesheet" href="sobre-mi.css">
 </head>
 <body>
+	<!-- CABECERA -->
+	<header>
+		<div class="logo">Alejandro R.</div>
+		<nav class="header-nav">
+			<a href="#about">Sobre mí</a>
+			<a href="#proyectos">Proyectos</a>
+			<a href="#contacto">Contacto</a>
+			<a href="#contacto" class="header-pill">¿Hablamos?</a>
+		</nav>
+	</header>
 
+	<!-- PORTADA -->
+	<section id="inicio" class="hero-azul">
+		<div class="ia-grid" id="ia-grid"></div>
+		<div class="pegatinas-container" id="pegatinas"></div>
+		<div class="portada-card">
+			<h1>Marketing, datos e <em>inteligencia</em> artificial.</h1>
+			<p>Soy Alejandro Rodríguez. Combino formación en marketing e investigación de mercados con un máster en Data Science e IA para construir automatizaciones, analizar datos y diseñar campañas que funcionan. Y, sobre todo, para decidir cuándo lo que devuelve un modelo sirve y cuándo hay que descartarlo.</p>
+			<div class="portada-buttons">
+				<a href="#proyectos" class="btn btn-azul">Ver proyectos →</a>
+				<a href="#contacto" class="btn btn-outline">O escríbeme directamente →</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- MANIFIESTO + SOBRE MÍ -->
+	<section id="about">
+		<div class="section-label">Manifiesto</div>
+		<h2>Ser <em>eficiente</em> es mejor que ser eficaz.</h2>
+		<div class="sobre-mi">
+			<div class="sobre-mi-cabecera">
+				<div class="section-label">Sobre mí</div>
+				<h3 class="sobre-mi-titulo">Trabajar con IA es, sobre todo, <em>saber cuándo no fiarse</em>.</h3>
+				<div class="ciclo" aria-label="ciclo de supervisi n">
+					<div class="ciclo-cabecera"><span>ciclo de supervisi&oacute;n</span><span class="ciclo-clave">entender &rarr; cuestionar &rarr; decidir</span></div>
+					<ol class="ciclo-pasos"><li><i>01</i><span>c&oacute;mo decide el sistema, antes de dejarle decidir</span></li><li><i>02</i><span>leer la salida buscando el fallo, no la confirmaci&oacute;n</span></li><li><i>03</i><span>aceptar, corregir o <em>descartar</em></span></li></ol>
+					<div class="ciclo-pie">el modelo propone &middot; la decisi&oacute;n es m&iacute;a</div>
+				</div>
+			</div>
+			<div class="about-grid">
+				<div class="about-parrafos"><p>Un modelo generativo no falla como falla una hoja de c&aacute;lculo: no lanza un error, devuelve algo que <em>parece</em> correcto. Por eso el trabajo no est&aacute; en pedirle cosas a una IA, sino en decidir si lo que ha devuelto sirve. Leer la salida con desconfianza deliberada, buscar el punto exacto donde se ha inventado un dato, ha entrado en bucle o ha resuelto un problema parecido pero distinto del que se le plante&oacute;, y tirarlo a la basura cuando toca. Ese juicio lo hago yo, no otro modelo.</p><p>Para poder juzgar hay que entender el mecanismo. Saber que un sistema de recuperaci&oacute;n responde con lo que encuentra &mdash;y que, si no encuentra nada, su tendencia natural es rellenar el hueco&mdash;, o que un modelo de imagen reinterpreta lo que se le da en lugar de copiarlo, cambia por completo las preguntas que le haces, los l&iacute;mites que le pones y d&oacute;nde colocas la revisi&oacute;n humana. Sin ese modelo mental solo queda confiar, y confiar no es un m&eacute;todo.</p><p>Eso est&aacute; detr&aacute;s de casi todo lo que hay en esta p&aacute;gina: el asistente que prefiere callarse a improvisar cuando no tiene contexto, el panel que avisa de que falta la transcripci&oacute;n en vez de redactar un acta plausible, las reglas anti-alucinaci&oacute;n de un bot que opera sobre datos reales, o el motor de mockups que termin&oacute; <em>no</em> usando IA generativa porque reinterpretaba el dise&ntilde;o. Decidir que el modelo no es la respuesta tambi&eacute;n forma parte del criterio.</p><p>Me defino como una persona resiliente, que se esfuerza por aprender y mejorar en aquello a lo que se dedica. Mis puntos fuertes son la creatividad y la capacidad resolutiva, que me permiten resolver cualquier problema por difícil que parezca.</p><p>El trabajo en grupo nunca me ha supuesto un problema: se llega más rápido solo, pero más lejos acompañado. Soy licenciado en Marketing e Investigación de Mercados con especialización en Big Data, y completé mi formación con un Máster en Data Science e IA. Esa doble mirada —negocio y técnica— es lo que aporto a cada proyecto.</p></div>
+				<div>
+					<div class="conocimientos-titulo">Criterio sobre la IA</div>
+					<div class="criterio-items"><div class="criterio-item"><strong>Entender el mecanismo</strong><p>Saber c&oacute;mo decide un sistema antes de dejarle decidir. Qu&eacute; recupera, qu&eacute; ignora y en qu&eacute; condiciones se le va la mano.</p></div><div class="criterio-item"><strong>Cuestionar la salida</strong><p>Revisar el resultado buscando el fallo, no la confirmaci&oacute;n. Un texto correcto y un texto cierto no son lo mismo.</p></div><div class="criterio-item"><strong>Saber decir que no</strong><p>Descartar la respuesta, o el modelo entero, cuando el coste de equivocarse supera lo que ahorra.</p></div></div>
+					<div class="conocimientos">
+						<div class="skills-group"><span class="skills-label">Inteligencia Artificial</span><div class="skills-pills"><span class="skill-pill">N8n</span><span class="skill-pill">LangGraph</span><span class="skill-pill">LangChain</span><span class="skill-pill">Gemini</span><span class="skill-pill">Claude</span><span class="skill-pill">ChromaDB</span><span class="skill-pill">RAG</span><span class="skill-pill">IA generativa</span><span class="skill-pill">Automatizaciones</span></div></div>
+						<div class="skills-group"><span class="skills-label">Análisis de datos</span><div class="skills-pills"><span class="skill-pill">Python</span><span class="skill-pill">SQL</span><span class="skill-pill">Power BI</span><span class="skill-pill">scikit-learn</span><span class="skill-pill">Estadística</span><span class="skill-pill">Excel + IA</span></div></div>
+						<div class="skills-group"><span class="skills-label">Web y conversión</span><div class="skills-pills"><span class="skill-pill">UX/UI</span><span class="skill-pill">Shopify</span><span class="skill-pill">Embudos de conversión</span><span class="skill-pill">E-commerce</span></div></div>
+						<div class="skills-group"><span class="skills-label">Marketing y diseño</span><div class="skills-pills"><span class="skill-pill">Investigación de mercados</span><span class="skill-pill">Gestión de RRSS</span><span class="skill-pill">Eventos</span><span class="skill-pill">Canva</span><span class="skill-pill">Photoshop</span><span class="skill-pill">CapCut</span></div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- PROYECTOS -->
+	<section id="proyectos">
+		<h2>Proyectos</h2>
+		<div class="proyectos-stack" id="proyectos-stack">
+			<!-- Se genera con JS -->
+		</div>
+	</section>
+
+	<!-- CONTACTO -->
+	<section id="contacto">
+		<h2>¿<em>Hablamos</em>?</h2>
+		<a href="mailto:alejandrorodriguezdelarosa@gmail.com" class="contacto-pill">alejandrorodriguezdelarosa@gmail.com</a>
+		<div class="contacto-info">+34 643 626 001</div>
+		<div class="contacto-info">Sevilla, España</div>
+		<div class="contacto-redes">
+			<a href="https://www.linkedin.com/in/alejandro-rodríguez-de-la-rosa" target="_blank" rel="noopener">LinkedIn ↗</a>
+			<a href="https://github.com/alejandrorodriguezdelarosa-ux" target="_blank" rel="noopener">GitHub ↗</a>
+		</div>
+		<div class="pie"><span>© 2026 — Alejandro Rodríguez de la Rosa</span> <span>Hecho con cuidado en Sevilla</span></div>
+	</section>
+
+	<!-- FICHA MODAL -->
+	<div class="ficha-overlay" id="ficha-overlay"></div>
+	<aside class="ficha" id="ficha" role="dialog" aria-modal="true" aria-labelledby="ficha-titulo" hidden>
+		<button class="ficha-cerrar" id="ficha-cerrar">×</button>
+		<div id="ficha-contenido">
+			<!-- Se rellena con JS -->
+		</div>
+	</aside>
+
+	<!-- AVISO DE BIENVENIDA -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+	<script src="proyectos-datos.js"></script>
+	<script src="coral.js"></script>
+	<!-- Portadas: cada archivo registra animaciones en window.ANIM_TARJETAS; las
+	     posteriores sustituyen a las anteriores con el mismo numero -->
+	<script src="anim-b.js"></script><!-- 07 -->
+	<script src="anim-arreglos.js"></script><!-- 02, 04, 05 -->
+	<script src="escena-a.js"></script><!-- 01, 03, 06 -->
+	<script src="escena-c.js"></script><!-- 11 -->
+	<script src="escena-arreglos.js"></script><!-- 08, 09, 10 -->
+	<script src="tarjetas-animadas.js"></script>
+	<script>window.MOVIMIENTO_MODO = "titulos";</script>
+	<script src="movimiento.js"></script>
+	<script src="sobre-mi.js"></script><!-- Manifiesto + Sobre mí: letras de goma, bolígrafo, sellos y mesa -->
+	<script>if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);</script>
+<style>
+  /* El aviso original usa estas variables: aqui valen azul y tinta */
+  #welcome-overlay { --accent: #1F3DFF; --ink: #0B0D1F; --ink-soft: #2A2F55; --ink-mute: #6B7090;
+    --line: rgba(11, 13, 31,.12); --bg: #ffffff; --bg-alt: #F3F5FF;
+    --sans: 'Bricolage Grotesque', sans-serif; --serif: 'Instrument Serif', serif; }
+</style>
 <!-- ============== MODAL DE BIENVENIDA ============== -->
 <div id="welcome-overlay" aria-hidden="true">
   <div id="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
@@ -1345,7 +1217,7 @@
           <input type="checkbox" id="welcome-consent" required />
           <span>
             Acepto el tratamiento de mis datos para los fines descritos en la
-            <a href="/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.
+            <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.
           </span>
         </label>
 
@@ -1695,1423 +1567,5 @@
   })();
 </script>
 <!-- ============== FIN MODAL DE BIENVENIDA ============== -->
-
-<nav id="nav">
-  <div class="nav-inner">
-    <div class="logo">Alejandro R.</div>
-    <ul class="nav-links">
-      <li><a href="#about">Sobre mí</a></li>
-      <li><a href="#work">Proyectos</a></li>
-      <li><a href="#contact">Contacto</a></li>
-    </ul>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="container">
-    <div class="hero-grid">
-      <div class="hero-meta">
-        <span class="dot"></span>
-        <span>Disponible para proyectos · 2026</span>
-      </div>
-      <h1>
-        Marketing,<br>
-        datos e <em>inteligencia</em><br>
-        artificial.
-      </h1>
-      <p class="hero-description">
-        Soy Alejandro Rodríguez. Combino formación en marketing e investigación de mercados con un máster en Data Science e IA para construir automatizaciones, analizar datos y diseñar campañas que funcionan. Y, sobre todo, para decidir cuándo lo que devuelve un modelo sirve y cuándo hay que descartarlo.
-      </p>
-      <div class="hero-cta">
-        <a href="#work" class="btn">Ver proyectos →</a>
-        <a href="#contact" class="btn btn-ghost">
-          O escríbeme directamente <span class="arrow">→</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="about">
-  <div class="container">
-    <div class="section-marker">
-      <span class="num">[01]</span>
-      <span class="label">Sobre mí</span>
-    </div>
-    <div class="about-grid">
-      <div class="about-side">
-        <h2>Trabajar con IA es, sobre todo, <em>saber cuándo no fiarse</em>.</h2>
-        <div class="about-visual visual-esq">
-          <div class="esq-header">
-            <span>ciclo de supervisi&oacute;n</span>
-            <span class="esq-key">entender &rarr; cuestionar &rarr; decidir</span>
-          </div>
-          <div class="esq-body">
-            <div class="esq-step"><i>01</i><span>c&oacute;mo decide el sistema, antes de dejarle decidir</span></div>
-            <div class="esq-rule"></div>
-            <div class="esq-step"><i>02</i><span>leer la salida buscando el fallo, no la confirmaci&oacute;n</span></div>
-            <div class="esq-rule"></div>
-            <div class="esq-step"><i>03</i><span>aceptar, corregir o <em>descartar</em></span></div>
-          </div>
-          <div class="esq-legend">
-            <span class="plain">el modelo propone &middot; la decisi&oacute;n es m&iacute;a</span>
-          </div>
-        </div>
-      </div>
-      <div class="about-content">
-        <p>
-          Un modelo generativo no falla como falla una hoja de c&aacute;lculo: no lanza un error, devuelve algo que <em>parece</em> correcto. Por eso el trabajo no est&aacute; en pedirle cosas a una IA, sino en decidir si lo que ha devuelto sirve. Leer la salida con desconfianza deliberada, buscar el punto exacto donde se ha inventado un dato, ha entrado en bucle o ha resuelto un problema parecido pero distinto del que se le plante&oacute;, y tirarlo a la basura cuando toca. Ese juicio lo hago yo, no otro modelo.
-        </p>
-        <p>
-          Para poder juzgar hay que entender el mecanismo. Saber que un sistema de recuperaci&oacute;n responde con lo que encuentra &mdash;y que, si no encuentra nada, su tendencia natural es rellenar el hueco&mdash;, o que un modelo de imagen reinterpreta lo que se le da en lugar de copiarlo, cambia por completo las preguntas que le haces, los l&iacute;mites que le pones y d&oacute;nde colocas la revisi&oacute;n humana. Sin ese modelo mental solo queda confiar, y confiar no es un m&eacute;todo.
-        </p>
-        <p>
-          Eso est&aacute; detr&aacute;s de casi todo lo que hay en esta p&aacute;gina: el asistente que prefiere callarse a improvisar cuando no tiene contexto, el panel que avisa de que falta la transcripci&oacute;n en vez de redactar un acta plausible, las reglas anti-alucinaci&oacute;n de un bot que opera sobre datos reales, o el motor de mockups que termin&oacute; <em>no</em> usando IA generativa porque reinterpretaba el dise&ntilde;o. Decidir que el modelo no es la respuesta tambi&eacute;n forma parte del criterio.
-        </p>
-        <p>
-          Me defino como una persona resiliente, que se esfuerza por aprender y mejorar en aquello a lo que se dedica. Mis puntos fuertes son la creatividad y la capacidad resolutiva, que me permiten resolver cualquier problema por difícil que parezca.
-        </p>
-        <p>
-          El trabajo en grupo nunca me ha supuesto un problema: se llega más rápido solo, pero más lejos acompañado. Soy licenciado en Marketing e Investigación de Mercados con especialización en Big Data, y completé mi formación con un Máster en Data Science e IA. Esa doble mirada —negocio y técnica— es lo que aporto a cada proyecto.
-        </p>
-
-        <div class="criterio">
-          <div class="skills-title">Criterio sobre la IA</div>
-          <div class="criterio-item">
-            <span class="criterio-label">Entender el mecanismo</span>
-            <p>Saber c&oacute;mo decide un sistema antes de dejarle decidir. Qu&eacute; recupera, qu&eacute; ignora y en qu&eacute; condiciones se le va la mano.</p>
-          </div>
-          <div class="criterio-item">
-            <span class="criterio-label">Cuestionar la salida</span>
-            <p>Revisar el resultado buscando el fallo, no la confirmaci&oacute;n. Un texto correcto y un texto cierto no son lo mismo.</p>
-          </div>
-          <div class="criterio-item">
-            <span class="criterio-label">Saber decir que no</span>
-            <p>Descartar la respuesta, o el modelo entero, cuando el coste de equivocarse supera lo que ahorra.</p>
-          </div>
-        </div>
-
-        <div class="skills-section">
-          <div class="skills-title">Inteligencia Artificial</div>
-          <div class="skills">
-            <span class="skill-tag featured">N8n</span>
-            <span class="skill-tag featured">LangGraph</span>
-            <span class="skill-tag featured">LangChain</span>
-            <span class="skill-tag featured">Gemini</span>
-            <span class="skill-tag featured">Claude</span>
-            <span class="skill-tag">ChromaDB</span>
-            <span class="skill-tag">RAG</span>
-            <span class="skill-tag">IA generativa</span>
-            <span class="skill-tag">Automatizaciones</span>
-          </div>
-
-          <div class="skills-title">Análisis de datos</div>
-          <div class="skills">
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">SQL</span>
-            <span class="skill-tag">Power BI</span>
-            <span class="skill-tag">scikit-learn</span>
-            <span class="skill-tag">Estadística</span>
-            <span class="skill-tag">Excel + IA</span>
-          </div>
-
-          <div class="skills-title">Marketing y diseño</div>
-          <div class="skills">
-            <span class="skill-tag">Investigación de mercados</span>
-            <span class="skill-tag">Gestión de RRSS</span>
-            <span class="skill-tag">Eventos</span>
-            <span class="skill-tag">Canva</span>
-            <span class="skill-tag">Photoshop</span>
-            <span class="skill-tag">CapCut</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="projects" id="work">
-  <div class="container">
-    <div class="section-marker">
-      <span class="num">[02]</span>
-      <span class="label">Proyectos seleccionados</span>
-    </div>
-
-    <!-- PROYECTO 0: Traiana (experiencia profesional) -->
-    <article class="project">
-      <div class="project-info">
-        <div class="project-num">Proyecto 01 — Marca · Marketing · Comercial</div>
-        <h3>Traiana: <em>departamento de marketing</em> de una cervecera artesana</h3>
-        <p>
-          Cervecera artesana sevillana inspirada en el barrio de Triana, con una propuesta de marca construida sobre el <em>geolocalismo</em>: el orgullo de barrio como motor del relato. Proyecto independiente que vivió durante 2024.
-        </p>
-        <p>
-          Asumí en solitario el área completa de marketing y ventas: gestión de redes sociales, página web, publicidad, contacto con proveedores y clientes, prospección comercial a puerta fría en locales, diseño parcial de la identidad de marca y construcción del PVP para venta al por mayor.
-        </p>
-        <ul class="project-highlights">
-          <li>Branding desde la base: posicionamiento geolocalista (Triana como territorio simbólico), tono de marca y aplicación a piezas reales para redes, publicidad y producto.</li>
-          <li>Comercial a puerta fría en hostelería sevillana: presentación del producto en locales, gestión de objeciones y cierre de acuerdos con proveedores.</li>
-          <li>Construcción del PVP mayorista desde cero: análisis de costes, márgenes para el canal y estrategia de precios competitiva.</li>
-          <li>Gestión operativa simultánea de canales digitales (RRSS, web, publicidad) en un entorno sin equipo ni soporte de área.</li>
-        </ul>
-        <p>
-          <em>La marca cerró en julio de 2024 por falta de equipo y estructura suficiente para sostener su crecimiento.</em> La pieza audiovisual que muestro arriba es un anuncio que produje con los medios disponibles: la calidad técnica refleja las limitaciones del momento, pero el concepto y el mensaje sí condensan la propuesta de marca que defendí durante el proyecto.
-        </p>
-        <div class="project-tech">
-          <span>Branding</span>
-          <span>Social Media</span>
-          <span>Comercial B2B</span>
-          <span>Pricing</span>
-          <span>Diseño</span>
-          <span>Producción audiovisual</span>
-        </div>
-        <div class="project-links">
-          <a href="traiana-anuncio.mp4" class="project-link" target="_blank" rel="noopener" download>Descargar anuncio (MP4) ↓</a>
-        </div>
-      </div>
-      <div class="project-visual visual-traiana" style="--poster-bg: url('traiana-poster.jpg');">
-        <div class="tr-video-wrap">
-          <video
-            src="traiana-anuncio.mp4"
-            poster="traiana-poster.jpg"
-            controls
-            playsinline
-            preload="metadata"
-            muted
-            loop
-            aria-label="Anuncio de Traiana — cervecera artesana de Triana">
-            Tu navegador no soporta vídeo HTML5. <a href="traiana-anuncio.mp4">Descarga el vídeo aquí</a>.
-          </video>
-        </div>
-        <div class="tr-overlay"></div>
-        <div class="tr-footer">
-          <span>Anuncio · 2024</span>
-          <span class="label-accent">Traiana</span>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 1: EDA Movies -->
-    <article class="project">
-      <div class="project-visual visual-eda">
-        <div class="header">
-          <span>movie_dataset.csv</span>
-          <span class="accent">● recaudación</span>
-        </div>
-        <div class="chart">
-          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
-        <div class="footer">
-          <span>género · país · clasificación</span>
-          <span>EDA · 2025</span>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-num">Proyecto 02 — Análisis de datos</div>
-        <h3>EDA del <em>dataset</em> de películas</h3>
-        <p>
-          Análisis exploratorio completo sobre un dataset de películas para estudiar cómo afectan a la recaudación tres factores clave: el país de origen, el género principal y la clasificación por edades. Incluye un pipeline de limpieza modular y una progresión de visualizaciones desde lo básico hasta lo avanzado.
-        </p>
-        <ul class="project-highlights">
-          <li>Pipeline de limpieza en Python con normalización de columnas, imputación razonada y generación de variables derivadas (<em>main_genre</em>, <em>movie_type</em>).</li>
-          <li>Tres tandas de visualizaciones —básicas, intermedias y avanzadas— que incluyen histogramas, boxplots, mapa de correlaciones, pairplots y violinplots.</li>
-          <li>Análisis cruzado país × género × clasificación para responder a la pregunta central del proyecto con evidencia visual.</li>
-        </ul>
-        <div class="project-tech">
-          <span>Python</span><span>Pandas</span><span>Seaborn</span><span>Matplotlib</span><span>Jupyter</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/eda-movie-dataset" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 2: Estadística -->
-    <article class="project">
-      <div class="project-info">
-        <div class="project-num">Proyecto 03 — Estadística y modelado</div>
-        <h3>Estadística aplicada a la <em>predicción</em> de ratings</h3>
-        <p>
-          Práctica final del Máster en Data Science e IA. Análisis estadístico riguroso sobre un dataset de 10.000 animes, articulado en cuatro bloques: análisis descriptivo, inferencia y modelado, regresión lineal implementada desde cero con NumPy, y series temporales.
-        </p>
-        <ul class="project-highlights">
-          <li>Tratamiento metodológico completo: clasificación de variables por tipo, imputación razonada por categoría, análisis de asimetría/curtosis y validación de supuestos del modelo.</li>
-          <li>Comparativa <em>regresión lineal vs. logística</em> sobre el mismo dataset (R² = 0.44, RMSE = 0.47) con diagnóstico de residuos y discusión de la adecuación de cada enfoque.</li>
-          <li>Implementación <em>from scratch</em> de regresión lineal con descenso de gradiente en NumPy puro, validada contra la solución analítica OLS.</li>
-          <li>Descomposición de series temporales en tendencia, estacionalidad y ruido con medias móviles de distinto orden.</li>
-        </ul>
-        <div class="project-tech">
-          <span>Python</span><span>NumPy</span><span>scikit-learn</span><span>statsmodels</span><span>Pandas</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/estadistica-prediccion-anime-ratings" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/estadistica-prediccion-anime-ratings/blob/main/PracticaEstadistica__De_la_rosa_Rodr%C3%ADguez_Alejandro.pdf" class="project-link" target="_blank" rel="noopener">Informe (PDF) ↗</a>
-        </div>
-      </div>
-      <div class="project-visual visual-regression">
-        <div class="vr-header">
-          <span>regresión · scratch</span>
-          <span class="formula">ŷ = b + wx</span>
-        </div>
-        <div class="vr-plot">
-          <svg viewBox="0 0 400 240" preserveAspectRatio="none">
-            <line class="line-iter" x1="0" y1="220" x2="400" y2="180" />
-            <line class="line-iter" x1="0" y1="210" x2="400" y2="150" />
-            <line class="line-iter" x1="0" y1="200" x2="400" y2="120" />
-            <line class="line-iter" x1="0" y1="190" x2="400" y2="90" />
-            <line class="line-iter" x1="0" y1="180" x2="400" y2="60" />
-            <line class="line-iter" x1="0" y1="175" x2="400" y2="45" />
-            <circle class="dot" cx="20" cy="195" r="3" /><circle class="dot" cx="40" cy="178" r="3" />
-            <circle class="dot" cx="55" cy="200" r="3" /><circle class="dot" cx="75" cy="165" r="3" />
-            <circle class="dot" cx="90" cy="172" r="3" /><circle class="dot" cx="110" cy="148" r="3" />
-            <circle class="dot" cx="125" cy="155" r="3" /><circle class="dot" cx="145" cy="130" r="3" />
-            <circle class="dot" cx="160" cy="142" r="3" /><circle class="dot" cx="180" cy="118" r="3" />
-            <circle class="dot" cx="195" cy="125" r="3" /><circle class="dot" cx="215" cy="100" r="3" />
-            <circle class="dot" cx="230" cy="108" r="3" /><circle class="dot" cx="250" cy="85" r="3" />
-            <circle class="dot" cx="265" cy="92" r="3" /><circle class="dot" cx="285" cy="70" r="3" />
-            <circle class="dot" cx="300" cy="78" r="3" /><circle class="dot" cx="320" cy="55" r="3" />
-            <circle class="dot" cx="340" cy="62" r="3" /><circle class="dot" cx="360" cy="38" r="3" />
-            <circle class="dot" cx="380" cy="45" r="3" />
-            <line class="line-final" x1="0" y1="200" x2="400" y2="40" />
-          </svg>
-        </div>
-        <div class="vr-footer">
-          <span><span class="metric">b ≈ 4.11</span> · <span class="metric">w ≈ 2.86</span></span>
-          <span>R² = 0.77</span>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 3: Fidelización -->
-    <article class="project">
-      <div class="project-visual visual-segments">
-        <div class="vs-header">
-          <span>5.196 clientes · UK retail</span>
-          <span class="accent">● scoring</span>
-        </div>
-        <div class="vs-tiers">
-          <div class="tier tier-fidelizacion">
-            <span class="tier-label">Fidelización</span>
-            <div class="tier-bar"></div>
-            <span class="tier-pct">27%</span>
-          </div>
-          <div class="tier tier-seguimiento">
-            <span class="tier-label">Seguimiento</span>
-            <div class="tier-bar"></div>
-            <span class="tier-pct">31%</span>
-          </div>
-          <div class="tier tier-retencion">
-            <span class="tier-label">Retención</span>
-            <div class="tier-bar"></div>
-            <span class="tier-pct">42%</span>
-          </div>
-        </div>
-        <div class="vs-roc">
-          <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-            <line class="roc-axis" x1="10" y1="90" x2="90" y2="90" />
-            <line class="roc-axis" x1="10" y1="10" x2="10" y2="90" />
-            <line class="roc-axis" x1="10" y1="90" x2="90" y2="10" />
-            <path class="roc-curve" d="M 10 90 Q 15 50, 35 30 T 90 10" />
-            <path class="roc-fill" d="M 10 90 Q 15 50, 35 30 T 90 10 L 90 90 Z" />
-          </svg>
-        </div>
-        <div class="vs-footer">
-          <span>Reg. Logística · 5 features</span>
-          <span class="auc">AUC-ROC = 0.79</span>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-num">Proyecto 04 — Machine Learning aplicado</div>
-        <h3>Modelo de <em>fidelización</em> y recompra en retail</h3>
-        <p>
-          Pipeline end-to-end de Data Science sobre el dataset público <em>Online Retail II</em> (UCI): más de un millón de transacciones reales del Reino Unido entre 2009 y 2011. El objetivo de negocio: predecir la probabilidad de recompra de cada cliente y entregar al equipo comercial una tabla accionable de campañas.
-        </p>
-        <ul class="project-highlights">
-          <li>Pipeline completo: EDA con foco de negocio, construcción razonada del target con fecha de corte, RFM y feature engineering por cliente.</li>
-          <li>Detección de anomalías con <em>Isolation Forest</em> para aislar mayoristas atípicos y segmentación <em>K-Means</em> validada por Silhouette Score (0.58).</li>
-          <li>Comparativa Regresión Logística vs. Random Forest con GridSearchCV. Gana la logística por interpretabilidad para negocio — AUC-ROC = 0.79.</li>
-          <li>Bonus: sistema de recomendación con tres enfoques complementarios (popularidad, content-based con TF-IDF y filtrado colaborativo con SVD).</li>
-        </ul>
-        <div class="project-tech">
-          <span>Python</span><span>scikit-learn</span><span>K-Means</span><span>Isolation Forest</span><span>TF-IDF</span><span>SVD</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/modelo-fidelizacion-recompra-retail" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/modelo-fidelizacion-recompra-retail/blob/main/presentacion-modelo-fidelizacion.pdf" class="project-link" target="_blank" rel="noopener">Presentación (PDF) ↗</a>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 4: NLP -->
-    <article class="project">
-      <div class="project-info">
-        <div class="project-num">Proyecto 05 — Natural Language Processing</div>
-        <h3>Análisis NLP de <em>reseñas</em>: sentimiento y benchmarking</h3>
-        <p>
-          Análisis del lenguaje natural sobre reseñas reales de Trustpilot del sector <em>Travel & Vacation</em>. Combina análisis de sentimiento, topic modeling y comparativa con la competencia para entregar recomendaciones de negocio accionables sobre <em>loveholidays.com</em> frente a TUI, Jet2 y Lastminute.
-        </p>
-        <ul class="project-highlights">
-          <li>Pipeline de limpieza de texto propio: normalización de caracteres, eliminación de ruido y filtrado por sector para asegurar comparabilidad competitiva.</li>
-          <li>Análisis de sentimiento con <em>TextBlob</em> y benchmarking competitivo: polaridad +0.177 y 63% de reseñas positivas frente a la media del sector.</li>
-          <li>Topic modeling con <em>NMF</em> sobre matriz <em>TF-IDF</em>: cinco temas latentes identificados (reserva online, alojamiento, experiencia, precio, atención al cliente).</li>
-          <li>Cruce sentimiento × topic con umbrales de decisión que separan fortalezas comunicables de áreas de mejora prioritarias.</li>
-        </ul>
-        <div class="project-tech">
-          <span>Python</span><span>NLP</span><span>TextBlob</span><span>TF-IDF</span><span>NMF</span><span>scikit-learn</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/analisis-nlp-resenas-loveholidays" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/analisis-nlp-resenas-loveholidays/blob/main/presentacion-analisis-loveholidays.pdf" class="project-link" target="_blank" rel="noopener">Presentación (PDF) ↗</a>
-        </div>
-      </div>
-      <div class="project-visual visual-nlp">
-        <div class="nlp-header">
-          <span>polaridad por topic</span>
-          <span class="pol">+0.177 media</span>
-        </div>
-        <div class="topics">
-          <div class="topic-row strength" style="--delay: 0.2s">
-            <span class="topic-name">Reserva online</span>
-            <div class="topic-track"><div class="topic-bar" style="width: 92%"></div></div>
-            <span class="topic-val">+0.184</span>
-          </div>
-          <div class="topic-row strength" style="--delay: 0.3s">
-            <span class="topic-name">Experiencia</span>
-            <div class="topic-track"><div class="topic-bar" style="width: 84%"></div></div>
-            <span class="topic-val">+0.169</span>
-          </div>
-          <div class="topic-row opportunity" style="--delay: 0.4s">
-            <span class="topic-name">Alojamiento</span>
-            <div class="topic-track"><div class="topic-bar" style="width: 51%"></div></div>
-            <span class="topic-val">+0.102</span>
-          </div>
-          <div class="topic-row opportunity" style="--delay: 0.5s">
-            <span class="topic-name">Precio / refunds</span>
-            <div class="topic-track"><div class="topic-bar" style="width: 42%"></div></div>
-            <span class="topic-val">+0.085</span>
-          </div>
-          <div class="topic-row opportunity" style="--delay: 0.6s">
-            <span class="topic-name">Atención cliente</span>
-            <div class="topic-track"><div class="topic-bar" style="width: 22%"></div></div>
-            <span class="topic-val">+0.045</span>
-          </div>
-        </div>
-        <div class="legend">
-          <div class="legend-item"><span class="legend-dot strength"></span><span>Fortaleza</span></div>
-          <div class="legend-item"><span class="legend-dot opportunity"></span><span>Oportunidad</span></div>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 5: AsistIA RAG -->
-    <article class="project">
-      <div class="project-visual visual-rag">
-        <div class="rag-header">
-          <span>arquitectura del agente</span>
-          <span class="live-dot">live demo</span>
-        </div>
-        <div class="graph">
-          <svg viewBox="0 0 360 180" preserveAspectRatio="xMidYMid meet">
-            <!-- Edges con animación de flujo (de borde a borde, sin atravesar nodos) -->
-            <path class="edge flow" d="M 50 90 L 85 90" style="animation-delay: 0s" />
-            <path class="edge flow" d="M 155 90 L 190 90" style="animation-delay: 0.6s" />
-            <path class="edge flow" d="M 260 90 L 295 90" style="animation-delay: 1.2s" />
-
-            <!-- Conexión a vectorstore (RAG -> ChromaDB -> LLM) -->
-            <path class="edge" d="M 120 112 Q 120 150, 172 150" style="animation-delay: 1.4s" />
-            <path class="edge" d="M 207 150 Q 225 150, 225 112" style="animation-delay: 1.6s" />
-
-            <!-- Nodos -->
-            <circle class="node" cx="30" cy="90" r="20" style="animation-delay: 0.2s" />
-            <text class="node-label" x="30" y="90" style="animation-delay: 0.2s">USER</text>
-
-            <rect class="node accent" x="85" y="68" width="70" height="44" rx="4" style="animation-delay: 0.5s" />
-            <text class="node-label accent" x="120" y="84" style="animation-delay: 0.5s">RAG</text>
-            <text class="node-label accent" x="120" y="96" style="animation-delay: 0.5s">retrieval</text>
-
-            <rect class="node accent" x="190" y="68" width="70" height="44" rx="4" style="animation-delay: 0.8s" />
-            <text class="node-label accent" x="225" y="84" style="animation-delay: 0.8s">LLM</text>
-            <text class="node-label accent" x="225" y="96" style="animation-delay: 0.8s">Gemini</text>
-
-            <rect class="node" x="295" y="68" width="60" height="44" rx="4" style="animation-delay: 1.1s" />
-            <text class="node-label" x="325" y="86" style="animation-delay: 1.1s">RESP.</text>
-            <text class="node-label" x="325" y="98" style="animation-delay: 1.1s">+memoria</text>
-
-            <!-- Vector store -->
-            <ellipse class="node" cx="172" cy="150" rx="35" ry="10" style="animation-delay: 1.4s" />
-            <text class="node-label" x="172" y="152" style="animation-delay: 1.4s">ChromaDB</text>
-          </svg>
-        </div>
-        <div class="rag-stack">
-          <span class="stack-chip featured">LangGraph</span>
-          <span class="stack-chip featured">Gemini 2.5</span>
-          <span class="stack-chip">ChromaDB</span>
-          <span class="stack-chip">RAG</span>
-          <span class="stack-chip">MemorySaver</span>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-num">Proyecto 06 — IA Generativa</div>
-        <h3>AsistIA: agente <em>RAG</em> conversacional sobre IA Generativa</h3>
-        <p>
-          Agente conversacional construido con Google Gemini, ChromaDB y LangGraph que responde preguntas sobre IA Generativa apoyándose en una base de conocimiento vectorial propia y manteniendo memoria entre turnos. Práctica final del módulo de IA Generativa del Máster, desplegada en Streamlit Cloud.
-        </p>
-        <ul class="project-highlights">
-          <li>Arquitectura de agente como <em>grafo de estado dirigido</em> con LangGraph: nodos de recuperación y generación, con memoria por <em>thread_id</em> que aísla conversaciones paralelas.</li>
-          <li>Pipeline RAG completo: indexación de PDFs con <em>RecursiveCharacterTextSplitter</em>, embeddings de Gemini, persistencia en ChromaDB y recuperación por similitud coseno (top-3).</li>
-          <li>System prompt cuidadosamente diseñado con siete reglas explícitas: priorización del contexto, fallback ante falta de información, idioma fijado y tono pedagógico.</li>
-          <li>Interfaz web en Streamlit con selección de modelo, panel de inspección del contexto recuperado y caché de recursos para no recompilar el agente en cada rerun.</li>
-        </ul>
-        <div class="project-tech">
-          <span>Python</span><span>LangGraph</span><span>LangChain</span><span>Gemini</span><span>ChromaDB</span><span>Streamlit</span>
-        </div>
-        <div class="project-links">
-          <a href="https://asistia-rag.streamlit.app/" class="project-link demo-live" target="_blank" rel="noopener">Probar la demo en vivo ↗</a>
-          <a href="https://github.com/alejandrorodriguezdelarosa-ux/asistia-rag-agente-conversacional" class="project-link" target="_blank" rel="noopener">Ver en GitHub ↗</a>
-          <span class="demo-nota">Alojada en el plan gratuito de Streamlit: si lleva d&iacute;as sin visitas puede tardar unos segundos en arrancar.</span>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 6: Bot WhatsApp peluquería (doble agente + recordatorio) -->
-    <article class="project project--bot">
-      <div class="project-info">
-        <div class="project-num">Proyecto 07 — Automatización · IA conversacional · WhatsApp</div>
-        <h3>Bot conversacional de WhatsApp con <em>doble agente</em> y recordatorio mensual</h3>
-        <p>
-          Sistema completo en producción para una peluquería real: dos agentes de IA conversacional sobre WhatsApp Business —uno para clientes y otro para el dueño, con permisos y tono distintos— más un workflow programado que el día 1 de cada mes envía a cada cliente el detalle de su consumo. Construido íntegramente en n8n sobre la Cloud API oficial de Meta.
-        </p>
-        <ul class="project-highlights">
-          <li>Arquitectura de <em>doble agente</em> sobre el mismo webhook con system prompts y tools diferenciados: una rama para el cliente (tono cercano, identificación por teléfono, escalado humano automático) y otra para el dueño (tono directo, acceso total, confirmaciones mínimas).</li>
-          <li>Buffer en Redis con espera y deduplicación por mensaje, pipeline multimodal con transcripción de audio vía Whisper, y memoria conversacional persistente en Postgres por número de teléfono.</li>
-          <li>System prompts industriales con reglas absolutas explícitas (anti-alucinación, lectura obligatoria antes de escritura, validación de row_number en cada ejecución) que evitan race conditions sobre Google Sheets cuando se actualizan filas en paralelo.</li>
-          <li>Classifier paralelo de escalado humano que notifica al dueño vía template oficial de WhatsApp y silencia al bot en Chatwoot, más un workflow mensual independiente que envía a cada cliente su detalle de consumo mediante Output Parser estructurado y template parametrizado.</li>
-        </ul>
-        <div class="project-tech">
-          <span>n8n</span><span>WhatsApp Cloud API</span><span>Meta</span><span>Chatwoot</span><span>OpenAI GPT-4.1-mini</span><span>Whisper</span><span>LangChain Agent</span><span>Redis</span><span>PostgreSQL</span><span>Google Sheets</span>
-        </div>
-        <div class="project-links">
-          <span class="project-private">Proyecto privado · cliente particular · sin repositorio público</span>
-        </div>
-      </div>
-      <div class="project-visual visual-bot" id="bot-carousel">
-        <div class="bot-header">
-          <span>n8n · workflow canvas</span>
-          <span class="live">en producción</span>
-        </div>
-        <div class="bot-track" data-slide="0">
-          <div class="bot-slide"><img src="peluqueria-flujo-conversacional.png" alt="Canvas de n8n del workflow conversacional bidireccional con doble agente, buffer Redis, classifier de escalado y memoria Postgres."></div>
-          <div class="bot-slide"><img src="peluqueria-flujo-recordatorio.png" alt="Canvas de n8n del workflow de recordatorio mensual: cron, loop, agente con tools y envío de template oficial de WhatsApp."></div>
-        </div>
-        <div class="bot-footer">
-          <span class="bot-caption" data-caption>Flujo conversacional · doble agente</span>
-          <div class="bot-nav" role="tablist" aria-label="Ver flujos del bot">
-            <button class="bot-dot active" data-slide-btn="0" role="tab" aria-selected="true">01</button>
-            <button class="bot-dot" data-slide-btn="1" role="tab" aria-selected="false">02</button>
-          </div>
-        </div>
-      </div>
-    </article>
-
-<style>
-  /* Composicion del mockup (Proyecto 09) */
-  .visual-mockup .esq-body { min-height: 0; gap: 1rem; justify-content: center; }
-  .mockup-svg { width: 100%; display: block; flex: 0 1 auto; min-height: 0; }
-  .mk-barras { display: flex; flex-direction: column; gap: 0.55rem; }
-  .mockup-svg .lamina {
-    fill: #fbf8f2; stroke: var(--line); stroke-width: 1;
-  }
-  .mockup-svg .marca-plana use { fill: var(--accent); }
-  .mockup-svg .prenda-lisa {
-    fill: #ece6dc; stroke: var(--ink-mute); stroke-width: 1; stroke-linejoin: round;
-  }
-  .mockup-svg .prenda-render { fill: url(#tejido); }
-  .mockup-svg .prenda-pliegue { fill: url(#pliegue); }
-  .mockup-svg .prenda-borde {
-    fill: none; stroke: var(--ink-soft); stroke-width: 1; stroke-linejoin: round; opacity: 0.55;
-  }
-  .mockup-svg .marca-puesta use { fill: var(--accent); opacity: 0.92; }
-  .mockup-svg .prenda-fantasma {
-    fill: none; stroke: var(--ink-mute); stroke-width: 1; opacity: 0.35; stroke-linejoin: round;
-  }
-  .mockup-svg .op path {
-    fill: none; stroke: var(--ink-mute); stroke-width: 1.4; stroke-linecap: round;
-  }
-  .mockup-svg .mk-cap {
-    font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.1em;
-    text-transform: uppercase; fill: var(--ink-mute);
-  }
-  /* Comparativa blockout / render (Proyecto 08) */
-  .visual-toma .esq-body { min-height: 0; }
-  .visual-toma .esq-body.toma-par {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 0.9rem;
-  }
-  .toma-fig { margin: 0; min-width: 0; }
-  .toma-fig img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 822 / 447;
-    object-fit: cover;
-    border: 1px solid var(--line);
-    background: var(--bg);
-  }
-  .toma-fig figcaption {
-    margin-top: 0.5rem;
-    font-family: var(--mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  /* En estrecho, una sobre otra: en dos columnas no se aprecia nada */
-  @media (max-width: 768px) {
-    .visual-toma .esq-body.toma-par { grid-template-columns: 1fr; gap: 0.6rem; }
-    .toma-flecha { transform: rotate(90deg); padding: 0; justify-self: center; }
-  }
-  .toma-flecha {
-    font-family: var(--mono);
-    font-size: 1rem;
-    color: var(--accent);
-    align-self: center;
-    padding-bottom: 1.4rem;
-  }
-  /* Visuales de los proyectos 08-10 — mismo idioma que .visual-nlp / .visual-rag */
-  .visual-esq {
-    background: var(--bg-alt);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .visual-esq::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(26, 24, 22, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 24, 22, 0.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  .visual-esq .esq-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    color: var(--ink-soft);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 2;
-    position: relative;
-    margin-bottom: 1.25rem;
-  }
-  .visual-esq .esq-header .esq-key {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 1.1rem;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .visual-esq .esq-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    z-index: 2;
-    position: relative;
-    flex: 1;
-    justify-content: center;
-  }
-  /* Barras comparativas (idioma de .topic-row) */
-  .visual-esq .esq-row {
-    display: grid;
-    grid-template-columns: 95px 1fr 54px;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-  }
-  .visual-esq .esq-name { color: var(--ink-soft); text-align: right; }
-  .visual-esq .esq-track {
-    height: 7px;
-    background: rgba(26, 24, 22, 0.08);
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-  }
-  .visual-esq .esq-bar {
-    height: 100%;
-    border-radius: 2px;
-    transform-origin: left;
-    animation: topicGrow 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-    animation-delay: var(--delay, 0s);
-  }
-  .visual-esq .esq-row.antes .esq-bar { background: #d4a23f; }
-  .visual-esq .esq-row.ahora .esq-bar { background: #6b8e6e; }
-  .visual-esq .esq-val { color: var(--ink-mute); font-size: 0.7rem; text-align: right; }
-  /* Pasos numerados */
-  .visual-esq .esq-step {
-    display: grid;
-    grid-template-columns: 26px 1fr;
-    align-items: baseline;
-    gap: 0.75rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--ink);
-    line-height: 1.5;
-  }
-  .visual-esq .esq-step i {
-    font-style: normal;
-    color: var(--ink-mute);
-    font-size: 0.68rem;
-  }
-  .visual-esq .esq-step em {
-    font-family: var(--serif);
-    font-style: italic;
-    color: var(--accent);
-  }
-  .visual-esq .esq-rule {
-    height: 1px;
-    background: var(--line);
-    margin: 0.15rem 0 0.15rem 34px;
-  }
-  /* Pie */
-  .visual-esq .esq-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
-    z-index: 2;
-    position: relative;
-    margin-top: 1.25rem;
-    font-family: var(--mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  .visual-esq .esq-legend span::before {
-    content: '';
-    display: inline-block;
-    width: 7px; height: 7px;
-    border-radius: 2px;
-    margin-right: 0.4rem;
-    background: var(--ink-mute);
-    vertical-align: baseline;
-  }
-  .visual-esq .esq-legend span.antes::before { background: #d4a23f; }
-  .visual-esq .esq-legend span.ahora::before { background: #6b8e6e; }
-  .visual-esq .esq-legend span.plain::before { display: none; }
-  /* En pantallas estrechas el marco 4:3 recortaria estos visuales de texto:
-     se libera la proporcion y se fija un minimo. Solo afecta a los mios. */
-  @media (max-width: 768px) {
-    .visual-esq,
-    .about-visual {
-      aspect-ratio: auto;
-      min-height: 300px;
-      padding: 1.5rem;
-    }
-  }
-  /* Aviso de codigo no publicado — hereda de .project-private */
-  .project-private.aviso-privacidad {
-    display: block;
-    max-width: 46ch;
-    line-height: 1.6;
-    text-align: left;
-  }
-</style>
-
-    <!-- PROYECTO 8: Set virtual 3D con render fotorrealista por IA -->
-    <article class="project">
-      <div class="project-visual visual-esq visual-toma">
-        <div class="esq-header">
-          <span>la misma toma, dos pasos</span>
-          <span class="esq-key">blockout &rarr; render</span>
-        </div>
-        <div class="esq-body toma-par">
-          <figure class="toma-fig">
-            <img src="toma4-blockout.jpg" width="822" height="447"
-                 alt="Bloqueo de la escena en 3D: el maniqu&iacute; posado sentado y girado sobre la rejilla de suelo del visor.">
-            <figcaption>blockout 3D</figcaption>
-          </figure>
-          <span class="toma-flecha" aria-hidden="true">&rarr;</span>
-          <figure class="toma-fig">
-            <img src="toma4-render.jpg" width="1200" height="652"
-                 alt="La misma toma convertida en fotograf&iacute;a realista: la persona sentada de espaldas en un chiringuito, con la prenda puesta.">
-            <figcaption>render</figcaption>
-          </figure>
-        </div>
-        <div class="esq-legend">
-          <span class="plain">misma c&aacute;mara y misma pose &middot; salida real de la herramienta</span>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-num">Proyecto 08 &mdash; 3D &middot; IA generativa &middot; Producci&oacute;n visual</div>
-        <h3>Set virtual 3D con render <em>fotorrealista</em> por IA</h3>
-        <p>
-          Herramienta que sustituye la sesi&oacute;n de fotos por un plat&oacute; virtual: montas la escena en 3D, colocas y posas al personaje, mueves la c&aacute;mara con libertad y un modelo de difusi&oacute;n convierte ese bloqueo en una fotograf&iacute;a realista. Flujo h&iacute;brido <em>blockout &rarr; IA</em>, con la geometr&iacute;a de la escena como fuente de verdad.
-        </p>
-        <ul class="project-highlights">
-          <li>El punto cr&iacute;tico es <em>c&oacute;mo</em> se le describe la escena al modelo: en lugar del material de profundidad por defecto, que usa profundidad en perspectiva y deforma el espacio percibido, se renderiza un <em>mapa de profundidad lineal normalizado</em> con un shader propio, de modo que la IA recibe una representaci&oacute;n fiel de las distancias.</li>
-          <li>Sistema de &laquo;verdad de c&aacute;mara&raquo;: a partir de la posici&oacute;n relativa entre c&aacute;mara y sujeto se calculan la elevaci&oacute;n, el tama&ntilde;o de plano y la direcci&oacute;n de la mirada, y se traducen a lenguaje cinematogr&aacute;fico que alimenta el <em>prompt</em>. El encuadre deja de describirse a mano y pasa a deducirse de la escena.</li>
-          <li>L&iacute;nea de tiempo con grabaci&oacute;n y reproducci&oacute;n de movimientos de c&aacute;mara, m&aacute;s un modo foto para <em>stills</em> sueltos, refinado de pose, referencias de escena y escalado de la imagen final.</li>
-          <li>Arquitectura de motor intercambiable: la generaci&oacute;n est&aacute; aislada del resto, as&iacute; que cambiar de proveedor de imagen no obliga a rehacer la cola, el almacenamiento ni la interfaz.</li>
-          <li>Empaquetado para que una persona sin perfil t&eacute;cnico lo instale y lo use: accesos directos que comprueban las dependencias y guiado paso a paso en la primera ejecuci&oacute;n.</li>
-        </ul>
-        <div class="project-tech">
-          <span>React</span><span>TypeScript</span><span>Three.js</span><span>React Three Fiber</span><span>GLSL</span><span>Node</span><span>Express</span><span>ControlNet</span><span>Difusi&oacute;n</span>
-        </div>
-        <div class="project-links">
-          <span class="project-private aviso-privacidad">Sin repositorio: por privacidad y seguridad no se publica el c&oacute;digo fuente. Se muestra una salida propia de la herramienta, generada en pruebas, y el resto son decisiones de dise&ntilde;o y arquitectura.</span>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 9: Plataforma de catalogo con motor de composicion -->
-    <article class="project">
-      <div class="project-visual visual-esq visual-mockup">
-        <div class="esq-header">
-          <span>composici&oacute;n del mockup</span>
-          <span class="esq-key">horas &rarr; minutos</span>
-        </div>
-        <div class="esq-body">
-          <svg class="mockup-svg" viewBox="0 0 400 132" role="img" aria-label="El arte plano del dise&ntilde;o se compone sobre una plantilla de prenda lisa y produce el mockup final.">
-            <defs>
-              <path id="prendaPath" d="M25 6 Q35 11 45 6 L60 12 L68 27 L57 33 L56 74 Q35 79 14 74 L13 33 L2 27 L10 12 Z"/>
-              <g id="marca">
-                <circle cx="0" cy="-6" r="9.5"/>
-                <path d="M-11 12 L0 -3 L11 12 Z"/>
-              </g>
-              <clipPath id="recortePrenda">
-                <use href="#prendaPath"/>
-              </clipPath>
-              <linearGradient id="tejido" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="70" y2="80">
-                <stop offset="0%" stop-color="#ffffff"/>
-                <stop offset="45%" stop-color="#efeae1"/>
-                <stop offset="100%" stop-color="#c8c0b1"/>
-              </linearGradient>
-              <linearGradient id="pliegue" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="70" y2="0">
-                <stop offset="0%" stop-color="#13294b" stop-opacity="0.16"/>
-                <stop offset="22%" stop-color="#13294b" stop-opacity="0"/>
-                <stop offset="70%" stop-color="#13294b" stop-opacity="0"/>
-                <stop offset="100%" stop-color="#13294b" stop-opacity="0.20"/>
-              </linearGradient>
-            </defs>
-
-            <!-- 1 · arte plano -->
-            <g class="paso">
-              <rect class="lamina" x="14" y="16" width="86" height="86"/>
-              <g class="marca-plana" transform="translate(57,59)">
-                <use href="#marca"/>
-              </g>
-              <text x="14" y="118" class="mk-cap">arte plano</text>
-            </g>
-
-            <g class="op" transform="translate(115,59)">
-              <path d="M-7 0 L7 0 M0 -7 L0 7"/>
-            </g>
-
-            <!-- 2 · plantilla lisa -->
-            <g class="paso" transform="translate(136,19)">
-              <use href="#prendaPath" class="prenda-lisa"/>
-            </g>
-            <text x="136" y="118" class="mk-cap">plantilla</text>
-
-            <g class="op" transform="translate(228,59)">
-              <path d="M-7 -3 L7 -3 M-7 3 L7 3"/>
-            </g>
-
-            <!-- 3 · mockup compuesto -->
-            <g class="paso" transform="translate(250,19)">
-              <use href="#prendaPath" class="prenda-render"/>
-              <g clip-path="url(#recortePrenda)">
-                <g class="marca-puesta" transform="translate(35,44) rotate(-1.5) scale(0.82,0.86)">
-                  <use href="#marca"/>
-                </g>
-                <use href="#prendaPath" class="prenda-pliegue"/>
-              </g>
-              <use href="#prendaPath" class="prenda-borde"/>
-            </g>
-            <text x="250" y="118" class="mk-cap">mockup</text>
-
-            <!-- la tanda completa -->
-            <g class="tanda" transform="translate(326,19)">
-              <use href="#prendaPath" class="prenda-fantasma" transform="translate(10,4) scale(0.94)"/>
-              <use href="#prendaPath" class="prenda-fantasma" transform="translate(20,8) scale(0.88)"/>
-            </g>
-            <text x="398" y="118" class="mk-cap" text-anchor="end">&times; la tanda</text>
-          </svg>
-          <div class="mk-barras">
-            <div class="esq-row antes" style="--delay: 0.2s">
-              <span class="esq-name">a mano</span>
-              <div class="esq-track"><div class="esq-bar" style="width: 100%"></div></div>
-              <span class="esq-val">horas</span>
-            </div>
-            <div class="esq-row ahora" style="--delay: 0.45s">
-              <span class="esq-name">por lotes</span>
-              <div class="esq-track"><div class="esq-bar" style="width: 5%"></div></div>
-              <span class="esq-val">minutos</span>
-            </div>
-          </div>
-        </div>
-        <div class="esq-legend">
-          <span class="plain">formas de ejemplo &middot; fidelidad del dise&ntilde;o 100&nbsp;%</span>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-num">Proyecto 09 &mdash; Eficiencia operativa &middot; Automatizaci&oacute;n &middot; Visi&oacute;n por computador</div>
-        <h3>De <em>horas a minutos</em>: generaci&oacute;n de mockups de producto por lotes</h3>
-        <p>
-          El equipo de marketing montaba a mano cada mockup de producto en el editor de imagen. Con el volumen que sacaban, preparar una tanda era cuesti&oacute;n de <em>horas</em>. Ahora se compone entera en <em>minutos</em> y la persona solo revisa el resultado. Alrededor de ese motor creci&oacute; una plataforma web que centraliza el cat&aacute;logo: galer&iacute;a con filtros, m&eacute;tricas por producto, panel de estad&iacute;sticas, un modo espec&iacute;fico de <em>errores de calidad de dato</em> y publicaci&oacute;n hacia la tienda.
-        </p>
-        <ul class="project-highlights">
-          <li><strong>El cuello de botella era el tiempo, no la calidad.</strong> El mockup se montaba producto a producto en el editor de imagen, as&iacute; que el trabajo escalaba con el cat&aacute;logo: cuanto m&aacute;s sacaba marketing, m&aacute;s horas costaba. El motor compone la tanda completa de una pasada y convierte esas horas en minutos, dejando a la persona la parte que s&iacute; requiere criterio: revisar y descartar.</li>
-          <li>C&oacute;mo se resolvi&oacute;, y es la decisi&oacute;n de la que m&aacute;s aprend&iacute;: no con IA generativa, sino con tratamiento de imagen cl&aacute;sico. Se <em>compone</em> el arte plano del dise&ntilde;o sobre plantillas de prenda lisa &mdash;recorte del fondo, centrado autom&aacute;tico, <em>displacement</em>, luz y textura&mdash;. Generar con IA costaba dinero por producto y, lo determinante, reinterpretaba el estampado: el dise&ntilde;o dejaba de ser el original. Aqu&iacute; la fidelidad es del 100&nbsp;% y el coste, pr&aacute;cticamente nulo.</li>
-          <li>Motor de generaci&oacute;n intercambiable por contrato: cola, plantillas de <em>prompt</em>, revisi&oacute;n, almacenamiento y publicaci&oacute;n son comunes, de forma que pasar de la composici&oacute;n local a una API externa es reemplazar un m&oacute;dulo.</li>
-          <li>Modo de calidad de dato que detecta y agrupa las carencias del cat&aacute;logo &mdash;campos ausentes, im&aacute;genes que faltan, incoherencias&mdash; y las convierte en una lista de trabajo priorizable en lugar de un informe que nadie lee.</li>
-          <li>Servidor <em>MCP</em> propio que expone las operaciones de la plataforma como herramientas, para poder trabajar sobre el cat&aacute;logo desde un asistente conversacional.</li>
-          <li>Acceso a los sistemas de origen estrictamente de <em>solo lectura</em> y a trav&eacute;s de una capa intermedia, nunca por conexi&oacute;n directa: una herramienta de an&aacute;lisis no debe poder corromper el sistema que analiza.</li>
-        </ul>
-        <div class="project-tech">
-          <span>Node</span><span>Express</span><span>PostgreSQL</span><span>Python</span><span>Pillow</span><span>NumPy</span><span>SciPy</span><span>MCP</span><span>Docker</span>
-        </div>
-        <div class="project-links">
-          <span class="project-private aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
-        </div>
-      </div>
-    </article>
-
-    <!-- PROYECTO 10: Panel ejecutivo con triaje de correo y actas -->
-    <article class="project">
-      <div class="project-visual visual-esq">
-        <div class="esq-header">
-          <span>triaje de bandeja</span>
-          <span class="esq-key">dos niveles</span>
-        </div>
-        <div class="esq-body">
-          <div class="esq-step"><i>n1</i><span>barrido de <em>toda</em> la bandeja, sin abrir cuerpos</span></div>
-          <div class="esq-rule"></div>
-          <div class="esq-step"><i>n2</i><span>lectura profunda por lotes, bajo demanda</span></div>
-          <div class="esq-rule"></div>
-          <div class="esq-step"><i>n3</i><span>borrador solo si espera respuesta</span></div>
-          <div class="esq-rule"></div>
-          <div class="esq-step"><i>&mdash;</i><span>sin transcripci&oacute;n, <em>avisa</em>: nunca inventa el acta</span></div>
-        </div>
-        <div class="esq-legend">
-          <span class="plain">solo lectura: no escribe en correo ni en tareas</span>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-num">Proyecto 10 &mdash; Automatizaci&oacute;n &middot; LLMs &middot; Herramientas internas</div>
-        <h3>Panel ejecutivo: triaje de correo y <em>actas</em> autom&aacute;ticas</h3>
-        <p>
-          Aplicaci&oacute;n de una sola pantalla pensada para un perfil directivo que necesita el pulso del negocio y su trabajo del d&iacute;a <em>sin</em> manejar un asistente de IA directamente. Agrega indicadores, tareas, correo, reuniones y documentos compartidos detr&aacute;s de unos pocos botones.
-        </p>
-        <ul class="project-highlights">
-          <li>Triaje de correo en dos niveles para que el coste no se dispare: primero un barrido de la bandeja completa sin abrir los cuerpos, y solo despu&eacute;s lectura profunda por lotes bajo demanda, con cach&eacute; incremental por conversaci&oacute;n. Los borradores se generan &uacute;nicamente cuando el correo espera respuesta.</li>
-          <li>Actas de reuni&oacute;n a partir de la transcripci&oacute;n: resumen, asistentes con su rol, temas, acuerdos, decisiones y tareas con responsable y fecha. Con una regla expl&iacute;cita e innegociable: si no hay transcripci&oacute;n, el sistema <em>avisa</em> en lugar de rellenar el hueco. Un acta inventada es peor que no tener acta.</li>
-          <li>Solo lectura por dise&ntilde;o: el panel no escribe en el gestor de tareas ni en el correo. La decisi&oacute;n de actuar se queda siempre en la persona.</li>
-          <li>Gr&aacute;ficos que se recalculan en el cliente sin volver a consultar los datos, con escala ajustable &mdash;incluida escala logar&iacute;tmica y una escala que arranca cerca del m&iacute;nimo&mdash; para que las variaciones peque&ntilde;as sigan siendo legibles.</li>
-          <li>Cada informe declara de d&oacute;nde sale cada cifra y cu&aacute;ndo se ley&oacute;, para que nadie tome una decisi&oacute;n sobre un dato viejo crey&eacute;ndolo fresco.</li>
-        </ul>
-        <div class="project-tech">
-          <span>Node</span><span>LLMs</span><span>Agentes</span><span>Skills</span><span>Integraci&oacute;n de APIs</span><span>Visualizaci&oacute;n de datos</span>
-        </div>
-        <div class="project-links">
-          <span class="project-private aviso-privacidad">Sin repositorio ni fragmentos de c&oacute;digo: por privacidad y seguridad no se publica el c&oacute;digo fuente ni ning&uacute;n dato del proyecto. Lo que se describe aqu&iacute; son decisiones de dise&ntilde;o y arquitectura.</span>
-        </div>
-      </div>
-    </article>
-
-
-
-  </div>
-</section>
-
-<section class="contact" id="contact">
-  <div class="container">
-    <div class="contact-eyebrow">[03] · Contacto</div>
-    <h2>¿Trabajamos <em>juntos</em>?</h2>
-    <a href="mailto:alejandrorodriguezdelarosa@gmail.com" class="contact-email">alejandrorodriguezdelarosa@gmail.com</a>
-    <div class="contact-info">
-      <span>+34 643 626 001</span>
-      <span>·</span>
-      <span>Sevilla, España</span>
-    </div>
-    <div class="social">
-      <a href="https://www.linkedin.com/in/alejandro-rodríguez-de-la-rosa-015956301" target="_blank" rel="noopener">LinkedIn ↗</a>
-      <a href="https://github.com/alejandrorodriguezdelarosa-ux" target="_blank" rel="noopener">GitHub ↗</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container footer-inner">
-    <span>© 2026 — Alejandro Rodríguez de la Rosa</span>
-    <span>Hecho con cuidado en Sevilla</span>
-  </div>
-</footer>
-
-<script>
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('.project').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(40px)';
-    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    observer.observe(el);
-  });
-
-  /* Carrusel del proyecto 07 — bot WhatsApp peluquería */
-  (function () {
-    const carousel = document.getElementById('bot-carousel');
-    if (!carousel) return;
-    const track = carousel.querySelector('.bot-track');
-    const dots = carousel.querySelectorAll('[data-slide-btn]');
-    const caption = carousel.querySelector('[data-caption]');
-    const captions = [
-      'Flujo conversacional · doble agente',
-      'Flujo de recordatorio mensual'
-    ];
-    function go(idx) {
-      track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-      track.setAttribute('data-slide', String(idx));
-      dots.forEach((d, i) => {
-        const active = i === idx;
-        d.classList.toggle('active', active);
-        d.setAttribute('aria-selected', active ? 'true' : 'false');
-      });
-      if (caption) caption.textContent = captions[idx] || '';
-    }
-    dots.forEach((d) => {
-      d.addEventListener('click', () => go(parseInt(d.getAttribute('data-slide-btn'), 10)));
-    });
-  })();
-</script>
-
-<style>
-  /* ═══════════════════════════════════════════════════════════════
-     CAPA APPLE
-     Ajusta lo que los tokens no alcanzan: escala tipografica, radios,
-     supresion de filetes y texturas, botones en pildora y secciones
-     alternando blanco / gris. Quitando este bloque se vuelve al diseno
-     anterior.
-     ═══════════════════════════════════════════════════════════════ */
-
-  /* El grano de papel no pinta nada sobre blanco */
-  body::before { display: none; }
-  /* La capitular es recurso editorial, no del lenguaje Apple */
-  .about-content > p:first-of-type:first-letter {
-    font-family: inherit; font-size: inherit; float: none;
-    line-height: inherit; margin: 0; font-weight: inherit;
-  }
-  body { letter-spacing: -0.01em; }
-
-  /* — Navegacion — */
-  nav {
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    padding: 0.9rem 2.5rem;
-  }
-  nav.scrolled { border-bottom: 1px solid var(--line); }
-  .logo { font-style: normal; font-weight: 600; letter-spacing: -0.02em; }
-  .nav-links a {
-    font-family: var(--sf);
-    font-size: 0.85rem;
-    text-transform: none;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-  }
-  .nav-links a::after { display: none; }
-  .nav-links a:hover { color: var(--accent); }
-
-  /* — Titulares — */
-  .hero h1 {
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
-  }
-  .hero h1 em { font-style: normal; color: var(--accent); }
-  .hero-description {
-    font-size: clamp(1.05rem, 1.6vw, 1.4rem);
-    line-height: 1.45;
-    color: var(--ink-mute);
-    letter-spacing: -0.01em;
-  }
-  .hero-meta {
-    font-family: var(--sf);
-    text-transform: none;
-    letter-spacing: -0.01em;
-    color: var(--ink-mute);
-  }
-  .about h2, .contact h2 {
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.08;
-  }
-  .about h2 em, .contact h2 em { font-style: normal; color: var(--accent); }
-  .project-info h3 {
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.12;
-  }
-  .project-info h3 em { font-style: normal; color: var(--accent); }
-
-  /* — Botones en pildora — */
-  .btn {
-    font-family: var(--sf);
-    font-size: 0.95rem;
-    text-transform: none;
-    letter-spacing: -0.01em;
-    padding: 0.75rem 1.5rem;
-    border-radius: 980px;
-    border: none;
-    background: var(--accent);
-    color: #fff;
-  }
-  .btn:hover { background: #0077ed; color: #fff; transform: none; }
-  .btn-ghost {
-    background: transparent;
-    color: var(--accent);
-    border: none;
-    padding: 0.75rem 0.25rem;
-  }
-  .btn-ghost:hover { background: transparent; color: #0077ed; }
-
-  /* — Fuera filetes y rotulos de imprenta — */
-  .section-marker { border-top: none; padding-top: 0; margin-bottom: 2.5rem; }
-  .section-marker .num { display: none; }
-  .section-marker .label {
-    font-family: var(--sf);
-    font-style: normal;
-    font-size: 1.05rem;
-    font-weight: 600;
-    text-transform: none;
-    letter-spacing: -0.01em;
-    color: var(--ink-mute);
-  }
-  .contact { border-top: none; }
-  .project { border-top: none; padding: 6rem 0; }
-  .criterio-item { border: none; padding: 0 0 1.25rem; }
-  .criterio-item:last-child { border-bottom: none; }
-  .criterio-label {
-    font-family: var(--sf);
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-transform: none;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-  }
-  .skills-title, .contact-eyebrow, .project-info .project-num {
-    font-family: var(--sf);
-    text-transform: none;
-    letter-spacing: -0.005em;
-    font-size: 0.85rem;
-    color: var(--ink-mute);
-  }
-
-  /* — Secciones alternando blanco y gris — */
-  .about { background: var(--bg-alt); padding: 7rem 0; }
-  .projects { background: #fff; }
-  .contact { background: var(--ink); color: #fff; }
-  .contact h2 { color: #fff; }
-  .contact-email { color: #fff; }
-  .contact-email:hover { color: var(--accent); }
-  .contact-info, .contact .social a { color: rgba(255,255,255,0.66); }
-  .contact .social a:hover { color: #fff; }
-
-  /* — Tarjetas y paneles — */
-  /* Sin tocar el fondo: cinco paneles son oscuros a proposito y sus
-     rotulos son de color claro. Solo se redondean y se quita el filete. */
-  .project-visual { border: none; border-radius: var(--radio-g); }
-  .visual-eda::before, .visual-regression::before, .visual-segments::before,
-  .visual-nlp::before, .visual-rag::before, .visual-esq::before,
-  .about-visual::before { display: none; }
-  .about-visual { border: none; border-radius: var(--radio-g); background: var(--bg); }
-  .visual-esq, .about-visual { background: #fff; }
-  .toma-fig img { border: none; border-radius: 12px; }
-
-  /* — Etiquetas en pildora — */
-  .skill-tag, .project-tech span, .visual-rag .stack-chip, .esq-tag {
-    border-radius: 980px;
-    font-family: var(--sf);
-    text-transform: none;
-    letter-spacing: -0.005em;
-    border-color: var(--line);
-  }
-  .skill-tag.featured, .visual-rag .stack-chip.featured {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
-  .project-private, .aviso-privacidad, .demo-nota {
-    font-family: var(--sf);
-    border: none;
-    border-radius: 14px;
-    background: var(--bg-alt);
-    text-transform: none;
-    letter-spacing: -0.005em;
-    padding: 0.9rem 1.1rem;
-  }
-  .project-link {
-    font-family: var(--sf);
-    border-radius: 980px;
-    text-transform: none;
-    letter-spacing: -0.01em;
-  }
-  .demo-live { border-radius: 980px; }
-
-  /* — Rotulos internos de los paneles — */
-  .visual-esq .esq-header, .about-visual .esq-header,
-  .toma-fig figcaption, .visual-esq .esq-legend, .mockup-svg .mk-cap {
-    font-family: var(--sf);
-    text-transform: none;
-    letter-spacing: -0.005em;
-  }
-  .visual-esq .esq-header .esq-key,
-  .about-visual .esq-header .esq-key { font-style: normal; color: var(--accent); }
-
-
-  /* ── Reparto del espacio ─────────────────────────────────────────
-     Dos columnas con panel de proporcion fija junto a texto largo dejan
-     el panel flotando en medio de un hueco. Se apila: media ancha
-     arriba, texto debajo repartido en dos columnas. */
-  @media (min-width: 900px) {
-    .project,
-    .project:nth-child(even) {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      padding: 4.5rem 0;
-      align-items: stretch;
-    }
-    .project-visual,
-    .project--bot .project-visual {
-      order: -1;
-      /* relative, no static: los paneles tienen hijos absolutos (overlays,
-         cabeceras, pies) que necesitan este contexto. Y top a auto, porque
-         la ficha del bot conserva el top: 6rem de su sticky y con relative
-         eso desplazaba el panel encima del texto. */
-      position: relative;
-      top: auto;
-      width: 100%;
-      max-width: 1000px;
-      margin-inline: auto;
-      aspect-ratio: 16 / 9;
-    }
-    /* Estos dos apilan mucho contenido en vertical y no caben en 16/9:
-       se les deja crecer en vez de recortarlos */
-    .visual-regression,
-    .visual-segments {
-      aspect-ratio: auto;
-      height: auto;
-      min-height: 560px;
-    }
-    .project:nth-child(even) .project-info { order: 0; }
-
-    /* El texto a dos columnas, con el titular y la entradilla cruzando
-       ambas para que la ficha se lea de arriba abajo */
-    /* Las columnas van en la lista de puntos, no en el contenedor: si se
-       ponen arriba y todo lo demas cruza ambas, lo unico repartible es la
-       lista, cae entera en la izquierda y la derecha queda vacia. */
-    .project-info h3 { max-width: 26ch; }
-    .project-info > p:first-of-type { max-width: 80ch; }
-    .project-highlights {
-      column-count: 2;
-      column-gap: 3.5rem;
-    }
-    .project-highlights li { break-inside: avoid; }
-
-    /* Sobre mi: mismo problema, mismo remedio */
-    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .about-side {
-      display: grid;
-      grid-template-columns: 1.15fr 1fr;
-      gap: 3.5rem;
-      align-items: center;
-    }
-    .about-visual { margin-top: 0; aspect-ratio: 16 / 9; }
-    .about-content { column-count: 2; column-gap: 3.5rem; }
-    .about-content > p, .criterio-item { break-inside: avoid; }
-    .criterio, .skills-section { break-inside: avoid-column; }
-
-    /* El hero no necesita una pantalla entera */
-    .hero { min-height: auto; padding: 11rem 0 6rem; }
-    .contact { padding: 7rem 0 5rem; }
-    .about { padding: 6rem 0; }
-  }
-
-  /* En estrecho los paneles densos tampoco caben en 4:3: se les deja
-     crecer en vez de recortarles el contenido */
-
-  /* ── Movil al estilo Apple ───────────────────────────────────────
-     Imagen a sangre, copy corto y detalle plegado. En escritorio el
-     desplegable va siempre abierto y su titulo no se muestra. */
-  .ficha-detalle > summary {
-    display: none;
-    cursor: pointer;
-    list-style: none;
-    font-size: 1rem;
-    color: var(--accent);
-    padding: 0.9rem 0;
-  }
-  .ficha-detalle > summary::-webkit-details-marker { display: none; }
-  .ficha-detalle > summary::after {
-    content: '\203A';
-    display: inline-block;
-    margin-left: 0.4rem;
-    transform: rotate(90deg);
-    transition: transform 0.2s ease;
-  }
-  .ficha-detalle[open] > summary::after { transform: rotate(-90deg); }
-
-  @media (max-width: 899px) {
-    .ficha-detalle > summary { display: block; }
-
-    /* Imagen a sangre: se escapa del contenedor a lo ancho de la pantalla.
-       El order fuerza que abra la ficha: la mitad del HTML trae el texto
-       primero y en movil se leian dos paneles seguidos con un hueco. */
-    .project-visual {
-      order: -1;
-      width: 100vw;
-      max-width: 100vw;
-      margin-inline: calc(50% - 50vw);
-      border-radius: 0;
-    }
-    /* Mas presencia: las que no tienen alto propio pasan a 4:5 */
-    .project-visual:not(.visual-traiana):not(.visual-eda):not(.visual-regression):not(.visual-segments):not(.visual-nlp):not(.visual-rag):not(.visual-toma) {
-      aspect-ratio: 4 / 5;
-    }
-    /* El panel de Sobre mi, igual que los de proyecto */
-    .about-visual {
-      width: 100vw;
-      max-width: 100vw;
-      margin-inline: calc(50% - 50vw);
-      border-radius: 0;
-      /* Sin proporcion fija: son tres lineas, un 4:5 dejaba 240 px de aire */
-      aspect-ratio: auto;
-      min-height: 300px;
-    }
-    .about-side { display: block; }
-    .about h2 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
-    .project { padding: 3rem 0; gap: 1.5rem; }
-    .project-info h3 {
-      font-size: clamp(1.75rem, 8vw, 2.4rem);
-      letter-spacing: -0.03em;
-    }
-    .project-info > p:first-of-type { font-size: 1.0625rem; }
-    /* El aviso y los enlaces siguen fuera del plegado */
-    .project-links { margin-top: 1.25rem; }
-
-    .hero { padding: 7rem 0 3.5rem; }
-    .hero h1 { font-size: clamp(2.4rem, 11vw, 3.5rem); }
-    .about { padding: 3.5rem 0; }
-    .contact { padding: 4.5rem 0 3.5rem; }
-  }
-
-  @media (max-width: 899px) {
-    .visual-eda, .visual-regression, .visual-segments,
-    .visual-nlp, .visual-rag, .visual-traiana {
-      aspect-ratio: auto;
-      height: auto;
-      min-height: 380px;
-    }
-    /* El de Traiana lleva video vertical y cabecera: necesita mas */
-    .visual-traiana { min-height: 720px; }
-    /* Las barras de EDA se miden en % de su panel: con height auto el
-       calculo resuelve a 0 y el grafico desaparece. Alto definido. */
-    .visual-eda { height: 420px; min-height: 0; }
-  }
-
-  @media (max-width: 768px) {
-    nav { padding: 0.75rem 1.5rem; }
-    .about { padding: 4.5rem 0; }
-    .project { padding: 3.5rem 0; }
-  }
-
-</style>
-
-
-<script>
-  /* Pliega el detalle tecnico de cada ficha en pantallas estrechas, como
-     hace Apple con las especificaciones. Sin JS todo queda visible, que es
-     el comportamiento anterior. */
-  (function () {
-    var CORTE = 900;
-    document.querySelectorAll('.project-info').forEach(function (info) {
-      var lista = info.querySelector('.project-highlights');
-      if (!lista) return;
-      var stack = info.querySelector('.project-tech');
-      var det = document.createElement('details');
-      det.className = 'ficha-detalle';
-      det.open = true;
-      var sum = document.createElement('summary');
-      sum.textContent = 'M\u00e1s detalles';
-      det.appendChild(sum);
-      lista.parentNode.insertBefore(det, lista);
-      det.appendChild(lista);
-      if (stack) det.appendChild(stack);
-    });
-    /* Sobre mi tiene cinco parrafos seguidos: se dejan los dos que
-       sostienen el argumento y el resto se pliega igual que en las fichas. */
-    (function () {
-      var cont = document.querySelector('.about-content');
-      if (!cont) return;
-      var parrafos = cont.querySelectorAll(':scope > p');
-      if (parrafos.length < 2) return;
-      var resto = [];
-      for (var i = 1; i < parrafos.length; i++) resto.push(parrafos[i]);
-      var crit = cont.querySelector('.criterio');
-      var skl = cont.querySelector('.skills-section');
-      if (crit) resto.push(crit);
-      if (skl) resto.push(skl);
-      if (!resto.length) return;
-      var det = document.createElement('details');
-      det.className = 'ficha-detalle';
-      det.open = true;
-      var sum = document.createElement('summary');
-      sum.textContent = 'M\u00e1s sobre m\u00ed';
-      det.appendChild(sum);
-      resto[0].parentNode.insertBefore(det, resto[0]);
-      resto.forEach(function (el) { det.appendChild(el); });
-    })();
-
-    /* matchMedia en vez de resize: el evento resize no siempre llega y
-       dejaba el detalle cerrado en escritorio, ocultando los puntos y el
-       stack. Ademas se crean abiertos, asi que si algo falla el contenido
-       queda visible en vez de desaparecer. */
-    var estrecho = window.matchMedia('(max-width: ' + (CORTE - 1) + 'px)');
-    function ajustar() {
-      var plegar = estrecho.matches;
-      document.querySelectorAll('details.ficha-detalle').forEach(function (d) {
-        d.open = !plegar;
-      });
-    }
-    ajustar();
-    if (estrecho.addEventListener) estrecho.addEventListener('change', ajustar);
-    else estrecho.addListener(ajustar);
-  })();
-</script>
-
 </body>
 </html>

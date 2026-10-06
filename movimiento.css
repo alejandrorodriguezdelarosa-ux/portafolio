@@ -1,0 +1,52 @@
+/* Titulos y portadas en movimiento (lo activa movimiento.js con la clase .mv) */
+.mv-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* El titulo ocupa todo el ancho de la pantalla, aunque este dentro de un contenedor */
+.mv .mv-titulo {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: none;
+}
+.mv .mv-banda { display: block; white-space: nowrap; line-height: 1.02; padding: 0.04em 0; }
+.mv .mv-pista { display: inline-block; will-change: transform; }
+.mv .mv-mitad { display: inline-block; }
+.mv .mv-sep { display: inline-block; margin: 0 0.35em; color: var(--azul); font-family: 'Instrument Serif', serif; font-style: normal; }
+.mv .mv-titulo em { padding-right: 0.06em; }
+
+/* Fila en contorno (marquesina).
+   La fuente tiene piezas que se solapan dentro de cada letra y el trazo las dibuja
+   todas (rayas dentro de la e, la q, la f...). Se pinta primero el trazo y encima el
+   relleno del color del fondo de la seccion: solo queda el borde de fuera (2px visibles). */
+#about { --mv-fondo: var(--hielo); }
+#proyectos { --mv-fondo: var(--blanco); }
+#contacto { --mv-fondo: var(--azul); }
+.mv .mv-contorno, .mv .mv-contorno * { color: var(--mv-fondo, transparent) !important; }
+.mv .mv-contorno { -webkit-text-stroke: 4px var(--mv-trazo, currentColor); paint-order: stroke fill; }
+.mv .mv-contorno em { -webkit-text-stroke-color: var(--azul); }
+.mv .mv-contorno .mv-sep { -webkit-text-stroke-color: var(--azul); }
+
+/* "Trabajar con IA..." pasa a cinta grande: su cabecera va en una sola columna */
+.mv .sobre-mi-cabecera { grid-template-columns: 1fr; }
+.mv .sobre-mi-titulo.mv-titulo { font-size: clamp(2.6rem, 7.5vw, 6.5rem); line-height: 1; margin-bottom: 1rem; }
+.mv .sobre-mi-titulo .mv-sep { color: var(--tinta); }
+
+/* Portadas: las filas son pistas; el cartel las recorta */
+.mv .vl-fila.mv-fila { white-space: nowrap; left: 0; width: auto; }
+.mv .vl-fila.mv-fila .mv-sep { color: inherit; font-family: inherit; margin: 0 0.25em; }
+
+/* En el contacto (fondo azul) el contorno azul no se ve: va del color del titulo */
+.mv #contacto .mv-contorno em, .mv #contacto .mv-contorno .mv-sep { -webkit-text-stroke-color: var(--mv-trazo); }
+.mv #contacto .mv-sep { color: var(--tinta); }
+
+/* Mezcla: la fila central de cada portada es una columna que baja por la derecha */
+.mv-mezcla .vl-fila.mv-vertical {
+  top: 0 !important; bottom: auto; left: auto; right: 5%;
+  writing-mode: vertical-rl;
+  font-size: 22cqw; line-height: 1; letter-spacing: -0.02em;
+  z-index: 1;
+}
+.mv-mezcla .vl-fila.mv-vertical .mv-pista { display: inline-block; }
+.mv-mezcla .vl-cartel .vl-num { right: auto; left: 16px; z-index: 2; }
